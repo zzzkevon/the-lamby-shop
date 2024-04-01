@@ -1,5 +1,5 @@
 # Names
-Steven Ho,
+Steven Ho, Alex Souv, 
 
 # Create React App
 
