@@ -1,5 +1,5 @@
 # Names
-Steven Ho,
+Steven Ho, Kevin Wong,
 
 # Create React App
 
