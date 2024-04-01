@@ -1,5 +1,5 @@
 # Names
-Steven Ho,
+Steven Ho, Samuel Chang
 
 # Create React App
 
