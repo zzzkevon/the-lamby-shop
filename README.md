@@ -1,5 +1,5 @@
 # Names
-Steven Ho, Kevin Wong, Henry Kong, Samuel Chang, Alex Souv, Angelo Ventura,Jonathan MedranoDanny Phan
+Steven Ho, Kevin Wong, Henry Kong, Samuel Chang, Alex Souv, Angelo Ventura, Jonathan Medrano, Danny Phan
 # Create React App
 
 This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
