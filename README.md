@@ -1,5 +1,5 @@
 # Names
-Steven Ho, Henry Kong,
+Steven Ho, Kevin Wong, Henry Kong,
 
 # Create React App
 
