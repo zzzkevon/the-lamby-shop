@@ -1,5 +1,5 @@
 # Names
-Steven Ho, Kevin Wong, Henry Kong, Samuel Chang, Alex Souv, 
+Steven Ho, Kevin Wong, Henry Kong, Samuel Chang, Alex Souv, Angelo Ventura,
 
 # Create React App
 
