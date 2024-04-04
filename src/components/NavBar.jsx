@@ -41,8 +41,12 @@ const NavBar = () => {
         <img src={ bunny } alt='' className='ml-20 pb-10'/>
       </div>
       <div className='flex pt-32 mr-20'>
-        <GiSheep size={25} className='mr-4' />
-        <FiShoppingCart size={25} />
+        <a href='/profile'>
+          <GiSheep size={25} className='mr-4' />
+        </a>
+        <a href='/shoppingcart'>
+          <FiShoppingCart size={25} />
+        </a>
       </div>
     </div>
   );

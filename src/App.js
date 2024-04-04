@@ -1,6 +1,11 @@
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
+import ShoppingCart from './components/ShoppingCart';
+import ProfileSection from './components/ProfileSection';
+import ShopSection from './components/ShopSection';
+import CommisionsSection from './components/CommissionsSection';
+import ContactSection from './components/ContactSection';
 // import Footer from './components/Footer';
 
 function App() {
@@ -12,18 +17,21 @@ function App() {
     case "/about":
       screen = <AboutSection />
       break;
-    // case "/":
-    //   screen = <HeroSection />
-    //   break;
-    // case "/":
-    //   screen = <HeroSection />
-    //   break;
-    // case "/":
-    //   screen = <HeroSection />
-    //   break;
-    // case "/":
-    //   screen = <HeroSection />
-    //   break;
+    case "/shop":
+      screen = <ShopSection />
+      break;
+    case "/commissions":
+      screen = <CommisionsSection />
+      break;
+    case "/contact":
+      screen = <ContactSection />
+      break;
+    case "/profile":
+      screen = <ProfileSection />
+      break;
+    case "/shoppingcart":
+      screen = <ShoppingCart />
+      break;
     default:
       break;
   }
