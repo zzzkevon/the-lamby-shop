@@ -18,38 +18,26 @@ const HeroSection = () => {
         setSlideIndex(index);
     };
     const containerRef = useRef(null);
-
-        useEffect(() => {
-            const resizeHandler = () => {
-                if (containerRef.current) {
-                    const containerWidth = containerRef.current.offsetWidth;
-                    const containerHeight = containerWidth * 0.3; // Adjust 0.3 to the desired height ratio
-                    containerRef.current.style.height = `${containerHeight}px`;
-                }
-            };
-
-            resizeHandler(); // Initial call to set the height
-            window.addEventListener('resize', resizeHandler);
-
-            return () => window.removeEventListener('resize', resizeHandler);
-        }, []);
     return (
-        <div ref={containerRef} style={{ width: '80vw', height: '40vh', margin: '0 auto', border: '2px solid black', borderRadius: '10px', position: 'relative', overflow: 'hidden' }}>
-            <div className="slideshow-container">
-                <div className="mySlides fade" style={{ display: slideIndex === 0 ? 'block' : 'none' }}>   
-                    <img src={img1} style={{ width: '100%', height: '240px', objectFit: 'fill', objectPosition: 'center' }} alt="Nature" />
+        <div ref={containerRef} style={
+            { width: '80vw', height: 'fit-content', margin: '0 auto', border: '2px solid black', borderRadius: '10px' }}>
+            <div className="slideshow-container" style={{alignItems: 'center'}
+            }>
+
+                <div className="mySlides fade" style={{ display: slideIndex === 0 ? 'flex' : 'none', flexDirection: 'column', justifyContent:'center', alignItems: 'center' }}>   
+                    <img src={img1} style={{ width: '20%', height: 'auto', objectFit: 'fill', objectPosition: 'center' }} alt="Nature" />
                     <div className="numbertext"style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10%' }}>1 / 3</div>
                     <div className="text" style={{ height: '10%'}}>Caption Text 1</div>
                 </div>
 
-                <div className="mySlides fade" style={{ display: slideIndex === 1 ? 'block' : 'none' }}>
-                    <img src={img2} style={{ width: '100%', height: '240px', objectFit: 'fill', objectPosition: 'center' }} alt="Snow" />
+                <div className="mySlides fade" style={{ display: slideIndex === 1 ? 'flex' : 'none',flexDirection: 'column', justifyContent:'center', alignItems: 'center' }}>
+                    <img src={img2} style={{ width: '20%', height: 'auto', objectFit: 'fill', objectPosition: 'center' }} alt="Snow" />
                     <div className="numbertext" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>2 / 3</div>
                     <div className="text">Caption Text 2</div>
                 </div>
 
-                <div className="mySlides fade" style={{ display: slideIndex === 2 ? 'block' : 'none' }}>
-                    <img src={img3} style={{ width: '100%', height: '240px', objectFit: 'fill', objectPosition: 'center'  }} alt="Mountains" />
+                <div className="mySlides fade" style={{ display: slideIndex === 2 ? 'flex' : 'none',flexDirection: 'column', justifyContent:'center', alignItems: 'center' }}>
+                    <img src={img3} style={{ width: '20%', height: 'auto', objectFit: 'fill', objectPosition: 'center'  }} alt="Mountains" />
                     <div className="numbertext" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>3 / 3</div>
                     <div className="text">Caption Text 3</div>
                 </div>
