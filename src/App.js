@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div>
+    <div style={{background: '#cfcfcf'}}>
       <NavBar />
       <HeroSection />
       <AboutSection />

@@ -20,7 +20,7 @@ const HeroSection = () => {
     const containerRef = useRef(null);
     return (
         <div ref={containerRef} style={
-            { width: '80vw', height: 'fit-content', margin: '0 auto', border: '2px solid black', borderRadius: '10px' }}>
+            { width: '80vw', height: 'fit-content', margin: '0 auto', border: '2px solid black', borderRadius: '10px',background: 'white' }}>
             <div className="slideshow-container" style={{alignItems: 'center'}
             }>
 
