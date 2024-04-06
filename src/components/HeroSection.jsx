@@ -1,8 +1,13 @@
 import React from 'react';
-
+import Subscribe from './subscribe/Subscribe';
 const HeroSection = () => {
   return (
-    <div>HeroSection</div>
+    <div>
+      HeroSection
+      <Subscribe />
+
+    </div>
+
   );
 }
 
