@@ -34,15 +34,14 @@ export default function CommisionsSection() {
   }
 
   return (
-      <div className='main-bg just-another-hand text-3xl font-medium'
+      <div className='main-bg just-another-hand text-3xl '
           style={{
             display: 'flex', // make it a flex container
             flexDirection: 'column', // align items vertically
             justifyContent: 'center', // center content vertically
+            minHeight: '100vh'
           }}>
             
-            
-          <div style={{backgroundColor: '#cfcfcf', minHeight: '100vh'}}>   
               <label style = {{position: 'absolute' ,width: '94px',
                     height: '36px', top: '333px', left: '591px'}}>
                   first name*
@@ -87,8 +86,7 @@ export default function CommisionsSection() {
               <button className = "button button-text" onClick={handleSubmit}
                 style={{width: '80px', height: '36px', left: '971px'}}>
                   <label>s u b m i t</label>
-              </button>
-          </div>
+              </button>    
       </div>
   );
 }
