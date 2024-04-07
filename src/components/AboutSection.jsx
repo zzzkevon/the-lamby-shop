@@ -15,39 +15,36 @@ const AboutSection = () => {
       display: 'flex', 
       flexDirection: 'column', 
       justifyContent: 'center', 
-      minHeight: '100vh'
-    }} >
+      minHeight: '100vh'}}>
       <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-      <h1 className='header-font header-format' style={{ fontSize: '2em' }}>About Me </h1>
-      <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-            </div>
-          <div> 
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+          <h1 className='header-font header-format' style={{ fontSize: '2em', padding: '25px' }}>About Me </h1>
+          <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        </div>
+      <div> 
       
-       <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{aboutText}</p></center>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-              <h1 className='header-font header-format' style={{ fontSize: '2em' }}>Mission Statement</h1>
-              <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-            </div>
-            <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{missionText}</p></center>
-            </div>
+      <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{aboutText}</p></center>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+          <h1 className='header-font header-format' style={{ fontSize: '2em', padding: '25px' }}>Mission Statement</h1>
+          <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+      </div>
+          <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{missionText}</p></center>
+      </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-            <h1 className='header-font header-format' style={{ fontSize: '2em' }}>Socials</h1>
-            <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-
-          </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px'}}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+          <h1 className='header-font header-format' style={{ fontSize: '2em', padding: '25px' }}>Socials</h1>
+          <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+      </div>
+            
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '50px'}}>
             <a href="https://instagram.com"><RiInstagramFill /></a>
             <a href="https://tiktok.com"><PiTiktokLogoFill /></a>
             <a href="https://twitter.com"><FaSquareXTwitter /></a>
-            </div>
-          
-
-
+      </div>
+    
       </div>
     </div>
     
