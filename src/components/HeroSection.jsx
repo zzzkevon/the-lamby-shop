@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import img1 from "../images/img1.jpeg";
 import img2 from "../images/img2.jpeg";
 import img3 from "../images/img3.jpeg";
-
+import Subscribe from './subscribe/Subscribe';
+import Carousel2 from './carousel2/Carousel2'
 const HeroSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -153,6 +155,8 @@ const HeroSection = () => {
                     `}
         </style>
       </div>
+      <Carousel2 />
+      <Subscribe />
     </div>
   );
 };
