@@ -2,7 +2,7 @@ import React from 'react';
 import { RiInstagramFill } from "react-icons/ri";
 import { PiTiktokLogoFill } from "react-icons/pi";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import story_stars from '../images/story_stars.png';
+import star from '../images/story_stars_1.png'
 
 const AboutSection = () => {
 
@@ -19,18 +19,27 @@ const AboutSection = () => {
     }} >
       <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <img src={star} alt="" class="w-16 h-16 mb-4"></img>
       <h1 className='header-font header-format' style={{ fontSize: '2em' }}>About Me </h1>
+      <img src={star} alt="" class="w-16 h-16 mb-4"></img>
             </div>
           <div> 
       
-         <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{aboutText}</p></center>
-       
-            
-            <h1 className='header-font header-format' style={{ fontSize: '2em' }}>Mission Statement</h1>
-       
+       <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{aboutText}</p></center>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+              <h1 className='header-font header-format' style={{ fontSize: '2em' }}>Mission Statement</h1>
+              <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+            </div>
             <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{missionText}</p></center>
             </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <img src={star} alt="" class="w-16 h-16 mb-4"></img>
             <h1 className='header-font header-format' style={{ fontSize: '2em' }}>Socials</h1>
+            <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+
+          </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px'}}>
             <a href="https://instagram.com"><RiInstagramFill /></a>
             <a href="https://tiktok.com"><PiTiktokLogoFill /></a>
