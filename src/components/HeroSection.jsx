@@ -35,6 +35,25 @@ const HeroSection = () => {
                             src={img1}
                             className="w-1/5 rounded-md border-white border"
                             alt="Nature"
+                            style= {{position: 'relative', left: '20%', width: '20%'}}
+                        />
+                        <img
+                            src={img1}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'absolute', top: '21%', left: '34%', width: '10.5%'}}
+                        />
+                        <img
+                            src={img1}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'relative', left: '20%', width: '20%'}}
+                        />
+                        <img
+                            src={img1}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'absolute', top: '42%', left: '34%', width: '10.5%'}}
                         />
                         <div className="numbertext flex justify-center items-center">1 / 3</div>
                         <div className="text">Caption Text 1</div>
@@ -47,7 +66,26 @@ const HeroSection = () => {
                         <img
                             src={img2}
                             className="w-1/5 rounded-md border-white border"
-                            alt="Snow"
+                            alt="Nature"
+                            style= {{position: 'relative', left: '20%', width: '20%'}}
+                        />
+                        <img
+                            src={img2}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'absolute', top: '21%', left: '34%', width: '10.5%'}}
+                        />
+                        <img
+                            src={img2}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'relative', left: '20%', width: '20%'}}
+                        />
+                        <img
+                            src={img2}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'absolute', top: '42%', left: '34%', width: '10.5%'}}
                         />
                         <div className="numbertext flex justify-center items-center">2 / 3</div>
                         <div className="text">Caption Text 2</div>
@@ -60,7 +98,26 @@ const HeroSection = () => {
                         <img
                             src={img3}
                             className="w-1/5 rounded-md border-white border"
-                            alt="Mountains"
+                            alt="Nature"
+                            style= {{position: 'relative', left: '20%', width: '20%'}}
+                        />
+                        <img
+                            src={img3}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'absolute', top: '21%', left: '34%', width: '10.5%'}}
+                        />
+                        <img
+                            src={img3}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'relative', left: '20%', width: '20%'}}
+                        />
+                        <img
+                            src={img3}
+                            className="w-1/5 rounded-md border-white border"
+                            alt="Nature"
+                            style= {{position: 'absolute', top: '42%', left: '34%', width: '10.5%'}}
                         />
                         <div className="numbertext flex justify-center items-center">3 / 3</div>
                         <div className="text">Caption Text 3</div>
