@@ -31,7 +31,11 @@ const AboutSection = () => {
             <center> <p style={{width: '500px', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>{missionText}</p></center>
             </div>
             <h1 className='header-font header-format' style={{ fontSize: '2em' }}>Socials</h1>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px'}}><RiInstagramFill /> <PiTiktokLogoFill /> <FaSquareXTwitter /> </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px'}}>
+            <a href="https://instagram.com"><RiInstagramFill /></a>
+            <a href="https://tiktok.com"><PiTiktokLogoFill /></a>
+            <a href="https://twitter.com"><FaSquareXTwitter /></a>
+            </div>
           
 
 
