@@ -25,7 +25,7 @@ const Carousel2 = () => {
   return (
     <div className={`flex justify-center content-center`}>
 
-      <div className={`bg-[rgb(207,207,207)] w-[78%] justify-center bg-white content-center min-h-49 relative`}>
+      <div className={`bg-[#D9D9D9] w-[78%] justify-center bg-white content-center min-h-49 relative`}>
 
       <div className={`overflow-hidden`}>
         <div className={`flex `}
