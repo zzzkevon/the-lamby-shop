@@ -26,11 +26,19 @@ export default function CommisionsSection() {
       let phoneNumber = document.getElementById('phone').value;
       let desc = document.getElementById('description').value;
 
-      console.log("First Name: ", firstName)
-      console.log("Last Name: ", lastName)
-      console.log("Email: ", email)
-      console.log("Phone Number: ", phoneNumber)
-      console.log("Other request method: ", desc);
+      if(window.confirm("Are you sure you want to submit?")){
+        console.log("First Name: ", firstName)
+        console.log("Last Name: ", lastName)
+        console.log("Email: ", email)
+        console.log("Phone Number: ", phoneNumber)
+        console.log("Other request method: ", desc);
+        console.log("Commission sent!")
+      }
+      else{
+        console.log("You pressed cancel, commission not sent!")
+      }
+
+      
   }
 
   return (
