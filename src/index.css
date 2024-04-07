@@ -37,3 +37,19 @@
   font-weight: 400;
   line-height: 36px;
 }
+
+
+.header-font{
+  color: #780000;
+  font-size: '3em'; 
+}
+
+
+.header-format{
+  height:200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
