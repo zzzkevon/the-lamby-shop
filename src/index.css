@@ -116,3 +116,7 @@
 .add-to-cart-button:hover {
   background-color: #4E0000; /* Darker red */
 }
+
+body {
+  background-color: #cfcfcf;
+}
