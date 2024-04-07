@@ -7,120 +7,115 @@ const HeroSection = () => {
     const [slideIndex, setSlideIndex] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setSlideIndex((prevIndex) => (prevIndex + 1) % 3); // Adjust 3 to the total number of images
-        }, 3000);
+      const interval = setInterval(() => {
+          setSlideIndex((prevIndex) => (prevIndex + 1) % 3); // Adjust 3 to the total number of images
+      }, 3000);
 
-        return () => clearInterval(interval);
+      return () => clearInterval(interval);
     }, []);
+
+    const containerRef = useRef(null);
 
     const handleDotClick = (index) => {
         setSlideIndex(index);
     };
 
-    const containerRef = useRef(null);
-
     return (
         <div className='main-bg'>
             <div
                 ref={containerRef}
-                className="w-[1020px] mx-auto border-2 rounded-md bg-white p-4"
+                className="w-[1020px] mx-auto border-2 rounded-md bg-white p-4 relative slideshow-container"
+                style={{ padding: '20px' }}
             >
                 <div className="slideshow-container flex justify-center items-center">
                     <div
                         className="mySlides fade flex flex-col justify-center items-center"
                         style={{ display: slideIndex === 0 ? 'flex' : 'none' }}
                     >
-                        <img
-                            src={img1}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'relative', left: '20%', width: '20%'}}
-                        />
-                        <img
-                            src={img1}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'absolute', top: '21%', left: '34%', width: '10.5%'}}
-                        />
-                        <img
-                            src={img1}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'relative', left: '20%', width: '20%'}}
-                        />
-                        <img
-                            src={img1}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'absolute', top: '42%', left: '34%', width: '10.5%'}}
-                        />
-                        <div className="numbertext flex justify-center items-center">1 / 3</div>
-                        <div className="text">Caption Text 1</div>
+                        <div className="flex justify-center items-center my-8">
+                            <img
+                                src={img1}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img1}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img1}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img1}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                        </div>
+                        <div className="text-center mt-4">1 / 3</div>
+                        <div className="text mt-4">Caption Text 1</div>
                     </div>
 
                     <div
                         className="mySlides fade flex flex-col justify-center items-center"
                         style={{ display: slideIndex === 1 ? 'flex' : 'none' }}
                     >
-                        <img
-                            src={img2}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'relative', left: '20%', width: '20%'}}
-                        />
-                        <img
-                            src={img2}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'absolute', top: '21%', left: '34%', width: '10.5%'}}
-                        />
-                        <img
-                            src={img2}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'relative', left: '20%', width: '20%'}}
-                        />
-                        <img
-                            src={img2}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'absolute', top: '42%', left: '34%', width: '10.5%'}}
-                        />
-                        <div className="numbertext flex justify-center items-center">2 / 3</div>
-                        <div className="text">Caption Text 2</div>
+                        <div className="flex justify-center items-center my-8">
+                            <img
+                                src={img2}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img2}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img2}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img2}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                        </div>
+                        <div className="text-center mt-4">2 / 3</div>
+                        <div className="text mt-4">Caption Text 2</div>
                     </div>
 
                     <div
                         className="mySlides fade flex flex-col justify-center items-center"
                         style={{ display: slideIndex === 2 ? 'flex' : 'none' }}
                     >
-                        <img
-                            src={img3}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'relative', left: '20%', width: '20%'}}
-                        />
-                        <img
-                            src={img3}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'absolute', top: '21%', left: '34%', width: '10.5%'}}
-                        />
-                        <img
-                            src={img3}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'relative', left: '20%', width: '20%'}}
-                        />
-                        <img
-                            src={img3}
-                            className="w-1/5 rounded-md border-white border"
-                            alt="Nature"
-                            style= {{position: 'absolute', top: '42%', left: '34%', width: '10.5%'}}
-                        />
-                        <div className="numbertext flex justify-center items-center">3 / 3</div>
-                        <div className="text">Caption Text 3</div>
+                        <div className="flex justify-center items-center my-8">
+                            <img
+                                src={img3}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img3}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img3}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                            <img
+                                src={img3}
+                                className="w-1/5 rounded-md border-white border mr-8"
+                                alt="Nature"
+                            />
+                        </div>
+                        <div className="text-center mt-4">3 / 3</div>
+                        <div className="text mt-4">Caption Text 3</div>
                     </div>
                 </div>
 
