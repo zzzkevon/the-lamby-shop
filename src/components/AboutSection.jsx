@@ -6,9 +6,8 @@ import star from '../images/story_stars_1.png'
 
 const AboutSection = () => {
 
-  let aboutText = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptatevelit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."];
-  let missionText = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptatevelit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."];
-
+  let aboutText = ["Hello i'm nat! I love to crochet and knit on my free time, making all my cute ideas come to life :3 I have two bunnies, boss and bumi who are my biggest inspirations to this store. I never want lambyshop to become a chore, so I keep my drops very infrequent. Just whenever I feel like it! I'm always learning new things and getting inspired out of the blue, I love to create things and I love to share it :D"];
+  let missionText = ["My main goal is to make cute things for my friends to buy :D. but I would love to make new friends along the way c: I hope you will love lambyshop and enjoy all the cute things that I can make for you!"];
 
   return (
     <div className='main-bg just-another-hand px-8 text-5xl ' style={{
@@ -40,7 +39,7 @@ const AboutSection = () => {
       </div>
             
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '50px'}}>
-            <a href="https://instagram.com"><RiInstagramFill /></a>
+            <a href="https://www.instagram.com/thelambyshop/"><RiInstagramFill /></a>
             <a href="https://tiktok.com"><PiTiktokLogoFill /></a>
             <a href="https://twitter.com"><FaSquareXTwitter /></a>
       </div>
