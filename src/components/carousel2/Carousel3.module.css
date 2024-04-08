@@ -1,0 +1,97 @@
+.threeFlex {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.middleSection {
+  flex: 1;
+  background-color: lightpink;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.firstSection {
+  background-color: lightgreen;
+  width: 50px;
+}
+
+.thirdSection {
+  background-color: lightblue;
+  width: 75px;
+}
+
+.carouselContainer{
+  width: 80%;
+  min-height: 200px;
+  position: relative;
+  background-color: #cfcfcf;
+
+
+}
+
+.carouselInner{
+  overflow: hidden;
+}
+
+
+.track{
+  display: flex;
+  /* border-color: black;
+  border-style: black;
+  border-width: 1px; */
+}
+
+.card{
+  flex: 1;
+  max-width: 200px;
+  min-width: 0px;
+  border-color: white;
+  border-style: black;
+  border-width: 5px;
+  height: 200px;
+  border-radius: 20px;
+  
+}
+
+.cardContainer {
+  width: 21%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+
+.nav button {
+  font-size: 60px;
+  color: rgb(217, 217, 217);
+  position: absolute;
+  top: 35%;
+}
+
+.prev {
+  left: -70px;
+}
+
+.next {
+  right: -70px;
+}
+
+
+.imageBlock {
+  width: 100%; /* Adjust based on your design */
+  height: 100%; /* Adjust based on your design */
+  display: flex; /* Use flex to center the image */
+  justify-content: center;
+  align-items: center;
+
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; 
+  border-radius: 20px;
+
+}
