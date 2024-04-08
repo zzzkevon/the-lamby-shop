@@ -36,17 +36,15 @@ const ContactSection = () => {
         <header>
           <div className="container mx-auto px-4">
             <div className="flex flex-center justify-center">
-
               <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-
               <p class="just-another-hand text-center text-6xl mb-4">
                 Contact
               </p>
-
               <img src={star} alt="" class="w-16 h-16 mb-4"></img>
             </div>
           </div>
         </header>
+
         <main>
           <div class="just-another-hand text-4xl">
             <span className="block mb-2">
@@ -58,9 +56,9 @@ const ContactSection = () => {
           <br></br>
         </main>
 
-        <div className="relative just-another-hand text-6xl">
+        <div className="relative just-another-hand text-5xl">
 
-          <button claseName="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded" onClick={togglePopup}>
+          <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full" onClick={togglePopup}>
             Submit a Ticket
           </button> {/*button on contact page*/}
 
@@ -68,7 +66,7 @@ const ContactSection = () => {
             <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
               <div className="bg-white p-8 rounded shadow-lg absolute w-2/4">
                 <div className="mb-4 flex">
-                  <div className="mb-4 w-1/2">
+                  <div className="mr-4 w-1/2">
                     <label htmlFor="name" className="block text-black font-bold mb-2">Name</label>
                     <input
                       type="text"
@@ -105,13 +103,13 @@ const ContactSection = () => {
                   />
                 </div>
                 <button
-                  className="bg-[#780000] hover:bg-[#780000] text-white font-bold font-bold py-2 px-4 rounded"
+                  className="bg-[#780000] hover:bg-[#780000] text-white font-bold font-bold py-2 px-4 rounded-full"
                   onClick={handleSubmit}
                 >
                   Submit {/*Submit button for ticket*/}
                 </button>
 
-                <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-2" onClick={togglePopup}>
+                <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full ml-2" onClick={togglePopup}>
                   Close {/*close button for the ticket*/}
                 </button>
               </div>
