@@ -36,7 +36,7 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
-      <div>
+      <div style={{paddingRight : '250px'}}>
         <img src={ web_title } alt='' />
         <img src={ bunny } alt='' className='ml-20 pb-10'/>
       </div>
