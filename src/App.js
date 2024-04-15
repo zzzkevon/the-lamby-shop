@@ -6,6 +6,7 @@ import ProfileSection from './components/ProfileSection';
 import ShopSection from './components/ShopSection';
 import CommisionsSection from './components/CommissionsSection';
 import ContactSection from './components/ContactSection';
+import CheckoutSection from './components/CheckoutSection';
 // import Footer from './components/Footer';
 
 function App() {
@@ -38,7 +39,8 @@ function App() {
   return (
     <>
       <NavBar />
-      {screen}
+      <CheckoutSection />
+      {/* {screen} */}
     </>
   );
 }
