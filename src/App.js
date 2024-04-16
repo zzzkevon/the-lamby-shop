@@ -39,8 +39,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <CheckoutSection />
-      {/* {screen} */}
+      {screen}
     </>
   );
 }
