@@ -11,11 +11,11 @@ const HeroSection = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSlideIndex(prevIndex => (prevIndex + 1) % 4); // Adjust 3 to the total number of images
-    }, 3000);
+    setSlideIndex(prevIndex => (prevIndex + 1) % 4); // Adjust 3 to the total number of images
+  }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
+  return () => clearInterval(interval);
+  }, []); 
 
   const containerRef = useRef(null);
 
@@ -35,40 +35,37 @@ const HeroSection = () => {
     <div className="main-bg">
       <div
         ref={containerRef}
-        className="w-[90vw] mx-auto border-2 rounded-md bg-white p-4 relative slideshow-container"
+        className="w-[90vw] mx-auto border-2 rounded-2xl bg-white p-4 relative slideshow-container"
       >
         <div
           style={{ display: slideIndex === 0 ? "flex" : "none" }}
           >
           <div className="grid grid-cols-12 text-center">
-            <div className="text-center bg-red-800 text-white just-another-hand rounded-md col-start-5 col-span-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-              <a href='/shop'>Featured Items!</a>
-            </div>
-            <div className="col-start-1 col-span-3">
+            <div className="col-start-1 col-span-3 p-3">
               <img
                 src={slideItem1[0]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle1">
               </img>
             </div>
-            <div className="col-start-4 col-span-3">
+            <div className="col-start-4 col-span-3 p-3">
               <img
                 src={slideItem1[1]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-7 col-span-3">
+            <div className="col-start-7 col-span-3 p-3">
               <img
                 src={slideItem1[2]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-10 col-span-3">
+            <div className="col-start-10 col-span-3 p-3">
               <img
                 src={slideItem1[3]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
@@ -82,34 +79,31 @@ const HeroSection = () => {
           style={{ display: slideIndex === 1 ? "flex" : "none" }}
           >
           <div className="grid grid-cols-12 text-center">
-            <div className="text-center bg-red-800 text-white just-another-hand rounded-md col-start-5 col-span-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-              <a href='/shop'>Featured Items!</a>
-            </div>
-            <div className="col-start-1 col-span-3">
+            <div className="col-start-1 col-span-3 p-3">
               <img
                 src={slideItem2[0]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle1">
               </img>
             </div>
-            <div className="col-start-4 col-span-3">
+            <div className="col-start-4 col-span-3 p-3">
               <img
                 src={slideItem2[1]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-7 col-span-3">
+            <div className="col-start-7 col-span-3 p-3">
               <img
                 src={slideItem2[2]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-10 col-span-3">
+            <div className="col-start-10 col-span-3 p-3">
               <img
                 src={slideItem2[3]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
@@ -123,34 +117,31 @@ const HeroSection = () => {
           style={{ display: slideIndex === 2 ? "flex" : "none" }}
           >
           <div className="grid grid-cols-12 text-center">
-            <div className="text-center bg-red-800 text-white just-another-hand rounded-md col-start-5 col-span-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-              <a href='/shop'>Featured Items!</a>
-            </div>
-            <div className="col-start-1 col-span-3">
+            <div className="col-start-1 col-span-3 p-3">
               <img
                 src={slideItem3[0]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle1">
               </img>
             </div>
-            <div className="col-start-4 col-span-3">
+            <div className="col-start-4 col-span-3 p-3">
               <img
                 src={slideItem3[1]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-7 col-span-3">
+            <div className="col-start-7 col-span-3 p-3">
               <img
                 src={slideItem3[2]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-10 col-span-3">
+            <div className="col-start-10 col-span-3 p-3">
               <img
                 src={slideItem3[3]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
@@ -164,36 +155,36 @@ const HeroSection = () => {
           style={{ display: slideIndex === 3 ? "flex" : "none" }}
           >
           <div className="grid grid-cols-12 text-center">
-            <div className="text-center bg-red-800 text-white just-another-hand rounded-md col-start-5 col-span-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
-              <a href='/shop'>New Items!</a>
-            </div>
-            <div className="col-start-1 col-span-3">
+            <div className="col-start-1 col-span-3 p-3">
               <img
                 src={slideItem4[0]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle1">
               </img>
             </div>
-            <div className="col-start-4 col-span-3">
+            <div className="col-start-4 col-span-3 p-3">
               <img
                 src={slideItem4[1]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-7 col-span-3">
+            <div className="col-start-7 col-span-3 p-3">
               <img
                 src={slideItem4[2]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
             </div>
-            <div className="col-start-10 col-span-3">
+            <div className="col-start-10 col-span-3 p-3">
               <img
                 src={slideItem4[3]}
-                className="rounded-md border-white border"
+                className="rounded-2xl border-white border"
                 alt="angle2">
               </img>
+            </div>
+            <div className="text-center text-red-800 just-another-hand rounded-md col-start-5 col-span-4 text-base sm:text-lg md:text-xl lg:text-3xl xl:text-5xl">
+              <a href='/shop'>New Items!</a>
             </div>
             <div className="text-center bg-red-800 text-white just-another-hand rounded-md col-start-6 col-span-2 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
               <a href='/shop'>Shop Here!</a>
