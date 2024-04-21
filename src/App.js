@@ -6,6 +6,7 @@ import ProfileSection from './components/ProfileSection';
 import ShopSection from './components/ShopSection';
 import CommisionsSection from './components/CommissionsSection';
 import ContactSection from './components/ContactSection';
+import AccountRecovery from './components/AccountRecovery'
 // import Footer from './components/Footer';
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
       break;
     case "/shoppingcart":
       screen = <ShoppingCart />
+      break;
+    case "/accountrecovery":
+      screen = <AccountRecovery />
       break;
     default:
       break;
