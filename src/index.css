@@ -6,6 +6,10 @@
   background-color: #cfcfcf;
 }
 
+body {
+  background-color: #cfcfcf;
+}
+
 .just-another-hand {
   font-family: 'Just Another Hand', cursive;
 }
@@ -49,8 +53,6 @@
   align-items: center;
  
 }
-
-
 
 .tile-container {
   display: grid;
@@ -132,12 +134,4 @@
   position: relative;
   left: -35px;
   content: "✖";
-}
-
-body{
-  background-color:#cfcfcf ;
-}
-
-body {
-  background-color: #cfcfcf;
 }

@@ -1,6 +1,6 @@
 import React from "react";
-import CheckoutInfo from "./content/shopping/CheckoutInfo";
-import img1 from "../images/img1.jpeg";
+import CheckoutInfo from "./checkout/CheckoutInfo";
+import CheckoutItemInfo from "./checkout/CheckoutItemInfo";
 
 const CheckoutSection = () => {
   return (
@@ -9,19 +9,7 @@ const CheckoutSection = () => {
         {/* Information Block */}
         <CheckoutInfo />
         {/* Items and pricing */}
-        <div className="bg-white rounded px-4">
-          <form className="max-w-lg mx-auto">
-            <section className="p-4 bg-white rounded-2xl mb-4">
-              <div>
-                <img
-                  src={img1}
-                  className="w-1/5 rounded-md border-white border mr-8"
-                  alt="Nature"
-                />
-              </div>
-            </section>
-          </form>
-        </div>
+        <CheckoutItemInfo />
       </div>
     </div>
   );
