@@ -2,7 +2,14 @@ import React from 'react';
 
 const ProfileSection = () => {
   return (
-    <div>Profile Section</div>
+    <div className="just-another-hand text-3xl">
+      Profile Section
+      <li>
+        <a href='/createaccount'>
+          Create Account
+        </a>
+      </li>
+    </div>
   );
 }
 
