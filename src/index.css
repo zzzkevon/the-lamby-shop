@@ -54,8 +54,6 @@ body {
  
 }
 
-
-
 .tile-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -136,12 +134,4 @@ body {
   position: relative;
   left: -35px;
   content: "✖";
-}
-
-body{
-  background-color:#cfcfcf ;
-}
-
-body {
-  background-color: #cfcfcf;
 }
