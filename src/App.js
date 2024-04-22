@@ -10,6 +10,7 @@ import CreateAccount from './components/CreateAccount';
 import ForgotPassword from './components/ForgotPassword';
 import AccountRecovery from './components/AccountRecovery'
 import AccountUpdate from './components/accountPages/AccountUpdate';
+import CheckoutSection from './components/CheckoutSection';
 // import Footer from './components/Footer';
 
 function App() {
@@ -44,6 +45,9 @@ function App() {
       break;
     case "/update-account":
       screen = <AccountUpdate/>
+      break;
+    case "/shoppingcart/checkout":
+      screen = <CheckoutSection />
       break;
     default:
       break;
