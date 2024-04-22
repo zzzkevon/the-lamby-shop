@@ -30,7 +30,7 @@ const HeroSection = () => {
 
 
   return (
-    <div className="main-bg">
+    <div className={`main-bg`} >
       <div
         ref={containerRef}
         className="w-[90vw] mx-auto border-2 rounded-md bg-white p-4 relative slideshow-container"
@@ -169,6 +169,7 @@ const HeroSection = () => {
       <ViewAllButton />
       <Carousel2 />
       <Subscribe />
+
     </div>
   );
 };

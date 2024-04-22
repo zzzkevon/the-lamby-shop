@@ -9,6 +9,7 @@ import ContactSection from './components/ContactSection';
 import CreateAccount from './components/CreateAccount';
 import ForgotPassword from './components/ForgotPassword';
 import AccountRecovery from './components/AccountRecovery'
+import AccountUpdate from './components/accountPages/AccountUpdate';
 // import Footer from './components/Footer';
 
 function App() {
@@ -40,6 +41,9 @@ function App() {
       break;
     case "/createaccount":
       screen = <CreateAccount />
+      break;
+    case "/update-account":
+      screen = <AccountUpdate/>
       break;
     default:
       break;
