@@ -35,6 +35,12 @@ function App() {
     case "/shoppingcart":
       screen = <ShoppingCart />
       break;
+    case "/forgotpass":
+      screen = <ForgotPassword />
+      break;
+    case "/createaccount":
+      screen = <CreateAccount />
+      break;
     default:
       break;
   }
