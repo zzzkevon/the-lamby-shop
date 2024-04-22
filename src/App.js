@@ -1,5 +1,5 @@
 import NavBar from './components/NavBar';
-import HeroSection from './components/HeroSection';
+import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShoppingCart from './components/ShoppingCart';
 import ProfileSection from './components/ProfileSection';
