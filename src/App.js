@@ -1,11 +1,15 @@
 import NavBar from './components/NavBar';
-import HeroSection from './components/HeroSection';
+import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShoppingCart from './components/ShoppingCart';
 import ProfileSection from './components/ProfileSection';
 import ShopSection from './components/ShopSection';
 import CommisionsSection from './components/CommissionsSection';
 import ContactSection from './components/ContactSection';
+import CreateAccount from './components/CreateAccount';
+import ForgotPassword from './components/ForgotPassword';
+import AccountRecovery from './components/AccountRecovery'
+import AccountUpdate from './components/accountPages/AccountUpdate';
 // import Footer from './components/Footer';
 
 function App() {
@@ -31,6 +35,15 @@ function App() {
       break;
     case "/shoppingcart":
       screen = <ShoppingCart />
+      break;
+    case "/forgotpass":
+      screen = <ForgotPassword />
+      break;
+    case "/createaccount":
+      screen = <CreateAccount />
+      break;
+    case "/update-account":
+      screen = <AccountUpdate/>
       break;
     default:
       break;

@@ -14,11 +14,14 @@ const ViewAllButton = () => {
     };
   }, []);
 
-  const buttonWidthClass = width < 600 ? 'pl-[13%] text-2xl' : 'text-4xl pl-[11%]';
+  const buttonWidthClass = width < 1000 ? ' text-2xl' : 'text-4xl';
+  const viewAllMarginY = width < 1000 ? 'my-1' : 'my-4';
   return (
-    <a href='/shop' className={`just-another-hand pl-[11%]  transition-all duration-300 ease-in-out ${buttonWidthClass}`}>
-      view all
-    </a>
+    <div className={`${viewAllMarginY}`}>
+      <a href='/shop' className={`pl-[13%] just-another-hand pl-[11%]  transition-all duration-300 ease-in-out ${buttonWidthClass}`}>
+        view all
+      </a>
+    </div>
   )
 }
 

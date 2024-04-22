@@ -1,4 +1,5 @@
-import React from 'react';
+//import React from 'react';
+import star from '../images/story_stars_1.png'
 
 export default function CommisionsSection() {
     // function to handle no special characters
@@ -37,65 +38,74 @@ export default function CommisionsSection() {
       else{
         console.log("You pressed cancel, commission not sent!")
       }
-
-      
   }
 
   return (
-      <div className='main-bg just-another-hand text-3xl '
+    <div className='main-bg just-another-hand text-3xl'
           style={{
             display: 'flex', // make it a flex container
             flexDirection: 'column', // align items vertically
-            justifyContent: 'center', // center content vertically
-            minHeight: '100vh'
+            alignItems: 'center',
+            minHeight: '100vh',
           }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+              <h1 className='header-font header-format' style={{ fontSize: '2em', padding: '25px' }}>C O M M I S S I O N S</h1>
+              <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+            </div>
+          </div> 
             
-              <label style = {{position: 'absolute' ,width: '94px',
-                    height: '36px', top: '333px', left: '591px'}}>
-                  first name*
-              </label>
-              <input type="text" id="fname" className = 'input-borders'
-                style= {{width: '420px', height: '60px', top: '371px', left: '582px'}}>
-              </input>   
+        <div className='grid grid-cols-2 gap-3'>
+              <div>   
+                <label>first name*</label>
+              </div>
+              <div>    
+                <label>last name*</label> 
+              </div>
               
-              <label style = {{position: 'absolute', width: '87px', 
-                height: '36px', top: '335px', left: '1050px'}}>
-                  last name*
-              </label>
-              <input type="text" id="lname" className='input-borders'
-                  style= {{width: '420px', height: '60px', top: '371px', left: '1039px'}}>
-              </input>
-              
-              <label style = {{position: 'absolute', width: '53px',
-                height: '36px', top: '442px', left: '591px'}}>
-                  email*
-              </label>
-              <input type="text" id="email" className='input-borders'
-                style= {{width: '420px', height: '60px', top: '482px', left: '582px'}}>
-              </input>
+              <div> 
+                <input type="text" id="fname" className = 'input-borders'></input>  
+              </div>
+              <div>
+                <input type="text" id="lname" className='input-borders'></input>
+              </div>
 
-              <label style = {{position: 'absolute', width: '124px', 
-                height: '36px', top: '442px', left: '1050px'}}>
-                  phone number*
-              </label>
-              <input type="text" id="phone" className='input-borders' 
-                style= {{width: '420px', height: '60px', top: '482px', left: '1039px'}}>
-              </input>
+              <div>
+                <label>email*</label>
+              </div>
+              <div>
+                <label>phone number*</label>
+              </div>
 
-              <label style = {{position: 'absolute', width: '97px',
-                height: '60px', left: '588px', top: '577px'}}>
-                  description*
-              </label> 
-              <textarea id="description" className='input-borders' name="customRequest"
-                onKeyPress={handleKeyPress} // used to prevent special characters from being typed into the text besides comma, period, and question mark
-                maxLength={250} // character limit set to 250
-                style={{width: '877px', height: '162px', top: '613px', left: '582px'}}/>
-              
-              <button className = "button button-text" onClick={handleSubmit}
-                style={{width: '80px', height: '36px', left: '971px'}}>
-                  <label>s u b m i t</label>
-              </button>    
-      </div>
+          <div>
+            <input type="text" id="email" className='input-borders'></input>
+          </div>
+          <div>
+            <input type="text" id="phone" className='input-borders'></input>
+          </div>
+        </div> 
+
+        <div className='grid grid-cols-1 gap-3'>
+          <div>
+            <label>
+                description*
+            </label> 
+          </div> 
+
+          <div>
+            <textarea id="description" className='input-borders' name="customRequest"
+              onKeyPress={handleKeyPress} // used to prevent special characters from being typed into the text besides comma, period, and question mark
+              maxLength={250} // character limit set to 250
+              style={{width: '877px', height: '162px'}}/>
+          </div>
+          
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}> 
+            <button className = "button button-text" onClick={handleSubmit} >s u b m i t</button>  
+          </div> 
+        </div>  
+
+    </div>
   );
 }
 
