@@ -57,6 +57,10 @@
 <img width="300" alt="Shop Title" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/f947fc11-4a0a-490c-b6b0-2b2033715335"> <br/>
 The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions.
 
+<div align="center">
+  <img width="300" alt="ERD of the Database" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/bd0904e4-634b-4fc5-a7fb-c74bd23906f4"> <br/>
+</div>
+
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
