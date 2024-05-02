@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/8660c9f5-4860-4891-a75c-058f934bc386" alt="Logo" width="300">
+    <img src="src/images/transparent-logo.png" alt="Logo" width="300">
   </a>
 
 
@@ -54,7 +54,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img width="300" alt="Shop Title" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/f947fc11-4a0a-490c-b6b0-2b2033715335"> <br/>
+<img width="300" alt="Shop Title" src="src/images/title-logo.png"> <br/>
 The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions.
 
 <div align="center">
