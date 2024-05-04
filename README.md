@@ -9,16 +9,9 @@
 <h3 align="center">The Lamby Shop</h3>
 
   <p align="center">
-    An eccommerce website that sells crocheted items
+    An eccommerce website that sells crocheted items and accepts custom commissions
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://the-lamby-shop.vercel.app/">View Demo</a>
   </p>
 </div>
 
@@ -55,13 +48,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <img width="300" alt="Shop Title" src="src/images/title-logo.png"> <br/>
-The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions.
+The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions. <br/>
 
 <div align="center">
   <img width="300" alt="ERD of the Database" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/bd0904e4-634b-4fc5-a7fb-c74bd23906f4"> <br/>
 </div>
+The NoSQL database will be able to store information on items, account information, and commisions. The owner account will be able to promote other accounts to Admin, which will allow those accounts to sell their own items on the website and accept custom commisions.
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -71,6 +65,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 * [![React][React.js]][React-url]
 * [![Tailwind][Tailwind.com]][Tailwind-url]
+* <a href="https://nodejs.org/en"><img width="100" alt="NodeJs Logo" src="https://nodejs.org/static/logos/nodejsDark.svg"> <a/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
