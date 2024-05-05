@@ -50,10 +50,36 @@
 <img width="300" alt="Shop Title" src="src/images/title-logo.png"> <br/>
 The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions. <br/>
 
+![Carousel Feature](https://github.com/StevenH01/the-lamby-shop/assets/47896048/68a1173d-6acd-446b-be43-4f17cee221a9)
+Users will be greeted with an eye catching carousel that cycles through new and featured items that the admin can pick. Clicking "Shop Now" will take the user to the main catalog.
+
+
 <div align="center">
+  <img alt="About Me" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/08b2e104-38ce-4396-8239-bf2c10ecbbf5">
+  <img alt="Mission Statement" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/fa79e257-0212-4abd-8ed0-a7badd0b243b"><br/>
+  Users can learn more about our client and what her mission statement is. They can also find her various social media accounts here.
+
+  <img alt="Commissions Page" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/69014da1-4dd9-4741-8193-219f9cf0d37f"><br/>
+  Users can make custom commissions of our client. They will need to provide some information so that our client can get in contact with them, should she decide to accept the commission.
+
+  <img alt="Login Section" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/4582384a-4128-4cec-acdc-6d3ae60e1b7f"><br/>
+  The option to make an account will be available, however it is not required to have an account in order to purchase items from the shop. This is mainly used for additional admins of the shop.
+
+  <img alt="Checkout Page" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/98465724-5580-4948-8853-c400773c25bb"><br/>
+  Users will be able to see the items they put in their shopping cart on one page. This will show how much each item costs and the total cost. While still in early development, the final page will look similar to this.
+
+  <img alt="Contact Page" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/723c4e0b-0e2b-4690-9a11-234269b3e832"><br/>
+  <img alt="Submit a Ticket" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/106df35c-92d0-4c8c-b03f-80f89ef3e251"><br/>
+  Users can submit a ticket to get in contact with our client or any other admin. This will be the primary way users will be able to make inquiries about their ordered products.
+
+
   <img width="300" alt="ERD of the Database" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/bd0904e4-634b-4fc5-a7fb-c74bd23906f4"> <br/>
+  The NoSQL database will be able to store information on items, account information, and commisions. The owner account will be able to promote other accounts to Admin, which will allow those accounts to sell their own items on the website and accept custom commisions.
 </div>
-The NoSQL database will be able to store information on items, account information, and commisions. The owner account will be able to promote other accounts to Admin, which will allow those accounts to sell their own items on the website and accept custom commisions.
+
+
+
+
 
 
 
