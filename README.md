@@ -65,7 +65,15 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+## Contributors
+- Alex Souv: alexsouv@csus.edu
+- Angelo Ventura: angeloventura@csus.edu
+- Danny Phan: dannyphan2@csus.edu
+- Henry Kong: henrykong@csus.edu
+- Jonathan Medrano: jonathanmedrano@csus.edu
+- Kevin Wong: kevinwong4@csus.edu
+- Samuel Change: schang2@csus.edu
+- Steven Ho: stevenho@csus.edu
 
 ### Built With
 
@@ -135,17 +143,18 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 <!-- ROADMAP -->
-## Roadmap
+## Timeline
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+### Sprint 5 (2023/08/28 - 2023/9/11)
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+### Sprint 6  (2023/09/11 - 2023/09/25)
 
+### Sprint 7 (2023/09/25 - 2023/10/09)
+
+### Sprint 8 (2023/10/09 - 2023/10/23)
+
+### Sprint 9 (2023/10/23 - 2023/11/06)
 
 
 ## Deployment
