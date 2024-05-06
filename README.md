@@ -79,9 +79,15 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 </div>
 
 
-
-
-
+## Contributors
+- Alex Souv: alexsouv@csus.edu
+- Angelo Ventura: angeloventura@csus.edu
+- Danny Phan: dannyphan2@csus.edu
+- Henry Kong: henrykong@csus.edu
+- Jonathan Medrano: jonathanmedrano@csus.edu
+- Kevin Wong: kevinwong4@csus.edu
+- Samuel Change: schang2@csus.edu
+- Steven Ho: stevenho@csus.edu
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -102,13 +108,24 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+
 
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+* Vs Code
+  ```sh
+  [-Vs Code](https://code.visualstudio.com/download)
+  ```
+* node.js
+  ```sh
+  [-node.js](https://nodejs.org/en/download)
+  ```
+* git
+  ```sh
+  [-git](https://git-scm.com/downloads)
+  ```
+* npm (if you already have node installed)
   ```sh
   npm install npm@latest -g
   ```
@@ -117,23 +134,22 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/StevenH01/the-lamby-shop
    ```
 2. Install NPM packages
    ```sh
    npm install
    ```
 
+### Running 
+1. Run Command
+   ```sh
+   npm run start
+   ```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -163,14 +179,13 @@ Testing
 
 <!-- TIMELINE -->
 ## Timeline
+<img alt="Jira roadmap of sprints" title="Lamby Shop Timeline" src="./src/images/jira.png" width="70%" height="70%"/>
 
 ### Sprint 5 (08/26/2024 - 9/9/2024)
 1. Get the AWS backend up and running: 
     * Create the backend database and start connecting things on the frontend to the backend.
 2. Create Admin UI: 
     * Build the Admin user interface frontend.
-3. Continue implementing React API services.
-4. Continue implementing UI Components.
 
 ### Sprint 6  (09/10/2024 - 09/23/2024)
 1. Payment System implementation: 
@@ -179,32 +194,18 @@ Testing
 3. Implement the functionality to update username/passwords
 
 ### Sprint 7 (09/24/2024 - 10/07/2024)
-1. Placeholder
-2. Placeholder
+1. Update frontend features
+   * Create backend connection to existing pages
 
 ### Sprint 8 (10/08/2024 - 10/21/2024)
-1. Placeholder
-2. Placeholder
+1. Impletent features for admin adjustablity
+   * Create pages and routing to ensure client is able to adjust frontend features like the carousel to have more up to date items 
 
 ### Sprint 9 (10/22/2024 - 11/04/2024)
-1. Placeholder
-2. Placeholder
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+1. Ensure security on payments and purchases
+  * Optimize security on components and finalize connections
+2. Deploy Website
+  * Deploy website with domain and ensure all features work
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
