@@ -23,7 +23,7 @@
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#contributors">Contributors</a></li>
-    <li><a href="#synopsis">Project Synopsis</a></li>
+    <li><a href="#project-synopsis">Project Synopsis</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#getting-started">Getting Started</a>
       <ul>
@@ -105,7 +105,9 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-
+To get started please begin by downloading the proper software listed in the Prerequisites.
+Once those are downloaded, launch Vs Code, open a new terminal, then follow the installation instructions.
+After you have done all of that, cd into the folder and run the command provided in Running to get your local branch running.
 
 ### Prerequisites
 
