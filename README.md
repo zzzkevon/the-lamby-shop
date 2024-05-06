@@ -35,11 +35,12 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#usage">Deployment</a></li>
+    <li><a href="#usage">Testing</a></li>
+    <li><a href="#usage">Developer Instructions</a></li>
+    <li><a href="#timeline">Timeline</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -113,18 +114,13 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/github_username/repo_name.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -146,27 +142,54 @@ Placeholder
 2. Placeholder
 3. Placeholder
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Testing
 Placeholder
 1. Placeholder
 2. Placeholder
 3. Placeholder
+   
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Developer Instructions
-Placeholder
-1. Placeholder
-2. Placeholder
-3. Placeholder
+Testing
 
-<!-- ROADMAP -->
-## Roadmap
+1. Creating and verifying an account
+    - follow steps to create an account
+    - login using information
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+2. Update account information
+    - change username/password
+    - attempt login with new information
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+3. Create commissions ticket
+    - enter commissions information
+    - check email for confirmation
+
+4. Add to shopping cart
+    - add selected item to shopping cart
+    - change the desired amount and check the pricing
+
+5. Purchase item (mock purchase)
+    - enter shipping/billing information
+    - check email for confirmation
+
+6. Create contact (customer support ticket) 
+    - enter information and description
+    - check email for confirmation
+
+7. Subscribe to email 
+    - enter email
+    - check email for confirmation
+
+8. Check shop (inventory) individual items
+    - check that it provides the proper information (item name, price, description)
+
+9. Inventory CRUD
+    - create item from admin portal
+    - update item from admin portal
+    - delete item from admin portal
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -199,23 +222,7 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 1. Placeholder
 2. Placeholder
 
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- LICENSE -->
 ## License
@@ -223,8 +230,6 @@ Don't forget to give the project a star! Thanks again!
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT -->
 ## Contact
@@ -234,19 +239,6 @@ Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_
 Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
