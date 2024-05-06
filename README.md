@@ -92,6 +92,7 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 
 * [![React][React.js]][React-url]
 * [![Tailwind][Tailwind.com]][Tailwind-url]
+* [![AWS][AWS]][AWS-url]
 * <a href="https://nodejs.org/en"><img width="100" alt="NodeJs Logo" src="https://nodejs.org/static/logos/nodejsDark.svg"> <a/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -256,3 +257,5 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [React-url]: https://reactjs.org/
 [Tailwind.com]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
 [Tailwind-url]: https://tailwindcss.com/
+[AWS]: https://img.shields.io/badge/AWS-232F32?style=for-the-badge&logo=AmazonAWS&logoColor=white
+[AWS-url]: https://aws.amazon.com/
