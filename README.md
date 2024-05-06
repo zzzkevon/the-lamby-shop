@@ -2,23 +2,16 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="src/images/transparent-logo.png" alt="Logo" width="300">
+    <img src="src/images/full-logo.png" alt="Logo" width="300">
   </a>
 
 
 <h3 align="center">The Lamby Shop</h3>
 
   <p align="center">
-    An eccommerce website that sells crocheted items
+    An eccommerce website that sells crocheted items and accepts custom commissions
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://the-lamby-shop.vercel.app/">View Demo</a>
   </p>
 </div>
 
@@ -42,11 +35,12 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#usage">Deployment</a></li>
+    <li><a href="#usage">Testing</a></li>
+    <li><a href="#usage">Developer Instructions</a></li>
+    <li><a href="#timeline">Timeline</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -54,33 +48,52 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img width="300" alt="Shop Title" src="src/images/title-logo.png"> <br/>
-The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions.
+<img width="300" alt="Shop Title" src="src/images/lambyshop-logo.png"> <br/>
+The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions. <br/>
+
+![Carousel Feature](https://github.com/StevenH01/the-lamby-shop/assets/47896048/68a1173d-6acd-446b-be43-4f17cee221a9)
+Users will be greeted with an eye catching carousel that cycles through new and featured items that the admin can pick. Clicking "Shop Now" will take the user to the main catalog.
+
 
 <div align="center">
+  <img alt="About Me" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/08b2e104-38ce-4396-8239-bf2c10ecbbf5">
+  <img alt="Mission Statement" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/fa79e257-0212-4abd-8ed0-a7badd0b243b"><br/>
+  Users can learn more about our client and what her mission statement is. They can also find her various social media accounts here.
+
+  <img alt="Commissions Page" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/69014da1-4dd9-4741-8193-219f9cf0d37f"><br/>
+  Users can make custom commissions of our client. They will need to provide some information so that our client can get in contact with them, should she decide to accept the commission.
+
+  <img alt="Login Section" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/4582384a-4128-4cec-acdc-6d3ae60e1b7f"><br/>
+  The option to make an account will be available, however it is not required to have an account in order to purchase items from the shop. This is mainly used for additional admins of the shop.
+
+  <img alt="Checkout Page" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/98465724-5580-4948-8853-c400773c25bb"><br/>
+  Users will be able to see the items they put in their shopping cart on one page. This will show how much each item costs and the total cost. While still in early development, the final page will look similar to this.
+
+  <img alt="Contact Page" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/723c4e0b-0e2b-4690-9a11-234269b3e832"><br/>
+  <img alt="Submit a Ticket" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/106df35c-92d0-4c8c-b03f-80f89ef3e251"><br/>
+  Users can submit a ticket to get in contact with our client or any other admin. This will be the primary way users will be able to make inquiries about their ordered products.
+
+
   <img width="300" alt="ERD of the Database" src="https://github.com/StevenH01/the-lamby-shop/assets/47896048/bd0904e4-634b-4fc5-a7fb-c74bd23906f4"> <br/>
+  The NoSQL database will be able to store information on items, account information, and commisions. The owner account will be able to promote other accounts to Admin, which will allow those accounts to sell their own items on the website and accept custom commisions.
 </div>
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+
+
+
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Contributors
-- Alex Souv: alexsouv@csus.edu
-- Angelo Ventura: angeloventura@csus.edu
-- Danny Phan: dannyphan2@csus.edu
-- Henry Kong: henrykong@csus.edu
-- Jonathan Medrano: jonathanmedrano@csus.edu
-- Kevin Wong: kevinwong4@csus.edu
-- Samuel Change: schang2@csus.edu
-- Steven Ho: stevenho@csus.edu
+
 
 ### Built With
 
 * [![React][React.js]][React-url]
 * [![Tailwind][Tailwind.com]][Tailwind-url]
-* [![Node.js](https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg)](https://nodejs.org/)
-* [![AWS](https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg)](https://aws.amazon.com/)
+* [![AWS][AWS]][AWS-url]
+* <a href="https://nodejs.org/en"><img width="100" alt="NodeJs Logo" src="https://nodejs.org/static/logos/nodejsDark.svg"> <a/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -89,25 +102,13 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get started you are going to first need to download all the prerequesites listed below.
-Once you have completed all of those, you are going to follow the installation process and make sure all dependencies are installed.
-Once everything is installed, open a new terminal and then run the command 'npm run start' to get your local branch running.
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-* VsCode
-  ```
-  https://code.visualstudio.com/download
-  ```
-* Node
-  ```
-  https://nodejs.org/en/download
-  ```
-* Git
-  ```
-  https://git-scm.com/downloads
-  ```
-* npm update (if you already have node installed)
+This is an example of how to list things you need to use the software and how to install them.
+* npm
   ```sh
   npm install npm@latest -g
   ```
@@ -116,15 +117,11 @@ Once everything is installed, open a new terminal and then run the command 'npm 
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/StevenH01/the-lamby-shop
+   git clone https://github.com/github_username/repo_name.git
    ```
 2. Install NPM packages
    ```sh
    npm install
-   ```
-3. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -140,34 +137,76 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-<!-- ROADMAP -->
-## Timeline
-
-### Sprint 5 (2023/08/28 - 2023/9/11)
-
-
-### Sprint 6  (2023/09/11 - 2023/09/25)
-
-### Sprint 7 (2023/09/25 - 2023/10/09)
-
-### Sprint 8 (2023/10/09 - 2023/10/23)
-
-### Sprint 9 (2023/10/23 - 2023/11/06)
-
-
 ## Deployment
+Placeholder
+1. Placeholder
+2. Placeholder
+3. Placeholder
 
-## Testing Instructions
-### Test Suite: testing frameworks and tools used
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Testing
+Placeholder
+1. Placeholder
+2. Placeholder
+3. Placeholder
+   
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Developer Instructions
+Testing
+1. Placeholder
+2. Placeholder
+3. Placeholder
 
-### Troubleshooting
-Run ```npm install``` at the root to start the project to install any missing dependencies
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- TIMELINE -->
+## Timeline
 
+### Sprint 5 (08/26/2024 - 9/9/2024)
+1. Get the AWS backend up and running: 
+    * Create the backend database and start connecting things on the frontend to the backend.
+2. Create Admin UI: 
+    * Build the Admin user interface frontend.
+3. Continue implementing React API services.
+4. Continue implementing UI Components.
+
+### Sprint 6  (09/10/2024 - 09/23/2024)
+1. Payment System implementation: 
+    * Inplement the Stripe API for the billing part.
+2. Get Account Creation up and running.
+3. Implement the functionality to update username/passwords
+
+### Sprint 7 (09/24/2024 - 10/07/2024)
+1. Placeholder
+2. Placeholder
+
+### Sprint 8 (10/08/2024 - 10/21/2024)
+1. Placeholder
+2. Placeholder
+
+### Sprint 9 (10/22/2024 - 11/04/2024)
+1. Placeholder
+2. Placeholder
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -185,3 +224,5 @@ Run ```npm install``` at the root to start the project to install any missing de
 [React-url]: https://reactjs.org/
 [Tailwind.com]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
 [Tailwind-url]: https://tailwindcss.com/
+[AWS]: https://img.shields.io/badge/AWS-232F32?style=for-the-badge&logo=AmazonAWS&logoColor=white
+[AWS-url]: https://aws.amazon.com/
