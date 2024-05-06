@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="src/images/transparent-logo.png" alt="Logo" width="300">
+    <img src="src/images/full-logo.png" alt="Logo" width="300">
   </a>
 
 
@@ -48,7 +48,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img width="300" alt="Shop Title" src="src/images/title-logo.png"> <br/>
+<img width="300" alt="Shop Title" src="src/images/lambyshop-logo.png"> <br/>
 The Lamby Shop is an ecommerce website that will sell handmade crotcheted items. Users will be able to buy items as well as make custom commisions. <br/>
 
 ![Carousel Feature](https://github.com/StevenH01/the-lamby-shop/assets/47896048/68a1173d-6acd-446b-be43-4f17cee221a9)
