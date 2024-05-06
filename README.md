@@ -23,6 +23,7 @@
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#contributors">Contributors</a></li>
+    <li><a href="#synopsis">Project Synopsis</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#getting-started">Getting Started</a>
       <ul>
@@ -86,7 +87,9 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
+## Project Synopsis
 
+  In today's digital age, many individuals running side businesses face challenges in expanding their customer base beyond their local communities. This project aims to assist a seller of crochet products in overcoming these challenges by designing and developing a user-friendly website. The website will serve as a platform for showcasing the seller's handmade crochet items, allowing customers to browse and purchase products online. Additionally, the website will include an option for customers to request custom orders, providing a personalized shopping experience. The site will also feature the client's contact details, allowing customers to easily get in touch for inquiries or special requests. Our client aims to centralize most or all of her operations on this website and integrate this site into her business. Users can make accounts to manage their purchases and custom commissions. Our team hopes that this website will help our client grow and manage her side business.
 
 ### Built With
 
