@@ -84,7 +84,7 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 - Steven Ho: stevenho@csus.edu
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 
 
@@ -95,7 +95,7 @@ Users will be greeted with an eye catching carousel that cycles through new and 
 * [![AWS][AWS]][AWS-url]
 * <a href="https://nodejs.org/en"><img width="100" alt="NodeJs Logo" src="https://nodejs.org/static/logos/nodejsDark.svg"> <a/>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 
 
@@ -141,11 +141,11 @@ This is an example of how to list things you need to use the software and how to
    npm run start
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 ## Deployment
 Placeholder
@@ -153,7 +153,7 @@ Placeholder
 2. Placeholder
 3. Placeholder
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 ## Testing
 Placeholder
@@ -161,7 +161,7 @@ Placeholder
 2. Placeholder
 3. Placeholder
    
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 ## Developer Instructions
 Testing
@@ -169,7 +169,7 @@ Testing
 2. Placeholder
 3. Placeholder
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 <!-- TIMELINE -->
 ## Timeline
@@ -201,7 +201,7 @@ Testing
 2. Deploy Website
   * Deploy website with domain and ensure all features work
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
