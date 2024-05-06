@@ -155,42 +155,9 @@ Placeholder
 
 ## Developer Instructions
 Testing
-
-1. Creating and verifying an account
-    - follow steps to create an account
-    - login using information
-
-2. Update account information
-    - change username/password
-    - attempt login with new information
-
-3. Create commissions ticket
-    - enter commissions information
-    - check email for confirmation
-
-4. Add to shopping cart
-    - add selected item to shopping cart
-    - change the desired amount and check the pricing
-
-5. Purchase item (mock purchase)
-    - enter shipping/billing information
-    - check email for confirmation
-
-6. Create contact (customer support ticket) 
-    - enter information and description
-    - check email for confirmation
-
-7. Subscribe to email 
-    - enter email
-    - check email for confirmation
-
-8. Check shop (inventory) individual items
-    - check that it provides the proper information (item name, price, description)
-
-9. Inventory CRUD
-    - create item from admin portal
-    - update item from admin portal
-    - delete item from admin portal
+1. Placeholder
+2. Placeholder
+3. Placeholder
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
