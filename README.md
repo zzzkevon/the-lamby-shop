@@ -140,7 +140,23 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Deployment
+Placeholder
+1. Placeholder
+2. Placeholder
+3. Placeholder
 
+## Testing
+Placeholder
+1. Placeholder
+2. Placeholder
+3. Placeholder
+
+## Developer Instructions
+Placeholder
+1. Placeholder
+2. Placeholder
+3. Placeholder
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -154,7 +170,34 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- TIMELINE -->
+## Timeline
 
+### Sprint 5 (08/26/2024 - 9/9/2024)
+1. Get the AWS backend up and running: 
+    * Create the backend database and start connecting things on the frontend to the backend.
+2. Create Admin UI: 
+    * Build the Admin user interface frontend.
+3. Continue implementing React API services.
+4. Continue implementing UI Components.
+
+### Sprint 6  (09/10/2024 - 09/23/2024)
+1. Payment System implementation: 
+    * Inplement the Stripe API for the billing part.
+2. Get Account Creation up and running.
+3. Implement the functionality to update username/passwords
+
+### Sprint 7 (09/24/2024 - 10/07/2024)
+1. Placeholder
+2. Placeholder
+
+### Sprint 8 (10/08/2024 - 10/21/2024)
+1. Placeholder
+2. Placeholder
+
+### Sprint 9 (10/22/2024 - 11/04/2024)
+1. Placeholder
+2. Placeholder
 
 <!-- CONTRIBUTING -->
 ## Contributing
