@@ -22,6 +22,9 @@ function App() {
     case "/about":
       screen = <AboutSection />
       break;
+    case "/accountrecovery":
+      screen = <AccountRecovery/>
+      break;
     case "/shop":
       screen = <ShopSection />
       break;
