@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import Inventory from './inventory/Inventory'
 
-const ShopSection = () => {
+const ShopSection = ({items}) => {
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -23,7 +23,7 @@ const ShopSection = () => {
 
   return (
     <div className="main-bg" style={{ height: `${screenHeight}px`, width: `${screenWidth}px` }}>
-      <Inventory></Inventory>
+      <Inventory items={items}/>
     </div>
   );
 }

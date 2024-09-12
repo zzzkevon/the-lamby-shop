@@ -1,45 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { useTheme } from '@mui/system';
-import item1 from '../../images/img1.jpeg';
-import item2 from '../../images/img2.jpeg';
-import item3 from '../../images/img3.jpeg';
-import charm1 from '../carousel2/apple.jpeg'
-import charm2 from '../carousel2/lemon_yellow.jpeg';
-// Will need to implement AWS 
+import { itemImages } from '../../items';
 
 function useIsDarkMode() {
     const theme = useTheme();
     return theme.palette.mode === 'dark';
 }
 
-function itemInformation() {
-    let itemName = "itemName";
-    let itemDescr = "Placeholder";
-    let itemPrice = "0.00";
+// Update itemInformation to use the selected item's data
+function itemInformation(item) {
+    if (!item) return null; // Handle cases where no item is selected
+    let { title, description, price } = item; // Assume item has these properties
     return (
         <div>
-            itemName = {itemName}<br />
-            itemDescr = {itemDescr}<br />
-            itemPrice = {itemPrice}<br />
-            <br />
-            <button className="add-to-cart-button" >
+            <div><strong>Item Name:</strong> {title || 'N/A'}</div>
+            <div><strong>Description:</strong> {description || 'Placeholder'}</div>
+            <div><strong>Price:</strong> ${price || '0.00'}</div>
+            <button className="add-to-cart-button">
                 Add to Cart
             </button>
         </div>
-    )
+    );
 }
 
-const Inventory = () => {
+const Inventory = ({ items }) => {
+    const [anchor, setAnchor] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null);
 
-    // *********** TEST START ***********
-    let itemInfo = itemInformation();
-    const [anchor, setAnchor] = React.useState(null);
-  
-    // const handleClick = (event) => {
-    //   setAnchor(anchor ? null : event.currentTarget);
-    // };
-    const handleClick = (event) => {
+    const handleClick = (event, item) => {
+        setSelectedItem(item);  // Set the selected item to be passed to the popup
         setAnchor(event.currentTarget);
     };
 
@@ -49,54 +39,19 @@ const Inventory = () => {
 
     const open = Boolean(anchor);
     const id = open ? 'simple-popup' : undefined;
-    // *********** TEST END ***********
+
     return (
         <div className="tile-container">
-            <div className="tile" onClick={handleClick}>
-                <img src={item1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item3} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item3} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item3} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
+            {items.map((item) => (
+                <div key={item.itemId} className="tile" onClick={(e) => handleClick(e, item)}>
+                    <img
+                        src={itemImages[item.imageId]}
+                        alt={item.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}
+                    />
+                </div>
+            ))}
+
             {open && (
                 <div className="modal-overlay" onClick={handleClose}>
                     <BasePopup
@@ -106,13 +61,13 @@ const Inventory = () => {
                         disablePortal
                         className="popup-content"
                     >
-                        {itemInfo}
+                        {/* Pass the selected item to itemInformation */}
+                        {itemInformation(selectedItem)}
                     </BasePopup>
                 </div>
             )}
         </div>
     );
-    
-}
+};
 
-export default Inventory
+export default Inventory;

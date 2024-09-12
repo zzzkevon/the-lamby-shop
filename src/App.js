@@ -1,4 +1,6 @@
+import axios from 'axios';
 import NavBar from './components/NavBar';
+import { useEffect, useReducer, useState } from 'react';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShoppingCart from './components/ShoppingCart';
@@ -13,7 +15,17 @@ import AccountUpdate from './components/accountPages/AccountUpdate';
 import CheckoutSection from './components/CheckoutSection';
 // import Footer from './components/Footer';
 
+
 function App() {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+      axios.get('/api/items')
+      .then((result) => setItems(result.data))
+      .catch(console.error);
+  },[]);
+
+  
+
   let screen
   switch (window.location.pathname) {
     case "/":
@@ -23,7 +35,7 @@ function App() {
       screen = <AboutSection />
       break;
     case "/shop":
-      screen = <ShopSection />
+      screen = <ShopSection items={items} />
       break;
     case "/commissions":
       screen = <CommisionsSection />
