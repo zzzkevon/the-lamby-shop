@@ -11,6 +11,8 @@ import ForgotPassword from './components/ForgotPassword';
 import AccountRecovery from './components/AccountRecovery'
 import AccountUpdate from './components/accountPages/AccountUpdate';
 import CheckoutSection from './components/CheckoutSection';
+import CreateAdmin from './components/adminPages/CreateAdmin';
+import AdminDashboard from './components/adminPages/AdminDashboard';
 // import Footer from './components/Footer';
 
 function App() {
@@ -48,6 +50,12 @@ function App() {
       break;
     case "/shoppingcart/checkout":
       screen = <CheckoutSection />
+      break;
+    case "/admin/admin-dashboard":
+      screen = <AdminDashboard />
+      break;
+      case "/admin/create-admin":
+      screen = <CreateAdmin />
       break;
     default:
       break;

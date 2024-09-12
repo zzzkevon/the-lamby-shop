@@ -3,6 +3,7 @@ import bunny from '../images/nav_bunny.png'
 import web_title from '../images/web_title.png'
 import { FiShoppingCart } from 'react-icons/fi';
 import { GiSheep } from 'react-icons/gi';
+import { VscAccount } from "react-icons/vsc";
 
 const NavBar = () => {
   return (
@@ -41,6 +42,9 @@ const NavBar = () => {
         <img src={ bunny } alt='' className='ml-20 pb-10'/>
       </div>
       <div className='flex pt-32 mr-20'>
+      <a href='/admin/admin-dashboard'>
+          <VscAccount size={25} className='mr-4' />
+        </a>
         <a href='/profile'>
           <GiSheep size={25} className='mr-4' />
         </a>
