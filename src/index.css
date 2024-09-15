@@ -10,6 +10,51 @@
   font-family: 'Just Another Hand', cursive;
 }
 
+.input-borders {
+  position: absolute;
+  resize: none;
+  border: 1px solid #780000;
+  opacity: 1;
+  font-size: 36px;
+}
+
+.button {
+  position: absolute;
+  width: 165px;
+  height: 47px;
+  left: 629px;
+  top: 824px;
+  background: #780000;
+  border-radius: 107px;
+}
+
+.button-text {
+  border: 1px solid #B11A1A;
+  color: #CFCFCF;
+  
+  top: 'calc(50% - 36px/2 + 336px)';
+  font-size: 30x;
+  font-weight: 400;
+  line-height: 36px;
+}
+
+
+.header-font{
+  color: #780000;
+  font-size: '3em'; 
+}
+
+
+.header-format{
+  height:200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+
+
 .tile-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
