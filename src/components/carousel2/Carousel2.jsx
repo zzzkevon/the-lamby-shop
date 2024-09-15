@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { RxTriangleLeft } from "react-icons/rx";
 import { RxTriangleRight } from "react-icons/rx";
 import apple from './apple.jpeg';
@@ -9,7 +10,9 @@ import art2 from './Untitled_Artwork 12.jpeg';
 import art3 from './Untitled_Artwork 11.jpeg';
 import art4 from './Untitled_Artwork 10.jpeg';
 import yellow from './lemon_yellow.jpeg';
+
 const Carousel2 = () => {
+  const [items, setItems] = React.useState([]); // Added this to store the items from the inventoryAPI
   const [currentSlide, setCurrentSlide] = useState(0);
   const numberOfSlides = 8; // Adjust based on the number of items you have
   const slideWidth = 21; // Assuming each slide is 100% of the carousel container width
@@ -21,6 +24,16 @@ const Carousel2 = () => {
   const prevSlide = () => {
     setCurrentSlide((prevCurrentSlide) => (prevCurrentSlide - 1 + numberOfSlides) % numberOfSlides);
   };
+
+  React.useEffect(() => {
+    // Fetch items from your API
+    axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items')
+        .then(response => {
+            setItems(response.data); // Assuming response.data is an array of items
+            console.log(response.data); // Assuming response.data is an array of items
+        })
+        .catch(error => console.error('Error fetching items:', error));
+  }, []);
 
   return (
     <div className={`flex justify-center content-center`}>
