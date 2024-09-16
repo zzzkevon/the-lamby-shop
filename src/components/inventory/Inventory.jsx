@@ -1,29 +1,27 @@
 import React from 'react';
+import axios from 'axios';
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { useTheme } from '@mui/system';
-import item1 from '../../images/img1.jpeg';
-import item2 from '../../images/img2.jpeg';
-import item3 from '../../images/img3.jpeg';
-import charm1 from '../carousel2/apple.jpeg'
-import charm2 from '../carousel2/lemon_yellow.jpeg';
-// Will need to implement AWS 
+import { addToCart, getCart, removeFromCart, setCart } from '../cart/cart';
 
 function useIsDarkMode() {
     const theme = useTheme();
     return theme.palette.mode === 'dark';
 }
 
-function itemInformation() {
-    let itemName = "itemName";
-    let itemDescr = "Placeholder";
-    let itemPrice = "0.00";
+function itemInformation({item, itemName, itemDescription, itemPrice}) {
+    
+    const handleAddToCart = (item) => {
+        addToCart(item);
+    };
+
     return (
         <div>
-            itemName = {itemName}<br />
-            itemDescr = {itemDescr}<br />
-            itemPrice = {itemPrice}<br />
+            {itemName}<br />
+            {itemDescription}<br />
+            {itemPrice}<br />
             <br />
-            <button className="add-to-cart-button" >
+            <button className="add-to-cart-button" onClick={() => handleAddToCart(item)}>
                 Add to Cart
             </button>
         </div>
@@ -33,13 +31,23 @@ function itemInformation() {
 const Inventory = () => {
 
     // *********** TEST START ***********
-    let itemInfo = itemInformation();
     const [anchor, setAnchor] = React.useState(null);
+    const [items, setItems] = React.useState([]);
+    const [selectedItem, setSelectedItem] = React.useState(null);
+
   
-    // const handleClick = (event) => {
-    //   setAnchor(anchor ? null : event.currentTarget);
-    // };
-    const handleClick = (event) => {
+    React.useEffect(() => {
+        // Fetch items from your API
+        axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items')
+            .then(response => {
+                setItems(response.data); // Assuming response.data is an array of items
+                console.log(response.data); // Assuming response.data is an array of items
+            })
+            .catch(error => console.error('Error fetching items:', error));
+    }, []);
+    
+    const handleClick = (event, item) => {
+        setSelectedItem(item);
         setAnchor(event.currentTarget);
     };
 
@@ -52,51 +60,20 @@ const Inventory = () => {
     // *********** TEST END ***********
     return (
         <div className="tile-container">
-            <div className="tile" onClick={handleClick}>
-                <img src={item1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item3} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item3} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={item3} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm1} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
-            <div className="tile" onClick={handleClick}>
-                <img src={charm2} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }}/>
-            </div>
+            {items.map(item => (
+                <div className="tile" key={item.itemName} onClick={(event) => handleClick(event, item)}>
+                    <img
+                        src={item.signedUrl}  // Assuming each item has an `imageUrl` field
+                        alt={item.itemName}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            borderRadius: '20px'
+                        }}
+                    />
+                </div>
+            ))}
             {open && (
                 <div className="modal-overlay" onClick={handleClose}>
                     <BasePopup
@@ -106,7 +83,12 @@ const Inventory = () => {
                         disablePortal
                         className="popup-content"
                     >
-                        {itemInfo}
+                        {itemInformation({
+                            item: selectedItem,
+                            itemName: selectedItem.itemName,
+                            itemDescription: selectedItem.itemDescription,
+                            itemPrice: selectedItem.itemPrice
+                        })}
                     </BasePopup>
                 </div>
             )}

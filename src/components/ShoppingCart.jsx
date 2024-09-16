@@ -60,6 +60,7 @@ function ItemCard({ id, name, onDelete }) {
     </div>
   );
 }
+import { addToCart, getCart, removeFromCart, setCart } from "./cart/cart.jsx";
 
 const ShoppingCart = () => {
   const [items, setItems] = useState([]);
