@@ -3,58 +3,37 @@ let lowercase = /[a-z]/;
 let uppercase = /[A-Z]/;
 let numbers = /[0-9]/;
 
+const validations = {
+    uppercase: /[A-Z]/,
+    lowercase: /[a-z]/,
+    numbers: /[0-9]/,
+    length: (pass) => pass.length >=8 && pass.length <=32
+}
+
+const updateUI = (element, isValid) => {
+    element.classList.toggle('valid', isValid);
+    element.classList.toggle('invalid', !isValid);
+}
+
 export const newPasswordUI = () => {
     // password requirements to be met
     var newpass = document.getElementById("new-pass").value;
     var confnewpass = document.getElementById("conf-new-pass").value;
-    // for updating ui
-    var uc = document.getElementById("upper");
-    var lc = document.getElementById("lower");
-    var num = document.getElementById("number");
-    var len = document.getElementById("length");
-    var match = document.getElementById("match");
 
-    // validate uppercase letters
-    if (newpass.match(uppercase)) {
-        uc.classList.remove('invalid');
-        uc.classList.add('valid');
-    } else {
-        uc.classList.remove('valid');
-        uc.classList.add('invalid');
-    }
-    // validate lowercase letters
-    if (newpass.match(lowercase)) {
-        lc.classList.remove('invalid');
-        lc.classList.add('valid');
-    } else {
-        lc.classList.remove('valid');
-        lc.classList.add('invalid');
-    }
-    // validate numbers
-    if (newpass.match(numbers)) {
-        num.classList.remove('invalid');
-        num.classList.add('valid');
-    } else {
-        num.classList.remove('valid');
-        num.classList.add('invalid');
-    }
-    // validate length
-    if (newpass.length >= 8 && newpass.length <= 32) {
-        len.classList.remove('invalid');
-        len.classList.add('valid');
-    } else {
-        len.classList.remove('valid');
-        len.classList.add('invalid');
-    }
-    // validate that the new password matches it's confirmation
-    if(newpass !== confnewpass || newpass.length < 1){
-        match.classList.remove('valid');
-        match.classList.add('invalid');
-    }
-    else{
-        match.classList.remove('invalid');
-        match.classList.add('valid');
-    }
+    // for updating ui
+    const uiElements = {
+        uc: document.getElementById("upper"),
+        lc: document.getElementById("lower"),
+        num: document.getElementById("number"),
+        len: document.getElementById("length"),
+        match: document.getElementById("match")
+    };
+    // Check each condition and update UI
+    updateUI(uiElements.uc, validations.uppercase.test(newpass));
+    updateUI(uiElements.lc, validations.lowercase.test(newpass));
+    updateUI(uiElements.num, validations.numbers.test(newpass));
+    updateUI(uiElements.len, validations.length(newpass));
+    updateUI(uiElements.match, newpass === confnewpass && newpass.length > 0);
 }
 
 // New password validation function
