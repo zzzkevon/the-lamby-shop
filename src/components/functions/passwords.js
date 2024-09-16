@@ -1,8 +1,3 @@
-// password conditions
-let lowercase = /[a-z]/;
-let uppercase = /[A-Z]/;
-let numbers = /[0-9]/;
-
 const validations = {
     uppercase: /[A-Z]/,
     lowercase: /[a-z]/,
@@ -39,10 +34,10 @@ export const newPasswordUI = () => {
 // New password validation function
 export function passwordValidation(password,conf_password) { 
     // Test for uppercase, lowercase, number, length requirements, and if the confirmation password matches
-    const hasUpper = uppercase.test(password);
-    const hasLower = lowercase.test(password);
-    const hasNumber = numbers.test(password);
-    const minLengthReached = password.length >= 8 && password.length <= 32;
+    const hasUpper = validations.uppercase.test(password);
+    const hasLower = validations.lowercase.test(password);
+    const hasNumber = validations.numbers.test(password);
+    const minLengthReached = validations.length(password);
     const isMatched = password === conf_password;
     // Return's true only if all checks have been passed
     return hasUpper && hasLower && hasNumber && minLengthReached && isMatched;
