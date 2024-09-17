@@ -13,11 +13,26 @@ import ForgotPassword from './components/ForgotPassword';
 import AccountRecovery from './components/AccountRecovery'
 import AccountUpdate from './components/accountPages/AccountUpdate';
 import CheckoutSection from './components/CheckoutSection';
+import { cartReducer, CartTypes, initialCartState} from './components/reducers/cartReducer';
+import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 // import Footer from './components/Footer';
 
+function loadCartFromStorage() {
+  const savedCart = localStorage.getItem('cart');
+  return savedCart ? JSON.parse(savedCart) : initialCartState;
+}
 
 function App() {
   const [items, setItems] = useState([]);
+  const [cart, dispatch] = useReducer(cartReducer, [], loadCartFromStorage);
+
+  // Save cart to localStorage whenever it updates
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+  const addToCart = (itemId) => dispatch({type: CartTypes.ADD, itemId})
+  
+  
   useEffect(() => {
       axios.get('/api/items')
       .then((result) => setItems(result.data))
@@ -35,7 +50,7 @@ function App() {
       screen = <AboutSection />
       break;
     case "/shop":
-      screen = <ShopSection items={items} />
+      screen = <ShopSection cart={cart} items={items} addToCart={addToCart}/>
       break;
     case "/commissions":
       screen = <CommisionsSection />
@@ -47,7 +62,7 @@ function App() {
       screen = <ProfileSection />
       break;
     case "/shoppingcart":
-      screen = <ShoppingCart />
+      screen = <ShoppingCart cart={cart} item={items} />
       break;
     case "/forgotpass":
       screen = <ForgotPassword />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
 import { useTheme } from '@mui/system';
 import { itemImages } from '../../items';
+import { CartTypes } from '../reducers/cartReducer';
 
 function useIsDarkMode() {
     const theme = useTheme();
@@ -9,7 +10,11 @@ function useIsDarkMode() {
 }
 
 // Update itemInformation to use the selected item's data
-function itemInformation(item) {
+function itemInformation(addToCart, item) {
+    const addItemToCart = () => {
+        console.log("item added to cart", item.itemId)
+        addToCart(item.itemId)
+    }
     if (!item) return null; // Handle cases where no item is selected
     let { title, description, price } = item; // Assume item has these properties
     return (
@@ -17,16 +22,17 @@ function itemInformation(item) {
             <div><strong>Item Name:</strong> {title || 'N/A'}</div>
             <div><strong>Description:</strong> {description || 'Placeholder'}</div>
             <div><strong>Price:</strong> ${price || '0.00'}</div>
-            <button className="add-to-cart-button">
+            <button className="add-to-cart-button" onClick={addItemToCart}>
                 Add to Cart
             </button>
         </div>
     );
 }
 
-const Inventory = ({ items }) => {
+const Inventory = ({ addToCart, items }) => {
     const [anchor, setAnchor] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
+
 
     const handleClick = (event, item) => {
         setSelectedItem(item);  // Set the selected item to be passed to the popup
@@ -62,7 +68,7 @@ const Inventory = ({ items }) => {
                         className="popup-content"
                     >
                         {/* Pass the selected item to itemInformation */}
-                        {itemInformation(selectedItem)}
+                        {itemInformation(addToCart, selectedItem)}
                     </BasePopup>
                 </div>
             )}
