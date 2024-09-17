@@ -17,6 +17,7 @@ import AccountManagement from './components/AccountManagement/AccountManagement'
 import UpdateEmail from './components/AccountManagement/UpdateEmail';
 import UpdatePassword from './components/AccountManagement/UpdatePassword';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
+import AdminManageProfile from './components/AdminManageProfile'
 // import Footer from './components/Footer';
 
 function App() {
@@ -57,6 +58,9 @@ function App() {
       break;
     case "/shoppingcart/checkout":
       screen = <CheckoutSection />
+      break;
+    case "/admin/manage-profile":
+      screen = <AdminManageProfile />
       break;
     case "/admin/admin-dashboard":
       screen = <AdminDashboard />
