@@ -13,6 +13,7 @@ import AccountUpdate from './components/accountPages/AccountUpdate';
 import CheckoutSection from './components/CheckoutSection';
 import CreateAdmin from './components/adminPages/CreateAdmin';
 import AdminDashboard from './components/adminPages/AdminDashboard';
+import AdminManageProfile from './components/AdminManageProfile'
 // import Footer from './components/Footer';
 
 function App() {
@@ -53,6 +54,9 @@ function App() {
       break;
     case "/shoppingcart/checkout":
       screen = <CheckoutSection />
+      break;
+    case "/admin/manage-profile":
+      screen = <AdminManageProfile />
       break;
     case "/admin/admin-dashboard":
       screen = <AdminDashboard />
