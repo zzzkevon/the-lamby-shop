@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ItemCard from "./itemCard";  // Adjust the path as necessary
+import ItemCard from "./itemCard"; // Adjust the path as necessary
 
 const ShoppingCart = () => {
   const [items, setItems] = useState([]);
-  
-  const addItem = (e) => {
+
+  const addItem = e => {
     e.preventDefault();
     setItems([
       ...items,
@@ -14,7 +14,7 @@ const ShoppingCart = () => {
 
   const deleteItem = (e, id) => {
     e.preventDefault();
-    setItems(items.filter((item) => item.id !== id));
+    setItems(items.filter(item => item.id !== id));
   };
 
   const [subtotal, setSubtotal] = useState(60.0);
@@ -34,14 +34,16 @@ const ShoppingCart = () => {
               <div>
                 Your Cart is&nbsp;<b className="text-red-500">Empty!&nbsp;</b>
               </div>
-              <div>Must add items on the cart before you proceed to checkout.</div>
+              <div>
+                Must add items on the cart before you proceed to checkout.
+              </div>
             </div>
             <div className="flex flex-col justify-center items-center">
-              {items.map((item) => (
+              {items.map(item => (
                 <ItemCard
                   key={item.id}
                   id={item.id}
-                  onDelete={(e) => deleteItem(e, item.id)}
+                  onDelete={e => deleteItem(e, item.id)}
                 />
               ))}
             </div>
@@ -58,7 +60,7 @@ const ShoppingCart = () => {
             </button>
             <button
               className="bg-lime-500"
-              onClick={(e) => {
+              onClick={e => {
                 addItem(e);
               }}
             >
