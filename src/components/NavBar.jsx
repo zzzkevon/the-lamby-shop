@@ -30,9 +30,14 @@ const NavBar = () => {
               commissions
             </a>
           </li>
-          <li>
+          <li className='mr-4'>
             <a href='/contact'>
               contact
+            </a>
+          </li>
+          <li className='mr-4'>
+            <a href='/account-management'>
+              account management (this is temporary)
             </a>
           </li>
         </ul>

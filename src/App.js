@@ -13,6 +13,10 @@ import AccountUpdate from './components/accountPages/AccountUpdate';
 import CheckoutSection from './components/CheckoutSection';
 import CreateAdmin from './components/adminPages/CreateAdmin';
 import AdminDashboard from './components/adminPages/AdminDashboard';
+import AccountManagement from './components/AccountManagement/AccountManagement';
+import UpdateEmail from './components/AccountManagement/UpdateEmail';
+import UpdatePassword from './components/AccountManagement/UpdatePassword';
+import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile'
 // import Footer from './components/Footer';
 
@@ -61,9 +65,20 @@ function App() {
     case "/admin/admin-dashboard":
       screen = <AdminDashboard />
       break;
-      case "/admin/create-admin":
+    case "/admin/create-admin":
       screen = <CreateAdmin />
       break;
+    case "/account-management":
+      screen = <AccountManagement />
+      break;
+    case "/update-email":
+      screen = <UpdateEmail />
+      break;
+    case "/update-password":
+      screen = <UpdatePassword />
+      break;
+    case "/update-payment":
+      screen = <UpdatePayment />
     default:
       break;
   }
