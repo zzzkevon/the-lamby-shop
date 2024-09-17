@@ -89,12 +89,12 @@ const Carousel2 = () => {
     });
   }
 
-  const prevSlide = () => {
-    setCurrentSlide(
-      prevCurrentSlide =>
-        (prevCurrentSlide - 1 + numberOfSlides) % numberOfSlides
-    );
-  };
+  // const prevSlide = () => {
+  //   setCurrentSlide(
+  //     prevCurrentSlide =>
+  //       (prevCurrentSlide - 1 + numberOfSlides) % numberOfSlides
+  //   );
+  // };
 
   React.useEffect(() => {
     // Fetch items from your API
@@ -113,11 +113,11 @@ const Carousel2 = () => {
   return (
     <div className={`flex flex-row`}>
       <div className={`flex justify-center items-center pt-[5px]`}>
-        <div>
+        {/* <div>
           <button className={`text-6xl text-[#D9D9D9]`} onClick={prevSlide}>
             <RxTriangleLeft />
           </button>
-        </div>
+        </div> */}
         {/* border-black border-solid border-2  */}
         {/* the div block that creates the carousel strip *note* use border-black etc to see how the style works */}
         <div
