@@ -110,11 +110,11 @@ const CheckoutItemInfo = () => {
         </div>
 
         {/* Checkout Button */}
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <button className="bg-[#780000] text-white px-10 py-2 rounded-full text-4xl">
             CHECK&nbsp;OUT
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );
