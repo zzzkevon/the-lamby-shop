@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import star from '../images/story_stars_1.png'
 import { newPasswordUI, passwordValidation, togglePass } from './functions/passwords';
+import axios from 'axios';
 import bcryptjs from 'bcryptjs' // password hashing
 
 export default function ForgotPassword() {
@@ -23,23 +24,31 @@ export default function ForgotPassword() {
 
     // Hash password and send it to DB
     const hash_and_send = (password) => {
-        bcryptjs.hash(password, 10, function(err, hash) {
-            console.log("Hashed pass:", hash); // Output hash password in console
-            // Store password hash in DB here
+        const forgotpass_url = 'http://localhost:3001/forgot-password-update';
+        bcryptjs.hash(password, 10, function(err, newpasshash) {
+            if(err)
+                console.error(err.message);
+            else {
+                const data = { newpasshash };
+                console.log("Hash updated pass frontend:", newpasshash);
+                // Store password hash in DB here
+                axios.post(forgotpass_url, data)
+                    .then(response => {console.log(response.data)})
+                    .catch(err => console.error(err))
+            }
         });
-    }    
+    }  
+    
     // Submit button function
     const handleSubmit = () => {
-        // input values
-        //console.log(newPass)
-        //console.log(confNewPass)
         if(window.confirm("Confirm new password?")){
             if(!passwordValidation(newPass, confNewPass))
                 alert("Password invalid! Review the following requirements below.")     
             else {
                 alert("Password is valid! Now hashing the password...")
-                hash_and_send(newPass);
-                window.location.reload()
+                // Handles hashing and sending to db
+                hash_and_send(newPass, confNewPass);
+                //window.location.reload(); uncomment this when db is fully setup 
             }    
         }
         else
