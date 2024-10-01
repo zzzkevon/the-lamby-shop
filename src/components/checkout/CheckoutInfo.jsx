@@ -209,6 +209,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import axios from "axios";
 
 // Load Stripe
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -257,6 +258,49 @@ const CheckoutInfo = () => {
     }
 
     setLoading(false);
+  };
+
+  const handlePayment = async () => {
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const cardElement = elements.getElement(CardElement);
+
+    const clientSecret = await createPaymentIntent(5000); // Amount in cents
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: "Customer Name",
+        },
+      },
+    });
+
+    if (result.error) {
+      console.error(result.error.message);
+    } else {
+      if (result.paymentIntent.status === "succeeded") {
+        console.log("Payment successful");
+      }
+    }
+  };
+
+  const createPaymentIntent = async amount => {
+    try {
+      const { data } = await axios.post(
+        "https://your-api-gateway-url/create-payment-intent",
+        {
+          amount,
+          currency: "usd",
+        }
+      );
+
+      return data.clientSecret;
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+      throw error;
+    }
   };
 
   return (
