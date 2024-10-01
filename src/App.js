@@ -34,7 +34,7 @@ function App() {
         <Route path="/contact" element={<ContactSection />} />
         <Route path="/profile" element={<ProfileSection />} />
         <Route path="/shoppingcart" element={<ShoppingCart />} />
-        <Route path="/forgotpass" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/createaccount" element={<CreateAccount />} />
         <Route path="/update-account" element={<AccountUpdate />} />
         <Route path="/shoppingcart/checkout" element={<CheckoutSection />} />
