@@ -23,16 +23,17 @@ export default function ForgotPassword() {
     }
 
     // Hash password and send it to DB
-    const hash_and_send = (password) => {
-        const forgotpass_url = 'http://localhost:3001/forgot-password-update';
-        bcryptjs.hash(password, 10, function(err, newpasshash) {
+    const hash_and_send = (pass) => {
+        //const forgotpass_url = 'http://localhost:3001/forgot-password-update';
+        const forgotpass_url = 'https://66fc60f9c3a184a84d16eb38.mockapi.io/Account/'
+        bcryptjs.hash(pass, 10, function(err, password) {
             if(err)
                 console.error(err.message);
             else {
-                const data = { newpasshash };
-                console.log("Hash updated pass frontend:", newpasshash);
+                const data = { password };
+                console.log("Hash updated pass frontend:", password);
                 // Store password hash in DB here
-                axios.post(forgotpass_url, data)
+                axios.put(`${forgotpass_url}/1`, data)
                     .then(response => {console.log(response.data)})
                     .catch(err => console.error(err))
             }
