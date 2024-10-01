@@ -211,7 +211,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 // Load Stripe
-const stripePromise = loadStripe("your-publishable-key");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutInfo = () => {
   const stripe = useStripe();
