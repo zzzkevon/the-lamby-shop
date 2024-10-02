@@ -1,7 +1,24 @@
 import star from '../../images/story_stars_1.png';
 import React from 'react';
+import { useGetAll } from '../inventoryAPI/functionCalls';
+import ManageInventory from '../inventory/ManageInventory';
 
 const AdminDashboard = () => {
+    // const items = useGetAll()
+    const [showInventoryModal, setShowInventoryModal] = React.useState(false);
+
+    const useManageInventory = () => {
+        console.log("manage inventory clicked.");
+        setShowInventoryModal(true);
+        // console.log(items);
+        // Pop up the tiles
+        // create file called ManageInventory.jsx and call it here
+        // <ManageInventory></ManageInventory>
+    };
+
+    const closeModal = () => {
+        setShowInventoryModal(false); // Hide the modal when called
+    };
 
     return (
         <div className="main-bg just-another-hand 4xl">
@@ -42,17 +59,33 @@ const AdminDashboard = () => {
 
                             <div className="flex flex-row w-full md:w-1/2 mt-8 m-10 space-x-10">
 
-                                <div className="flex flex-col items-center mt-2 "> 
+                                {/* <div className="flex flex-col items-center mt-2 ">  */}
                                     {/* button should call procedure to manage products*/}
-                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
+                                    {/* <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
                                         Add/Delete Products
                                     </button>
                                     
-                                </div>
+                                </div> */}
                                 {/*manage product's category, price, etc.*/}
-                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
+
+                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8"
+                                onClick={useManageInventory}>
                                 Manage Inventory
-                                    </button>
+                                </button>
+                                {showInventoryModal && (
+                                    <div className="modal-overlay-admin">
+                                        <div className="modal-content">
+                                            <button onClick={closeModal}>Close</button>
+                                            <ManageInventory />
+                                        </div>
+                                    </div>
+                                )}
+
+                                <a href="/admin/admin-manage-inventory">
+                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
+                                    Manage Inventory
+                                        </button>
+                                </a>
                             </div>
                         </div>
         
