@@ -83,7 +83,7 @@ function AdminManageInventory() {
         </div>
 
       {/* Display Filtered Items */}
-      <div className="w-full pl-4 pr-4 md:pl-64 md:pr-64">
+      {/* <div className="w-full pl-4 pr-4 md:pl-64 md:pr-64">
         {filteredItems.length > 0 ? (
           filteredItems.map((item) => (
             <div key={item.itemName} className="my-4">
@@ -94,7 +94,7 @@ function AdminManageInventory() {
         ) : (
           <p>No items available for this category.</p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
