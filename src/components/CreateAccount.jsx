@@ -6,7 +6,7 @@ import React from 'react';
 const CreateAccount = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
+    const [userName, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,11 +55,11 @@ const CreateAccount = () => {
 
     const validateUsername = () => {
         //check for valid username
-        if (username.trim() === '') {
+        if (userName.trim() === '') {
             setUsernameError('Username is required');
-        } else if (/[^a-zA-Z0-9]/.test(username)) {
+        } else if (/[^a-zA-Z0-9]/.test(userName)) {
             setUsernameError('Username cannot contain special characters');
-        } else if (username.length > 15) {
+        } else if (userName.length > 15) {
             setUsernameError('Username must be 15 characters or less');
         } else {
             setUsernameError('');
@@ -103,13 +103,35 @@ const CreateAccount = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!firstName.trim() && !lastName.trim() && !username.trim() && !email.trim() &&
+        if(!firstName.trim() && !lastName.trim() && !userName.trim() && !email.trim() &&
         !password.trim() && !confirmPassword.trim()) {
             console.log('All fields are empty, Form submission aborted.');
             return;
         }
 
         try {
+            //After getting input from user for account check if email already exists if so notify user of error
+            const usernameCheckResponse = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if(!usernameCheckResponse.ok) {
+                throw new Error ('Failed to fetch users for username check');
+            }
+            const userCheck = await usernameCheckResponse.json();
+
+            const usernameExists = userCheck.some(userCheck => userCheck.userName === userName);
+
+            if(usernameExists) {
+                console.log('Username is already taken');
+                setUsernameError('Username is already taken');
+                return;
+            }
+
+            //
             const emailCheckResponse = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
                 method: 'GET',
                 headers: {
@@ -125,18 +147,19 @@ const CreateAccount = () => {
             const emailExists = users.some(user => user.email === email);
 
             if(emailExists) {
-                console.log('email is already taken');
+                console.log('Email is already taken');
                 setEmailError('Email is already taken');
                 return;
             }
 
+            //
             const response = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username,
+                    userName,
                     password,
                     email,
                     firstName,
@@ -159,7 +182,7 @@ const CreateAccount = () => {
             console.log('Form submitted successfully!');
             console.log('First name:', firstName);
             console.log('Last name:', lastName);
-            console.log('Username:', username);
+            console.log('Username:', userName);
             console.log('Email:', email);
             console.log('Password', password);
             console.log('Re-typed password:', confirmPassword);
@@ -168,7 +191,7 @@ const CreateAccount = () => {
             console.log('Form has an Error!');
             console.log('First name:', firstName);
             console.log('Last name:', lastName);
-            console.log('Username:', username);
+            console.log('Username:', userName);
             console.log('Email:', email);
             console.log('Password', password);
             console.log('Re-typed password:', confirmPassword);
@@ -232,7 +255,7 @@ const CreateAccount = () => {
                         </p>
                         <input
                             id="username"
-                            value={username}
+                            value={userName}
                             onChange={(e) => setUsername(e.target.value)}
                             className="border border-[#780000] px-2 py-1 w-full resize-none"
                             placeholder="username"
