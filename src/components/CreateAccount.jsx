@@ -108,7 +108,28 @@ const CreateAccount = () => {
             console.log('All fields are empty, Form submission aborted.');
             return;
         }
+
         try {
+            const emailCheckResponse = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if(!emailCheckResponse.ok) {
+                throw new Error ('Failed to fetch users for email check');
+            }
+            const users = await emailCheckResponse.json();
+
+            const emailExists = users.some(user => user.email === email);
+
+            if(emailExists) {
+                console.log('email is already taken');
+                setEmailError('Email is already taken');
+                return;
+            }
+
             const response = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
                 method: 'POST',
                 headers: {
