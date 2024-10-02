@@ -27,24 +27,24 @@ const originalSlides = [
 
 const Carousel2 = () => {
   const [slides] = useState(originalSlides);
-  const [items, setItems] = React.useState([]); // Added this to store the items from the inventoryAPI
+  const [items, setItems] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(5);
   const [stripWidthChange, setStripWidthChange] = useState(80);
   let maxSlideIndex = slides.length - itemsToShow;
 
-  //this useEffect helps give a fix items in the strip carousel when window size is updated
+  // Update items to show based on window size
   useEffect(() => {
     const updateItemsToShow = () => {
       const width = window.innerWidth;
       if (width < 480) {
-        setItemsToShow(1); // Smaller number for very small screens
+        setItemsToShow(1);
       } else if (width < 768) {
-        setItemsToShow(3); // Slightly more for small tablets
+        setItemsToShow(3);
       } else if (width < 1024) {
-        setItemsToShow(4); // Moderate number for larger tablets
+        setItemsToShow(4);
       } else if (width < 2000) {
-        setItemsToShow(5); // Default number for larger screens
+        setItemsToShow(5);
       } else {
         setItemsToShow(8);
       }
@@ -58,7 +58,7 @@ const Carousel2 = () => {
     };
   }, []);
 
-  //this useEffect is to help center the items in the carousel strip when window size is updated
+  // Update width strip on window resize
   useEffect(() => {
     const updateWidthStrip = () => {
       const width = window.innerWidth;
@@ -74,35 +74,36 @@ const Carousel2 = () => {
     window.addEventListener("resize", updateWidthStrip);
 
     return () => {
-      window.addEventListener("resize", updateWidthStrip);
+      window.removeEventListener("resize", updateWidthStrip);
     };
   }, []);
 
-  //the next two fuctions are for the buttons' functionalities
-  function nextSlide() {
+  // Next slide function
+  const nextSlide = () => {
     setCurrentSlide(prevCurrentSlide => {
-      if (prevCurrentSlide <= maxSlideIndex) {
+      if (prevCurrentSlide < maxSlideIndex) {
         return prevCurrentSlide + 1;
-      } else {
-        return prevCurrentSlide;
       }
+      return prevCurrentSlide;
     });
-  }
+  };
 
-  // const prevSlide = () => {
-  //   setCurrentSlide(
-  //     prevCurrentSlide =>
-  //       (prevCurrentSlide - 1 + numberOfSlides) % numberOfSlides
-  //   );
-  // };
+  // Previous slide function
+  const prevSlide = () => {
+    setCurrentSlide(prevCurrentSlide => {
+      if (prevCurrentSlide > 0) {
+        return prevCurrentSlide - 1;
+      }
+      return prevCurrentSlide;
+    });
+  };
 
-  React.useEffect(() => {
-    // Fetch items from your API
+  // Fetch items from API
+  useEffect(() => {
     axios
       .get("https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items")
       .then(response => {
-        setItems(response.data); // Assuming response.data is an array of items
-        console.log(response.data); // Assuming response.data is an array of items
+        setItems(response.data);
       })
       .catch(error => console.error("Error fetching items:", error));
   }, []);
@@ -110,16 +111,15 @@ const Carousel2 = () => {
   let totalWidthPerItem = 100 / itemsToShow;
   let translateAmount = currentSlide * totalWidthPerItem;
   const extraWidth = window.innerWidth < 500 ? "pl-6" : "pl-0";
+
   return (
     <div className={`flex flex-row`}>
       <div className={`flex justify-center items-center pt-[5px]`}>
-        {/* <div>
-          <button className={`text-6xl text-[#D9D9D9]`} onClick={prevSlide}>
+        <div>
+          <button className={`text-6xl text-[#D9D9D9]`} onClick={prevSlide} disabled={currentSlide === 0}>
             <RxTriangleLeft />
           </button>
-        </div> */}
-        {/* border-black border-solid border-2  */}
-        {/* the div block that creates the carousel strip *note* use border-black etc to see how the style works */}
+        </div>
         <div
           className={`overflow-hidden w-[80%] max-w-full duration-500 ease-in-out ${extraWidth}  `}
         >
@@ -157,32 +157,16 @@ const Carousel2 = () => {
             </div>
           </div>
         </div>
-        {/* Just messing around with react for the right button, because my next button was moving to the right when the carousel strip was moving *note* might have to mess with it again when database*/}
-        {/* currentSlide < maxSlideIndex */}
-        <>
-          {(() => {
-            if (currentSlide < maxSlideIndex) {
-              return (
-                <div>
-                  <button
-                    className={`text-6xl text-[#D9D9D9]`}
-                    onClick={nextSlide}
-                  >
-                    <RxTriangleRight />
-                  </button>
-                </div>
-              );
-            } else {
-              return (
-                <div>
-                  <button className={`text-[#cfcfcf] text-6xl `}>
-                    <RxTriangleRight />
-                  </button>
-                </div>
-              );
-            }
-          })()}
-        </>
+        {currentSlide < maxSlideIndex && (
+          <div>
+            <button
+              className={`text-6xl text-[#D9D9D9]`}
+              onClick={nextSlide}
+            >
+              <RxTriangleRight />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

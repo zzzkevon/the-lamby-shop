@@ -61,6 +61,13 @@ body {
   gap: 50px; /* Adjust the gap between tiles */
   padding: 50px;
 }
+.tile-container-admin {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 225px); /* You can adjust the height as needed */
+  gap: 5px; /* Adjust the gap between tiles */
+  /* padding: 10px; */
+}
 
 .tile {
   background-color: #ccc; /* Adjust the background color */
@@ -73,6 +80,20 @@ body {
   border-color: white;
 }
 
+.tile-admin {
+  background-color: #ccc; /* Adjust the background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  /* background-color: white; */
+  border-width: 5px;
+  border-color: white;
+  /* height: 75%; */
+  height: 175px;
+  /*width: 50%; */
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -80,6 +101,19 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  z-index: 50; /* Ensure the overlay is above other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay-admin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255); /* Semi-transparent black overlay */
   z-index: 50; /* Ensure the overlay is above other content */
   display: flex;
   justify-content: center;
@@ -116,6 +150,23 @@ body {
   background-color: #4E0000; /* Darker red */
 }
 
+.update-delete-button {
+  padding: 5px 10px;
+  background-color: #780000; /* red */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 26px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.update-delete-button:hover {
+  background-color: #4E0000; /* Darker red */
+}
 /* For forgot password page */
 /* Add a green text color and a checkmark when the requirements are right */
 .valid {
