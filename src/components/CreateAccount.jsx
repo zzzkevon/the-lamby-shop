@@ -101,12 +101,36 @@ const CreateAccount = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(!firstName.trim() && !lastName.trim() && !username.trim() && !email.trim() &&
         !password.trim() && !confirmPassword.trim()) {
             console.log('All fields are empty, Form submission aborted.');
             return;
+        }
+        try {
+            const response = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    email,
+                    firstName,
+                    lastName
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Account created sucessfully', data);
+            } else {
+                console.log('Error creating account');
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
         // Perform form submission if all validations pass
         if (!usernameError && !emailError && !passwordError && !confirmPasswordError) {
