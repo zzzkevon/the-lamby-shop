@@ -67,6 +67,7 @@ const AdminDashboard = () => {
                                     
                                 </div> */}
                                 {/*manage product's category, price, etc.*/}
+
                                 <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8"
                                 onClick={useManageInventory}>
                                 Manage Inventory
@@ -79,6 +80,12 @@ const AdminDashboard = () => {
                                         </div>
                                     </div>
                                 )}
+
+                                <a href="/admin/admin-manage-inventory">
+                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
+                                    Manage Inventory
+                                        </button>
+                                </a>
                             </div>
                         </div>
         
