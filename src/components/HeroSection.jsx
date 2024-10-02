@@ -9,6 +9,7 @@ import ViewAllButton from "./viewAll/viewAllButton";
 const HeroSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
 
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setSlideIndex(prevIndex => (prevIndex + 1) % 3); // Adjust 3 to the total number of images
