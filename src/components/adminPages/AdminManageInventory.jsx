@@ -126,4 +126,3 @@ function AdminManageInventory() {
 }
 
 export default AdminManageInventory;
-

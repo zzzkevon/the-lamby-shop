@@ -1,3 +1,4 @@
+
 import {
   useState, useMemo,
   useEffect,
@@ -25,13 +26,32 @@ import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import CarouselContext  from './contexts/CarouselContext';
+import axios from 'axios';
 
 function App() {
   const [carousel, setCarousel] = useState(() => {
-    // Retrieve the carousel from localStorage if it exists
     const storedCarousel = localStorage.getItem('carousel');
-    return storedCarousel ? JSON.parse(storedCarousel) : {};
+    // Change this line to return an array instead of an object
+    return storedCarousel ? JSON.parse(storedCarousel) : []; 
   });
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
+        const items = response.data; // Adjust this based on the API response structure
+        setCarousel(items); // Set the carousel state with the fetched items
+        localStorage.setItem('carousel', JSON.stringify(items)); // Store in localStorage
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    // Only fetch items if carousel is empty (i.e., no items in localStorage)
+    if (carousel.length === 0) {
+      fetchItems();
+    }
+  }, [carousel]);
 
   // Store carousel in localStorage whenever it changes
   useEffect(() => {
@@ -40,9 +60,6 @@ function App() {
     }
   }, [carousel]);
   
-// useEffect(() => {
-//   console.log('Carousel state updated:', carousel);
-// }, [carousel]);
   const currentCarouselContext = useMemo(
     () => ({carousel, setCarousel}),
     [carousel]

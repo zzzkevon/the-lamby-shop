@@ -101,26 +101,26 @@ const Carousel2 = () => {
               className={`flex transition-transform duration-500 ease-in-out`}
               style={{ transform: `translateX(-${translateAmount}%)` }}
             >
-          {carousel.map((item, index) => (
-            <div
-              key={item.itemName}
-              style={{
-                flex: "0 0 auto",
-                width: `${100 / itemsToShow}%`,
-                padding: "5px",
-              }}
-            >
-              <div className={`border-white flex-1 border-solid border-[5px] max-w-[200px] border rounded-[20px]`}>
-                <div className={`flex justify-center items-center`}>
-                  <img
-                    src={item.signedUrl} // Assuming each item has a `signedUrl` field
-                    className={`w-full h-auto object-cover rounded-[20px]`}
-                    alt={item.itemName}
-                  />
-                </div>
-              </div>
+      {carousel.map((item, index) => (
+        <div
+          key={item.itemName}
+          style={{
+            flex: "0 0 auto",
+            width: `${100 / itemsToShow}%`,
+            padding: "5px",
+          }}
+        >
+          <div className={`border-white flex-1 border-solid border-[5px] max-w-[200px] border rounded-[20px]`}>
+            <div className={`flex justify-center items-center`}>
+              <img
+                src={item.signedUrl} // Assuming each item has a `signedUrl` field
+                className={`w-full h-auto object-cover rounded-[20px]`}
+                alt={item.itemName}
+              />
             </div>
-          ))}
+          </div>
+        </div>
+      ))}
               {/* {slides.map((slide, index) => (
                 <div
                   key={index}
