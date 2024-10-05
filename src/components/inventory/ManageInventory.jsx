@@ -57,7 +57,7 @@ const ManageInventory = () => {
         axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items')
             .then(response => {
                 setItems(response.data); // Assuming response.data is an array of items
-                console.log(response.data); // Assuming response.data is an array of items
+                // console.log(response.data); // Assuming response.data is an array of items
             })
             .catch(error => console.error('Error fetching items:', error));
     }, []);

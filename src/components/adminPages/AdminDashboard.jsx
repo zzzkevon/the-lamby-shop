@@ -152,9 +152,15 @@ const AdminDashboard = () => {
                                 </button>
                                 {showInventoryModal && (
                                     <div className="modal-overlay-admin">
-                                        <div className="modal-content">
+                                        <div className="modal-content flex flex-col justify-center">
                                             <button onClick={closeModal}>Close</button>
                                             <ManageInventory />
+                                            <div> </div>
+                                            <a href="/admin/admin-manage-inventory">
+                                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-8 rounded-full mt-6 whitespace-nowrap">
+                                                    Change Carousel Items
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
                                 )}

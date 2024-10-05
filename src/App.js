@@ -1,4 +1,7 @@
-import React from 'react';
+import {
+  useState, useMemo,
+  useEffect,
+} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
@@ -21,11 +24,32 @@ import UpdatePassword from './components/AccountManagement/UpdatePassword';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
-import { CarouselProvider } from './contexts/CarouselContext';
+import CarouselContext  from './contexts/CarouselContext';
 
 function App() {
+  const [carousel, setCarousel] = useState(() => {
+    // Retrieve the carousel from localStorage if it exists
+    const storedCarousel = localStorage.getItem('carousel');
+    return storedCarousel ? JSON.parse(storedCarousel) : {};
+  });
+
+  // Store carousel in localStorage whenever it changes
+  useEffect(() => {
+    if (carousel) {
+      localStorage.setItem('carousel', JSON.stringify(carousel));
+    }
+  }, [carousel]);
+  
+// useEffect(() => {
+//   console.log('Carousel state updated:', carousel);
+// }, [carousel]);
+  const currentCarouselContext = useMemo(
+    () => ({carousel, setCarousel}),
+    [carousel]
+  )
   return (
-    <CarouselProvider>
+    <CarouselContext.Provider value={currentCarouselContext}>
+
       <Router>
           <NavBar />
           <Routes>
@@ -51,7 +75,8 @@ function App() {
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
           </Routes>
         </Router>
-    </CarouselProvider>
+        </CarouselContext.Provider>
+
   );
 }
 
