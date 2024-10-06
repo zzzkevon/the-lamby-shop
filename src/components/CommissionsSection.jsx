@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from 'axios';
+/* Test commission
 const commissionArray = [
   {
     id: 1,
@@ -23,6 +24,7 @@ const commissionArray = [
     description: "This description is for Goemon Ives.",
   },
 ];
+*/
 
 function SwitchViewButton() {
   const [view, setView] = useState("userView");
@@ -30,6 +32,11 @@ function SwitchViewButton() {
   const switchView = () => {
     setView(view === "userView" ? "adminView" : "userView");
   };
+
+  // Print page type in console when changed
+  useEffect(() => {
+    console.log(view);
+  }, [view])
 
   return (
     <div>
@@ -46,6 +53,24 @@ function SwitchViewButton() {
 }
 
 function AdminCommissionSection() {
+  // Used for getting and setting admin commissions from DB
+  const [adminCommissions, setAdminCommissions] = useState([]);
+  useEffect(() => {
+    // GET request from API for all existing commissions
+    axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
+    .then(response => {
+      // Get only the item id, clientName, and description
+      let mappedData = response.data.map(item => ({
+        id: item.id,
+        clientName: `${item.firstName} ${item.lastName}`,
+        description: item.description
+      }))
+      console.log(mappedData);
+      setAdminCommissions(mappedData);
+    })
+    .catch(err => console.error(`Error getting commission data`, err))  
+  }, []) 
+
   return (
     <div>
       <div
@@ -69,7 +94,7 @@ function AdminCommissionSection() {
       <div className="flex w-full justify-around items-center">
         {/*creates and displays the commission item components from the data in the commission array*/}
         <ul className="justify-around w-4/5">
-          {commissionArray.map(commissionItem => (
+          {adminCommissions.map(commissionItem => (
             <CommissionItem
               id={commissionItem.id}
               clientName={commissionItem.clientName}
@@ -241,7 +266,6 @@ function UserCommisionsSection() {
   useEffect(() => {
     //function to grab users data when loading page
     const grabOwnCommissions = () => {
-      
       const testEmail = "example@gmail.com"; // Replace with the email you want to test
 
       axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`, {
