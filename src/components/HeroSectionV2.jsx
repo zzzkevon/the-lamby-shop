@@ -6,7 +6,6 @@ import img3 from "../images/img3.jpeg";
 import Subscribe from './subscribe/Subscribe';
 import Carousel2 from './carousel2/Carousel2';
 import ViewAllButton from "./viewAll/viewAllButton";
-import CarouselContext from "../contexts/CarouselContext";
 
 const HeroSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
