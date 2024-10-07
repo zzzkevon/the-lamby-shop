@@ -56,7 +56,7 @@ function SwitchViewButton() {
 function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
-  
+
   useEffect(() => {
     // GET request from API for all existing commissions
     axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
@@ -77,7 +77,7 @@ function AdminCommissionSection() {
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({id: null, commissionStatus: ''});
 
-  // Add commission item to items list
+  // Add commission item to item list everytime an status selection is made
   useEffect(() => {  
     //console.log('Commission Item added to list to be updated: ', formData);
     // Add item to list
@@ -138,14 +138,16 @@ function AdminCommissionSection() {
         {/*creates and displays the commission item components from the data in the commission array*/}
         <ul className="justify-around w-4/5">
           {adminCommissions.map(commissionItem => (
-            <CommissionItem
+            <>
+              <CommissionItem
               id={commissionItem.id}
               clientName={commissionItem.clientName}
               description={commissionItem.description}
               items={items}
               setItems={setItems}
               setFormData={setFormData}
-            />
+              />
+            </>
           ))}
           {/*<button onClick={test} className="button button-text">TEST</button>*/}
           <button onClick={handleConfirm} className="button button-text">Confirm</button>
@@ -183,7 +185,21 @@ function CommissionItem({ id, clientName, description, items, setItems, setFormD
     }
   }
 
-  
+  // For deleting commissions
+  const handleDelete = () => {
+    let deletecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
+    if(window.confirm(`Are you sure you want to delete item ${id}?`)){
+      axios.delete(deletecommission_url, {params: { id: id }})
+          .then(response => { console.log(`Deleting commission ID ${id}`, response.data) })
+          .catch(error => console.error(`Error deleting commission ID ${id}`, error))
+      // Refresh page
+      //window.location.reload();
+    }
+    else{
+      alert("Canceled delete.");
+    }
+  }
+
   return (
     <>
       <div className="w-full border border-gray-300 rounded overflow-hidden mb-2 just-another-hand text-3xl">
@@ -239,11 +255,12 @@ function CommissionItem({ id, clientName, description, items, setItems, setFormD
           <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
             <p>This is the dropdown content!</p>
             <p>Description: {description}</p>
-            <button className="flex items-center justify-center button button-text">Cancel</button>
+            {/* Delete Commission Button */}
+            <button onClick={handleDelete} className="button button-text">Delete</button>
           </div>
-          
         )}
       </div>
+      
     </>
   );
 }
