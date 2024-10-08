@@ -30,12 +30,10 @@ const AdminDashboard = () => {
     const createPayload = () => {
         console.log("add product clicked.");
         const payload = {
-            body: {
-                itemName: itemName,
-                imageKey: imageKey,
-                itemDescription: itemDescription,
-                itemPrice: itemPrice
-            }
+            itemName: itemName,
+            imageKey: imageKey,
+            itemDescription: itemDescription,
+            itemPrice: itemPrice
         };
         addItem(payload);
         // console.log("Payload: ", JSON.stringify(payload));

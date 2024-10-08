@@ -25,7 +25,7 @@ function itemInformation({item, itemName, itemDescription, itemPrice}) {
 
     const handleDelete = (item) => {
         console.log("Delete clicked.");
-        console.log(item);
+        // console.log(item);
         deleteItem(item);
 
     };
