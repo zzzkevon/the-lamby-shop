@@ -1,8 +1,5 @@
-import {
-  useState, useMemo,
-  useEffect,
-} from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
@@ -25,20 +22,23 @@ import PasswordSuccess from './components/AccountManagement/PasswordSuccess';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
+import NotFound from './components/NotFound';
 import { CarouselProvider } from './contexts/CarouselContext';
 import { ToastProvider } from './contexts/ToastContext';
 
 function App() {
+  const [userRole, setUserRole] = useState('guest');
+
   const [carousel, setCarousel] = useState(() => {
     const storedCarousel = localStorage.getItem('carousel');
     // Change this line to return an array instead of an object
-    return storedCarousel ? JSON.parse(storedCarousel) : []; 
+    return storedCarousel ? JSON.parse(storedCarousel) : [];
   });
 
   const [carousel1, setCarousel1] = useState(() => {
     const storedCarousel1 = localStorage.getItem('carousel1');
     // Change this line to return an array instead of an object
-    return storedCarousel1 ? JSON.parse(storedCarousel1) : []; 
+    return storedCarousel1 ? JSON.parse(storedCarousel1) : [];
   });
 
 
@@ -75,7 +75,6 @@ function App() {
       localStorage.setItem('carousel1', JSON.stringify(carousel1));
     }
   }, [carousel1]);
-  
   const currentCarouselContext = useMemo(
     () => ({carousel, setCarousel}),
     [carousel]
@@ -89,13 +88,13 @@ function App() {
     <CarouselProvider>
       <ToastProvider>
       <Router>
-          <NavBar />
+          <NavBar userRole={userRole} setUserRole={setUserRole}/>
           <Routes>
             <Route path="/" element={<HeroSection />} />
             <Route path="/about" element={<AboutSection />} />
             <Route path="/accountrecovery" element={<AccountRecovery />} />
             <Route path="/shop" element={<ShopSection />} />
-            <Route path="/commissions" element={<CommisionsSection />} />
+            <Route path="/commissions" element={<CommisionsSection userRole={userRole} />} />
             <Route path="/contact" element={<ContactSection />} />
             <Route path="/profile" element={<ProfileSection />} />
             <Route path="/shoppingcart" element={<ShoppingCart />} />
@@ -104,7 +103,7 @@ function App() {
             <Route path="/update-account" element={<AccountUpdate />} />
             <Route path="/shoppingcart/checkout" element={<CheckoutSection />} />
             <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-            <Route path="/admin/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/admin-dashboard" element={userRole === 'admin' ? <AdminDashboard /> : <Navigate to="/40" />} />
             <Route path="/admin/create-admin" element={<CreateAdmin />} />
             <Route path="/account-management" element={<AccountManagement />} />
             <Route path="/update-email" element={<UpdateEmail />} />
@@ -112,6 +111,7 @@ function App() {
             <Route path="/password-success" element={<PasswordSuccess/>} />
             <Route path="/update-payment" element={<UpdatePayment />} />
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
+            <Route path="*" element={<NotFound />}/>
           </Routes>
         </Router>
         </ToastProvider>
@@ -121,4 +121,3 @@ function App() {
 }
 
 export default App;
- 
