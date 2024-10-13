@@ -103,6 +103,7 @@ const CreateAccount = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const role = "customer";
         if(!firstName.trim() && !lastName.trim() && !userName.trim() && !email.trim() &&
         !password.trim() && !confirmPassword.trim()) {
             console.log('All fields are empty, Form submission aborted.');
@@ -163,7 +164,8 @@ const CreateAccount = () => {
                     password,
                     email,
                     firstName,
-                    lastName
+                    lastName,
+                    role
                 }),
             });
 
