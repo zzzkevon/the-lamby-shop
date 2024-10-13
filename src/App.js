@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
@@ -21,19 +21,22 @@ import UpdatePassword from './components/AccountManagement/UpdatePassword';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
+import NotFound from './components/NotFound';
 import { CarouselProvider } from './contexts/CarouselContext';
 
 function App() {
+  const [userRole, setUserRole] = useState('guest');
+
   return (
     <CarouselProvider>
       <Router>
-          <NavBar />
+          <NavBar userRole={userRole} setUserRole={setUserRole}/>
           <Routes>
             <Route path="/" element={<HeroSection />} />
             <Route path="/about" element={<AboutSection />} />
             <Route path="/accountrecovery" element={<AccountRecovery />} />
             <Route path="/shop" element={<ShopSection />} />
-            <Route path="/commissions" element={<CommisionsSection />} />
+            <Route path="/commissions" element={<CommisionsSection userRole={userRole} />} />
             <Route path="/contact" element={<ContactSection />} />
             <Route path="/profile" element={<ProfileSection />} />
             <Route path="/shoppingcart" element={<ShoppingCart />} />
@@ -42,13 +45,14 @@ function App() {
             <Route path="/update-account" element={<AccountUpdate />} />
             <Route path="/shoppingcart/checkout" element={<CheckoutSection />} />
             <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-            <Route path="/admin/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/admin-dashboard" element={userRole === 'admin' ? <AdminDashboard /> : <Navigate to="/40" />} />
             <Route path="/admin/create-admin" element={<CreateAdmin />} />
             <Route path="/account-management" element={<AccountManagement />} />
             <Route path="/update-email" element={<UpdateEmail />} />
             <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/update-payment" element={<UpdatePayment />} />
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
+            <Route path="*" element={<NotFound />}/>
           </Routes>
         </Router>
     </CarouselProvider>
@@ -56,4 +60,3 @@ function App() {
 }
 
 export default App;
- 
