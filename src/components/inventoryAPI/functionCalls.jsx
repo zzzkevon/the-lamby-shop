@@ -18,14 +18,12 @@ import axios from 'axios';
 //     return items;
 // }
 
-export function updateItem(item) {
-    // https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items/{itemName}
-    // Replace with your API endpoint and add the specific identifier for the item
-    // const url = `https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items/${item.id}`;
+export function updateItem(payload) {
+    console.log("payload=", payload);
+    const url = `https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items/${payload.itemName}`;
 
     console.log("update function call");
-    // axios.put(url, item)
-    axios.put(`https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items/${item.itemName}`)
+    axios.put(url, payload)
         .then(response => {
             console.log('Item updated successfully:', response.data);
         })

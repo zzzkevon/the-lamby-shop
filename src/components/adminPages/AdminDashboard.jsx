@@ -1,17 +1,17 @@
 import star from '../../images/story_stars_1.png';
-import React from 'react';
+import { React, useState } from 'react';
 import { addItem } from '../inventoryAPI/functionCalls';
 import ManageInventory from '../inventory/ManageInventory';
 
 const AdminDashboard = () => {
     // const items = useGetAll()
-    const [showInventoryModal, setShowInventoryModal] = React.useState(false);
-    const [showAddModal, setShowAddModal] = React.useState(false);
+    const [showInventoryModal, setShowInventoryModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
 
-    const [itemName, setItemName] = React.useState('');
-    const [imageKey, setImageKey] = React.useState('');
-    const [itemDescription, setItemDescription] = React.useState('');
-    const [itemPrice, setItemPrice] = React.useState('');
+    const [itemName, setItemName] = useState('');
+    const [imageKey, setImageKey] = useState('');
+    const [itemDescription, setItemDescription] = useState('');
+    const [itemPrice, setItemPrice] = useState('');
     
 
     const useManageInventory = () => {
