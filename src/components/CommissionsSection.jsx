@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from 'axios';
 import { FCPThresholds } from "web-vitals";
+import { useToast } from '../contexts/ToastContext'; // Import the hook
+
 /* Test commission
 const commissionArray = [
   {
@@ -265,12 +267,31 @@ function CommissionItem({ id, clientName, description, items, setItems, setFormD
   );
 }
 
-function UsersPersonalCommissionItem ({ id, clientName, description, status, date }) {
+function UsersPersonalCommissionItem ({ id, clientName, description, status, date, reloadData }) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isPolicyDisplayed, setPolicyDisplay] = useState(false);
+  const [action, setAction] = useState("");
+  const [editCommissionDisplay, setEditCommissionDisplay] = useState(false);
+  const [cancelCommissionDisplay, setCancelCommissionDisplay] = useState(false);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  //function that handles user policy popup
+  const handleClick = (action) => {
+    setPolicyDisplay(!isPolicyDisplayed);
+    setAction(action);
+  }
+  //function that handles the user policy closing
+  //opens the edit or cancel screen upon close
+  const handleClose = () => {
+    setPolicyDisplay(!isPolicyDisplayed);
+    if(action === 'edit commission'){
+      setEditCommissionDisplay(true);
+    }else if(action === 'cancel commission') {
+      setCancelCommissionDisplay(true);
+    }
+  }
 
   const dateCreated = new Date(date);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -293,8 +314,167 @@ function UsersPersonalCommissionItem ({ id, clientName, description, status, dat
         <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
           <p>This is the dropdown content!</p>
           <p>Description: {description}</p>
+          <div className="flex justify-end space-x-2 mt-4">
+            <button onClick = {() => handleClick('edit commission')} 
+                    className="commission-button">
+                    Edit Details
+            </button>
+            <button onClick = {() => handleClick('cancel commission')} 
+                    className="commission-button">
+                    Cancel Commission
+            </button>
+          </div>
         </div>
       )}
+      {isPolicyDisplayed && (<UserPolicy handleClose={handleClose}/>)}
+      {editCommissionDisplay && (
+        <UserEditCommissionScreen 
+          display = {setEditCommissionDisplay}
+          id = {id}
+          description = {description}
+          status = {status}
+          reloadData ={reloadData}
+        />
+      )}
+      {cancelCommissionDisplay && (
+        <UserCancelCommissionScreen 
+          display = {setCancelCommissionDisplay}
+          id = {id}
+          status = {status}
+          reloadData ={reloadData}
+        />
+      )}
+
+    </div>
+  );
+}
+
+function UserPolicy({ handleClose }) {
+  const policy = `As a customer, you are allowed to edit or cancel your commission as long as the
+                  status is still pending. If the curator has already reviewed your commission and
+                  the status is no longer pending, then you are encouraged to reach out to the business
+                  owner to make changes. The contact page contains information if you need to reach out.`;
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="w-1/2 bg-white rounded-lg p-4">
+        <h1 className="text-3xl text-center font-bold">User Policy</h1>
+        <p>{policy}</p>
+        <button onClick={handleClose} className="mt-4 bg-blue-500 text-white rounded px-4 py-2">
+          I Understand
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function UserEditCommissionScreen({display, id, description, status, reloadData }) {
+  const [newDescription, setNewDescription] = useState(description);
+  //creates a local reference to the value provided by the ToastContext
+  const showToast = useToast(); 
+  const url = 'https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions';
+
+  const putRequest = () => {
+    axios.put(url, {
+      id: id,
+      description: newDescription
+    })
+    .then(response => {
+      console.log('Response:', response.data);
+      //window.alert("Successfully Updated Commission");
+      showToast("Sucessfully updated commission!","success");
+      reloadData();
+    })
+    .catch(error => {
+      console.error('Error updating data:', error);
+    });
+  }
+
+  const editCommission = () => {
+    if(status === 'pending'){
+      putRequest();
+      display(false);
+    }else{
+      showToast(`Sorry, the commission can't be changed
+         since it is not in the pending status.`,"error");
+      //window.alert("Sorry, the commission can't be changed since it is not in the pending status.");
+      display(false);
+    }
+  }
+
+  const exitScreen = () => {
+    setNewDescription(description);
+    display(false);
+  }
+
+  const handleChange = (event) => {
+    setNewDescription(event.target.value);
+  }
+
+  return (
+    <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div class="w-1/2 bg-white rounded-lg p-4">
+        <h2 class="text-3xl text-center font-bold">Edit Commission?</h2>
+        <p>New Description:</p>
+        <textarea
+          value = {newDescription}
+          onChange = {handleChange}
+          className ="w-full h-32 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+        />
+        <div className="flex justify-end space-x-2 mt-4">
+          <button onClick = {exitScreen} className="commission-button closebutton rounded">Close</button>
+          <button onClick = {editCommission} className="commission-button">Submit Changes</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UserCancelCommissionScreen({display, id, status, reloadData}) {
+  //creates a local reference to the value provided by the ToastContext
+  const showToast = useToast(); 
+  const url = 'https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions';
+
+  const deleteRequest = () => {
+    axios.delete(url, {
+      data: { id }
+    })
+    .then(response => {
+      console.log('Delete successful:', response.data);
+      showToast("Sucessfully cancelled commission!","success");
+      reloadData(); // Call reloadData after a successful delete
+    })
+    .catch(error => {
+      console.error('Error deleting item:', error);
+    });
+  };
+
+  const cancelCommission = () => {
+    if(status === 'pending'){
+      deleteRequest();
+      display(false);
+    }else{
+      showToast(`Sorry, the commission can't be cancelled
+        since it is not in the pending status.`,"error");
+      display(false);
+    }
+  }
+
+  const exitScreen = () => {
+    display(false);
+  }
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="w-1/4 bg-white rounded-lg p-4">
+        <h1 className="text-3xl text-center font-bold">Cancel Commission?</h1>
+        <p>
+          Are you sure you want to cancel your commission?
+          This will remove it permanently. 
+        </p>
+        <div className="flex justify-end space-x-2 mt-4">
+          <button onClick = {exitScreen} className="commission-button closebutton rounded">Close</button>
+          <button onClick = {cancelCommission} className="commission-button">Delete Commission</button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -308,7 +488,8 @@ function UserCommisionsSection() {
   const [userCommissionArray, setUserCommissions] = useState([]);
   const [commissionFormOpen, setFormOpen] = useState(false);
   const [addFormButtonText, setButtonText] = useState("Add A Commission\u25B4");
-  
+  const showToast = useToast(); 
+
   const toggleForm = () => {
     if (commissionFormOpen) {
       // Up arrow
@@ -342,24 +523,25 @@ function UserCommisionsSection() {
     }
   };
 
-  useEffect(() => {
-    //function to grab users data when loading page
-    const grabOwnCommissions = () => {
-      const testEmail = "example@gmail.com"; // Replace with the email you want to test
+  //function to grab users data when loading page
+  const grabOwnCommissions = () => {
+    const testEmail = "example@gmail.com"; // Replace with the email you want to test
 
-      axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`, {
-        params: {
-            email: testEmail
-        }
-      })
-      .then(response => {
-          //console.log('Response Data:', response.data.Items);
-          setUserCommissions(response.data.Items);
-      })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-    }
+    axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`, {
+      params: {
+          email: testEmail
+      }
+    })
+    .then(response => {
+        //console.log('Response Data:', response.data.Items);
+        setUserCommissions(response.data.Items);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  }
+
+  useEffect(() => {   
     grabOwnCommissions();
   }, []);
 
@@ -371,7 +553,7 @@ function UserCommisionsSection() {
       console.log("Email: ", email);
       console.log("Phone Number: ", phoneNumber);
       console.log("Other request method: ", description);
-      window.alert("Commission sent!");
+      //window.alert("Commission sent!");
 
       const commissionData = {
         firstName,
@@ -392,8 +574,8 @@ function UserCommisionsSection() {
             console.log('Success:', response.data);
             
             if (response.status === 200) {
-                //window.alert("Commission sent successfully!");
-                //window.location.reload();  // Reload the page after successful submission
+              showToast("Commission Sent!","success")
+              grabOwnCommissions();
             }
         })
         .catch(error => {
@@ -457,6 +639,7 @@ function UserCommisionsSection() {
                   description={userCommission.description}
                   status = {userCommission.commissionStatus}
                   date = {userCommission.createdAt}
+                  reloadData={grabOwnCommissions}
                 />
               ))}
             </ul>

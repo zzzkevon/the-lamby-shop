@@ -22,10 +22,11 @@ import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import { CarouselProvider } from './contexts/CarouselContext';
-
+import { ToastProvider } from './contexts/ToastContext';
 function App() {
   return (
     <CarouselProvider>
+      <ToastProvider>
       <Router>
           <NavBar />
           <Routes>
@@ -51,6 +52,7 @@ function App() {
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
           </Routes>
         </Router>
+        </ToastProvider>
     </CarouselProvider>
   );
 }

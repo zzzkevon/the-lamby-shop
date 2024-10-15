@@ -39,6 +39,23 @@ body {
   line-height: 36px;
 }
 
+.commission-button {
+  height: 36px;
+  background: #780000;
+  border-radius: 107px;
+  border: 1px solid #B11A1A;
+  color: white;
+  top: 'calc(50% - 36px/2 + 336px)';
+  font-size: 30x;
+  font-weight: 400;
+  line-height: 36px;
+  padding: 0 10px;
+}
+
+.commission-button.closebutton {
+  background: #3B82F6;
+  border: 1px solid #3B83F6;
+}
 
 .header-font{
   color: #780000;
