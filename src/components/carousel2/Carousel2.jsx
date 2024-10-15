@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { RxTriangleLeft } from "react-icons/rx";
 import { RxTriangleRight } from "react-icons/rx";
 
@@ -77,6 +76,8 @@ const Carousel2 = () => {
       return prevCurrentSlide;
     });
   };
+
+
 
   let totalWidthPerItem = 100 / itemsToShow;
   let translateAmount = currentSlide * totalWidthPerItem;
