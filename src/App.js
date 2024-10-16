@@ -1,4 +1,7 @@
-import React from 'react';
+import {
+  useState, useMemo,
+  useEffect,
+} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
@@ -21,11 +24,71 @@ import UpdatePassword from './components/AccountManagement/UpdatePassword';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
-import { CarouselProvider } from './contexts/CarouselContext';
+import CarouselContext  from './contexts/CarouselContext';
+import CarouselContext1 from './contexts/CarouselContext1';
+import axios from 'axios';
 
 function App() {
+  const [carousel, setCarousel] = useState(() => {
+    const storedCarousel = localStorage.getItem('carousel');
+    // Change this line to return an array instead of an object
+    return storedCarousel ? JSON.parse(storedCarousel) : []; 
+  });
+
+  const [carousel1, setCarousel1] = useState(() => {
+    const storedCarousel1 = localStorage.getItem('carousel1');
+    // Change this line to return an array instead of an object
+    return storedCarousel1 ? JSON.parse(storedCarousel1) : []; 
+  });
+
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
+        const items = response.data; // Adjust this based on the API response structure
+        setCarousel(items); // Set the carousel state with the fetched items
+        setCarousel1(items)
+        localStorage.setItem('carousel', JSON.stringify(items)); // Store in localStorage
+        localStorage.setItem('carousel1', JSON.stringify(items)); // Store in localStorage
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    // Only fetch items if carousel is empty (i.e., no items in localStorage)
+    if (carousel.length === 0) {
+      fetchItems();
+    }
+
+  }, [carousel, carousel1]);
+
+  // Store carousel in localStorage whenever it changes
+  useEffect(() => {
+    if (carousel) {
+      localStorage.setItem('carousel', JSON.stringify(carousel));
+    }
+  }, [carousel]);
+
+  useEffect(() => {
+    if (carousel1) {
+      localStorage.setItem('carousel1', JSON.stringify(carousel1));
+    }
+  }, [carousel1]);
+  
+  const currentCarouselContext = useMemo(
+    () => ({carousel, setCarousel}),
+    [carousel]
+  );
+
+  const currentCarouselContext1 = useMemo(
+    () => ({carousel1, setCarousel1}),
+    [carousel1]
+  );
   return (
-    <CarouselProvider>
+    <CarouselContext1.Provider value={currentCarouselContext1}>
+    <CarouselContext.Provider value={currentCarouselContext}>
+
       <Router>
           <NavBar />
           <Routes>
@@ -51,7 +114,9 @@ function App() {
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
           </Routes>
         </Router>
-    </CarouselProvider>
+        </CarouselContext.Provider>
+        </CarouselContext1.Provider>
+
   );
 }
 

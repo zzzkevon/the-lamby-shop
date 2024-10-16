@@ -1,14 +1,15 @@
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import img1 from "../images/img1.jpeg";
 import img2 from "../images/img2.jpeg";
 import img3 from "../images/img3.jpeg";
 import Subscribe from './subscribe/Subscribe';
 import Carousel2 from './carousel2/Carousel2';
 import ViewAllButton from "./viewAll/viewAllButton";
+import CarouselContext from "../contexts/CarouselContext";
 const HeroSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
-
+  const {carousel} = useContext(CarouselContext);
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +30,9 @@ const HeroSection = () => {
   const slideItem2 = [img2, img2, img2, img3];
   const slideItem3 = [img3, img3, img3, img1];
 
-
+  useEffect(()=> {
+    console.log(carousel)
+  }, [carousel])
   return (
     <div className={`main-bg`} >
       <div
