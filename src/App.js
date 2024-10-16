@@ -26,6 +26,7 @@ import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import CarouselContext  from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
+import { ToastProvider } from './contexts/ToastContext';
 import axios from 'axios';
 
 function App() {
@@ -88,7 +89,7 @@ function App() {
   return (
     <CarouselContext1.Provider value={currentCarouselContext1}>
     <CarouselContext.Provider value={currentCarouselContext}>
-
+    <ToastProvider>
       <Router>
           <NavBar />
           <Routes>
@@ -114,8 +115,10 @@ function App() {
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
           </Routes>
         </Router>
+        </ToastProvider>
         </CarouselContext.Provider>
         </CarouselContext1.Provider>
+        
 
   );
 }
