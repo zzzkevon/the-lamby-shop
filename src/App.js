@@ -24,7 +24,10 @@ import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import NotFound from './components/NotFound';
 import RoleBasedView from './components/roles/RoleBasedView';
 import { CarouselProvider } from './contexts/CarouselContext';
+import CarouselContext  from './contexts/CarouselContext';
+import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
+import axios from 'axios';
 
 function App() {
   const [userRole, setUserRole] = useState('guest');
@@ -91,10 +94,11 @@ function App() {
     [carousel1]
   );
   return (
-    <CarouselProvider>
-      <ToastProvider>
-      <Router>
-          <NavBar userRole={userRole} setUserRole={setUserRole}/>
+    <CarouselContext1.Provider value={currentCarouselContext1}>
+    <CarouselContext.Provider value={currentCarouselContext}>
+    <ToastProvider>
+    <Router>
+          <NavBar />
           <Routes>
             <Route path="/" element={<HeroSection />} />
             <Route path="/about" element={<AboutSection />} />
@@ -123,7 +127,9 @@ function App() {
           </Routes>
         </Router>
         </ToastProvider>
-    </CarouselProvider>
+        </CarouselContext.Provider>
+        </CarouselContext1.Provider>
+        
 
   );
 }

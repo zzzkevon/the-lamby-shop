@@ -38,34 +38,51 @@ const CheckoutInfo = () => {
     const cardElement = elements.getElement(CardElement);
 
     try {
-      // Step 1: Create Payment Intent from backend
-      const response = await axios.post("/create-payment-intent", {
-        email,
-        amount: 5000, // example amount in cents (50 USD)
-      });
-      const { clientSecret } = response.data;
-
-      // Step 2: Confirm Card Payment with Stripe
-      const { paymentIntent, error: stripeError } =
-        await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: cardElement,
-            billing_details: {
-              name: `${firstName} ${lastName}`,
-              email,
-              phone: phoneNumber,
-              address: {
-                city,
-                state,
-                postal_code: zip,
-                line1: address,
-              },
+      // Step 1: Create Payment Method using Stripe Elements
+      const { paymentMethod, error: paymentMethodError } =
+        await stripe.createPaymentMethod({
+          type: 'card',
+          card: cardElement,
+          billing_details: {
+            name: `${firstName} ${lastName}`,
+            email,
+            phone: phoneNumber,
+            address: {
+              city,
+              state,
+              postal_code: zip,
+              line1: address,
             },
           },
         });
 
+      if (paymentMethodError) {
+        setError(paymentMethodError.message);
+        setLoading(false);
+        return;
+      }
+
+      // Step 2: Call your AWS Lambda endpoint to create a payment intent
+      const response = await axios.post(
+        process.env.REACT_APP_STRIPE_API_URL, // Replace with your Stripe API URL
+        {
+          paymentMethodId: paymentMethod.id, // Send the created paymentMethodId
+          amount: 5000, // will need to change this later to accept the total calculated from CheckoutItemInfojsx
+        }
+      );
+
+      const { clientSecret } = response.data;
+
+      // Step 3: Confirm the Payment Intent with Stripe
+      const { error: stripeError, paymentIntent } =
+        await stripe.confirmCardPayment(clientSecret, {
+          payment_method: paymentMethod.id,
+        });
+
       if (stripeError) {
+        console.log("Error in step 3");
         setError(stripeError.message);
+        setLoading(false);
       } else if (paymentIntent.status === "succeeded") {
         alert("Payment successful!");
         console.log("Payment successful! PaymentIntent ID:", paymentIntent.id);
