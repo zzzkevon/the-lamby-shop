@@ -25,8 +25,10 @@ import PasswordSuccess from './components/AccountManagement/PasswordSuccess';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
-import { CarouselProvider } from './contexts/CarouselContext';
+import CarouselContext  from './contexts/CarouselContext';
+import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
+import axios from 'axios';
 
 function App() {
   const [carousel, setCarousel] = useState(() => {
@@ -86,9 +88,10 @@ function App() {
     [carousel1]
   );
   return (
-    <CarouselProvider>
-      <ToastProvider>
-      <Router>
+    <CarouselContext1.Provider value={currentCarouselContext1}>
+    <CarouselContext.Provider value={currentCarouselContext}>
+    <ToastProvider>
+    <Router>
           <NavBar />
           <Routes>
             <Route path="/" element={<HeroSection />} />
@@ -115,10 +118,11 @@ function App() {
           </Routes>
         </Router>
         </ToastProvider>
-    </CarouselProvider>
+        </CarouselContext.Provider>
+        </CarouselContext1.Provider>
+        
 
   );
 }
 
 export default App;
- 
