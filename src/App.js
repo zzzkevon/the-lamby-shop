@@ -38,6 +38,7 @@ function App() {
       setUserRole(storedRole);
     }
   }, []);
+
   const [carousel, setCarousel] = useState(() => {
     const storedCarousel = localStorage.getItem('carousel');
     // Change this line to return an array instead of an object
@@ -98,7 +99,7 @@ function App() {
     <CarouselContext.Provider value={currentCarouselContext}>
     <ToastProvider>
     <Router>
-          <NavBar />
+          <NavBar userRole={userRole} setUserRole={setUserRole}/>
           <Routes>
             <Route path="/" element={<HeroSection />} />
             <Route path="/about" element={<AboutSection />} />

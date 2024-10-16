@@ -91,7 +91,7 @@ const CreateAdmin = () => {
                 role
             });
 
-            if (response.status == 200) {
+            if (response.status === 200) {
                 const data = response.data;
                 console.log('Account created sucessfully', data);
             } else {
