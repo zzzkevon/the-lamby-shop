@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
@@ -14,7 +14,6 @@ import AccountRecovery from './components/AccountRecovery';
 import AccountUpdate from './components/accountPages/AccountUpdate';
 import CheckoutSection from './components/CheckoutSection';
 import CreateAdmin from './components/adminPages/CreateAdmin';
-import AdminDashboard from './components/adminPages/AdminDashboard';
 import AccountManagement from './components/AccountManagement/AccountManagement';
 import UpdateEmail from './components/AccountManagement/UpdateEmail';
 import UpdatePassword from './components/AccountManagement/UpdatePassword';
@@ -22,11 +21,18 @@ import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import NotFound from './components/NotFound';
+import RoleBasedView from './components/roles/RoleBasedView';
 import { CarouselProvider } from './contexts/CarouselContext';
 
 function App() {
-  const [userRole, setUserRole] = useState('guest');
+  const [userRole, setUserRole] = useState('admin');
 
+  useEffect(() => {
+    const storedRole = localStorage.getItem('userRole');
+    if (storedRole) {
+      setUserRole(storedRole);
+    }
+  }, []);
   return (
     <CarouselProvider>
       <Router>
@@ -45,13 +51,13 @@ function App() {
             <Route path="/update-account" element={<AccountUpdate />} />
             <Route path="/shoppingcart/checkout" element={<CheckoutSection />} />
             <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-            <Route path="/admin/admin-dashboard" element={userRole === 'admin' ? <AdminDashboard /> : <Navigate to="/40" />} />
             <Route path="/admin/create-admin" element={<CreateAdmin />} />
             <Route path="/account-management" element={<AccountManagement />} />
             <Route path="/update-email" element={<UpdateEmail />} />
             <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/update-payment" element={<UpdatePayment />} />
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
+            <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
             <Route path="*" element={<NotFound />}/>
           </Routes>
         </Router>
