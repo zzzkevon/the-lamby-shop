@@ -28,19 +28,19 @@ const NavBar = ({ userRole, setUserRole }) => {
               shop
             </a>
           </li>
-            <li className='mr-4'>
-              <a href='/commissions'>
-                commissions
-              </a>
-            </li>
+          <li className='mr-4'>
+            <a href='/commissions'>
+              commissions
+            </a>
+          </li>
           <li className='mr-4'>
             <a href='/contact'>
               contact
             </a>
           </li>
           <li className='mr-4'>
-            <a href='/account-management'>
-              account management (this is temporary)
+            <a href='/role-based-view'>
+              dashboard
             </a>
           </li>
         </ul>
@@ -50,11 +50,9 @@ const NavBar = ({ userRole, setUserRole }) => {
         <img src={bunny} alt='' className='ml-20 pb-10' />
       </div>
       <div className='flex pt-32 mr-20'>
-        {userRole === 'admin' && (
-          <a href='/admin/admin-dashboard'>
-            <VscAccount size={25} className='mr-4' />
-          </a>
-        )}
+        <a href='/account-management'>
+          <VscAccount size={25} className='mr-4' />
+        </a>
         <a href='/profile'>
           <GiSheep size={25} className='mr-4' />
         </a>
