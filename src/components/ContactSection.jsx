@@ -58,7 +58,7 @@ const ContactSection = () => {
 
         <div className="relative just-another-hand text-5xl">
 
-          <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full" onClick={togglePopup}>
+          <button className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-4 rounded-full" onClick={togglePopup}>
             Submit a Ticket
           </button> {/*button on contact page*/}
 
