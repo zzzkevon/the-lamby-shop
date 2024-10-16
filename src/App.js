@@ -24,9 +24,8 @@ import UpdatePassword from './components/AccountManagement/UpdatePassword';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
-import CarouselContext  from './contexts/CarouselContext';
-import CarouselContext1 from './contexts/CarouselContext1';
-import axios from 'axios';
+import { CarouselProvider } from './contexts/CarouselContext';
+import { ToastProvider } from './contexts/ToastContext';
 
 function App() {
   const [carousel, setCarousel] = useState(() => {
@@ -86,9 +85,8 @@ function App() {
     [carousel1]
   );
   return (
-    <CarouselContext1.Provider value={currentCarouselContext1}>
-    <CarouselContext.Provider value={currentCarouselContext}>
-
+    <CarouselProvider>
+      <ToastProvider>
       <Router>
           <NavBar />
           <Routes>
@@ -114,8 +112,8 @@ function App() {
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
           </Routes>
         </Router>
-        </CarouselContext.Provider>
-        </CarouselContext1.Provider>
+        </ToastProvider>
+    </CarouselProvider>
 
   );
 }
