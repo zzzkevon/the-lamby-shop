@@ -27,7 +27,7 @@ import { CarouselProvider } from './contexts/CarouselContext';
 import { ToastProvider } from './contexts/ToastContext';
 
 function App() {
-  const [userRole, setUserRole] = useState('admin');
+  const [userRole, setUserRole] = useState('guest');
 
   useEffect(() => {
     const storedRole = localStorage.getItem('userRole');
