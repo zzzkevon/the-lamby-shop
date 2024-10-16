@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from 'axios';
+import { FCPThresholds } from "web-vitals";
+/* Test commission
 const commissionArray = [
   {
     id: 1,
@@ -23,6 +25,7 @@ const commissionArray = [
     description: "This description is for Goemon Ives.",
   },
 ];
+*/
 
 function SwitchViewButton() {
   const [view, setView] = useState("userView");
@@ -30,6 +33,11 @@ function SwitchViewButton() {
   const switchView = () => {
     setView(view === "userView" ? "adminView" : "userView");
   };
+
+  // Print page type in console when changed
+  useEffect(() => {
+    console.log(view);
+  }, [view])
 
   return (
     <div>
@@ -46,8 +54,68 @@ function SwitchViewButton() {
 }
 
 function AdminCommissionSection() {
+  // For getting and setting admin commissions from DB
+  const [adminCommissions, setAdminCommissions] = useState([]);
+
+  useEffect(() => {
+    // GET request from API for all existing commissions
+    axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
+    .then(response => {
+      // Get only the item id, clientName, and description
+      let mappedData = response.data.map(item => ({
+        id: item.id,
+        clientName: `${item.firstName} ${item.lastName}`,
+        description: item.description
+      }))
+      //console.log(mappedData);
+      setAdminCommissions(mappedData);
+    })
+    .catch(err => console.error(`Error getting commission data`, err))  
+  }, []) 
+
+  // Getting form data from CommissionItem
+  const [items, setItems] = useState([]);
+  const [formData, setFormData] = useState({id: null, commissionStatus: ''});
+
+  // Add commission item to item list everytime an status selection is made
+  useEffect(() => {  
+    //console.log('Commission Item added to list to be updated: ', formData);
+    // Add item to list
+    setItems([...items, {
+      id: formData.id,
+      commissionStatus: formData.commissionStatus
+    }]);
+    //console.log('Commission Item list size: ', items.length);
+  },[formData])
+
+  /*
+  const test = () => {
+    // For items array, start at index 1
+    // Index 0 is the initial state declared in formData
+    for(let i = 1; i < items.length; i++){
+      console.log(`Commission Item ${i}: ${items[i].id} ${items[i].commissionStatus}`);
+    }
+  }
+  */
+  
+  // For updating statuses of all selected commissions
+  const handleConfirm = () => {
+    let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
+    // Parse through all of the items and push them to db
+    if(window.confirm("Are you sure you want to submit changes?")){
+      alert("Submitting changes for commission statuses")
+      for(let i = 1; i < items.length; i++){
+        axios.put(updatecommission_url, {commissionStatus: items[i].commissionStatus}, {params: { id: items[i].id }})
+          .then(response => { console.log(`Updating data for commission ID ${items[i].id}`, response.data) })
+          .catch(error => console.error(`Error updating the data for commission ID ${items[i].id}`, error))
+      }
+    } else {
+      alert("Canceled, no changes made to commission statuses")
+    }
+  }
+
   return (
-    <div>
+    <div >
       <div
         className="just-another-hand text-3xl"
         style={{
@@ -69,95 +137,131 @@ function AdminCommissionSection() {
       <div className="flex w-full justify-around items-center">
         {/*creates and displays the commission item components from the data in the commission array*/}
         <ul className="justify-around w-4/5">
-          {commissionArray.map(commissionItem => (
-            <CommissionItem
+          {adminCommissions.map(commissionItem => (
+            <>
+              <CommissionItem
               id={commissionItem.id}
               clientName={commissionItem.clientName}
               description={commissionItem.description}
-            />
+              items={items}
+              setItems={setItems}
+              setFormData={setFormData}
+              />
+            </>
           ))}
-        </ul>
+          {/*<button onClick={test} className="button button-text">TEST</button>*/}
+          <button onClick={handleConfirm} className="button button-text">Confirm</button>
+        </ul>  
       </div>
     </div>
   );
 }
 
-function CommissionItem({ id, clientName, description }) {
+function CommissionItem({ id, clientName, description, items, setItems, setFormData }) {
+  // For opening the commission item to view dropdown contents
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  // For handling checkbox values
   const [selected, setSelected] = useState(null);
 
-  const handleChange = event => {
+  /*  Get's the id and sets the selected commission status, 
+    pushing it to formData in AdminCommissionSection().  */   
+  const handleFormChanges = (event) => {
     event.stopPropagation();
     if (event.target.value === selected) {
       setSelected(null);
+      // Remove item from item array in AdminCommissionSection()
+      const index = items.findIndex(item => item.id === id);
+      if(index !== -1){
+        const newItemsArray = [...items.slice(0, index), ...items.slice(index+1)];
+        setItems(newItemsArray);
+      }
     } else {
       setSelected(event.target.value);
-      //do something here based on whether accepted/declined/flagged
+      setFormData({id: id, commissionStatus: event.target.value});
     }
-  };
+  }
+
+  // For deleting commissions
+  const handleDelete = () => {
+    let deletecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
+    if(window.confirm(`Are you sure you want to delete item ${id}?`)){
+      axios.delete(deletecommission_url, {params: { id: id }})
+          .then(response => { console.log(`Deleting commission ID ${id}`, response.data) })
+          .catch(error => console.error(`Error deleting commission ID ${id}`, error))
+      // Refresh page
+      //window.location.reload();
+    }
+    else{
+      alert("Canceled delete.");
+    }
+  }
 
   return (
-    <div className="w-full border border-gray-300 rounded overflow-hidden mb-2 just-another-hand text-3xl">
-      <div className="flex justify-between">
-        <div
-          className="flex w-full p-2 bg-gray-200 cursor-pointer justify-start"
-          onClick={toggleDropdown}
-        >
-          <div className="flex w-1/4">Id: {id}</div>
-          <div className="flex w-1/2">Client Name: {clientName}</div>
-          <div className="flex w-1/4">Date: XX-XX-XXXX</div>
-        </div>
-        <div className="flex justify-center border border-black bg-gray-150">
-          {/* This part below is the 3 checkboxes.*/}
-          <div className="flex space-x-4">
-            <label className="flex px-2 items-center space-x-2">
-              <input
-                type="checkbox"
-                value="accept"
-                checked={selected === "accept"}
-                onChange={handleChange}
-                className="form-checkbox accent-green-400"
-              />
-              <span>Accept</span>
-            </label>
+    <>
+      <div className="w-full border border-gray-300 rounded overflow-hidden mb-2 just-another-hand text-3xl">
+        <div className="flex justify-between">
+          <div
+            className="flex w-full p-2 bg-gray-200 cursor-pointer justify-start"
+            onClick={toggleDropdown}
+          >
+            <div className="flex w-1/4">Id: {id}</div>
+            <div className="flex w-1/2">Client Name: {clientName}</div>
+            <div className="flex w-1/4">Date: XX-XX-XXXX</div>
+          </div>
+          <div className="flex justify-center border border-black bg-gray-150">
+            {/* This part below is the 3 checkboxes.*/}
+            <div className="flex space-x-4">
+              <label className="flex px-2 items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value="accept"
+                  checked={selected === "accept"}
+                  onChange={handleFormChanges}
+                  className="form-checkbox accent-green-400"
+                />
+                <span>Accept</span>
+              </label>
 
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                value="decline"
-                checked={selected === "decline"}
-                onChange={handleChange}
-                className="form-checkbox accent-red-500"
-              />
-              <span>Decline</span>
-            </label>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value="decline"
+                  checked={selected === "decline"}
+                  onChange={handleFormChanges}
+                  className="form-checkbox accent-red-500"
+                />
+                <span>Decline</span>
+              </label>
 
-            <label className="flex px-2 items-center space-x-2">
-              <input
-                type="checkbox"
-                value="flag"
-                checked={selected === "flag"}
-                onChange={handleChange}
-                className="form-checkbox accent-yellow-300"
-              />
-              <span>Flag</span>
-            </label>
+              <label className="flex px-2 items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value="flag"
+                  checked={selected === "flag"}
+                  onChange={handleFormChanges}
+                  className="form-checkbox accent-yellow-300"
+                />
+                <span>Flag</span>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
 
-      {isOpen && (
-        <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
-          <p>This is the dropdown content!</p>
-          <p>Description: {description}</p>
-        </div>
-      )}
-    </div>
+        {isOpen && (
+          <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
+            <p>This is the dropdown content!</p>
+            <p>Description: {description}</p>
+            {/* Delete Commission Button */}
+            <button onClick={handleDelete} className="button button-text">Delete</button>
+          </div>
+        )}
+      </div>
+      
+    </>
   );
 }
 
@@ -241,7 +345,6 @@ function UserCommisionsSection() {
   useEffect(() => {
     //function to grab users data when loading page
     const grabOwnCommissions = () => {
-      
       const testEmail = "example@gmail.com"; // Replace with the email you want to test
 
       axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`, {
