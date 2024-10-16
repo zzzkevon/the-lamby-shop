@@ -118,6 +118,8 @@ function App() {
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
             <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
             <Route path="*" element={<NotFound />}/>
+            <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
+            <Route path="*" element={<NotFound />}/>
           </Routes>
         </Router>
         </ToastProvider>

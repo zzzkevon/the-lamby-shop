@@ -58,6 +58,34 @@ function GuestCommissionSection() {
 }
 
 function AdminCommissionSection() {
+  return (
+    <div>
+      <div
+        className="just-another-hand text-3xl"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <h1
+          className="header-font header-format"
+          style={{ fontSize: "2em", padding: "25px" }}
+        >
+          C O M M I S S I O N S
+        </h1>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        </div>
+
+        <div className="flex w-full just-another-hand justify-around items-center">
+          <h2 className="text-6xl">Welcome, Guest! Please log in to view your commissions.</h2>
+        </div>
+    </div>
+  );
+}
+
+function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
 
@@ -269,7 +297,7 @@ function CommissionItem({ id, clientName, description, items, setItems, setFormD
   );
 }
 
-function UsersPersonalCommissionItem ({ id, clientName, description, status, date, reloadData }) {
+function UsersPersonalCommissionItem({ id, clientName, description, status, date }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPolicyDisplayed, setPolicyDisplay] = useState(false);
   const [action, setAction] = useState("");
@@ -525,9 +553,11 @@ function UserCommisionsSection() {
     }
   };
 
-  //function to grab users data when loading page
-  const grabOwnCommissions = () => {
-    const testEmail = "example@gmail.com"; // Replace with the email you want to test
+  useEffect(() => {
+    //function to grab users data when loading page
+    const grabOwnCommissions = () => {
+
+      const testEmail = "example@gmail.com"; // Replace with the email you want to test
 
     axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`, {
       params: {
@@ -579,17 +609,21 @@ function UserCommisionsSection() {
               showToast("Commission Sent!","success")
               grabOwnCommissions();
             }
-          })
-          .catch(error => {
+            })
+            .catch(error => {
             console.error('Error:', error);
             window.alert("Failed to send commission. Please try again.");
+          });
+      } catch (error) {
           });
       } catch (error) {
         // Handle synchronous errors (not from Axios)
         console.error("Error sending commission data:", error);
         window.alert("Failed to send commission. Please try again.");
       }
+      }
 
+    } else {
     } else {
       window.alert("You pressed cancel, commission not sent!");
     }
@@ -638,6 +672,7 @@ function UserCommisionsSection() {
                   key={userCommission.id}
                   id={userCommission.id}
                   clientName={userCommission.firstName + ' ' + userCommission.lastName}
+                  clientName={userCommission.firstName + ' ' + userCommission.lastName}
                   description={userCommission.description}
                   status = {userCommission.commissionStatus}
                   date = {userCommission.createdAt}
@@ -651,6 +686,8 @@ function UserCommisionsSection() {
       </div>
 
       <button className="m-8 pl-2 bg-white flex justify-center items-center rounded" onClick={toggleForm}>
+
+      <button className="m-8 pl-2 bg-white flex justify-center items-center rounded" onClick={toggleForm}>
         {addFormButtonText}
       </button>
 
@@ -661,6 +698,7 @@ function UserCommisionsSection() {
           alignItems: "center",
           minHeight: "100vh",
         }}>
+
 
           <div className="grid grid-cols-2 gap-3">
             <div>
