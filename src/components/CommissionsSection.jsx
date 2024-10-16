@@ -29,28 +29,58 @@ const commissionArray = [
 ];
 */
 
-function SwitchViewButton() {
-  const [view, setView] = useState("userView");
-
-  const switchView = () => {
-    setView(view === "userView" ? "adminView" : "userView");
-  };
-
-  // Print page type in console when changed
-  useEffect(() => {
-    console.log(view);
-  }, [view])
-
+function GuestCommissionSection() {
   return (
     <div>
-      <button
-        onClick={switchView}
-        className="border-2 border-black border-solid h-12"
+      <div
+        className="just-another-hand text-3xl"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        Test Button: Switch View
-      </button>
-      {view === "userView" && <UserCommisionsSection />}
-      {view === "adminView" && <AdminCommissionSection />}
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <h1
+          className="header-font header-format"
+          style={{ fontSize: "2em", padding: "25px" }}
+        >
+          C O M M I S S I O N S
+        </h1>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        </div>
+
+        <div className="flex w-full just-another-hand justify-around items-center">
+          <h2 className="text-6xl">Welcome, Guest! Please log in to view your commissions.</h2>
+        </div>
+    </div>
+  );
+}
+
+function AdminCommissionSection() {
+  return (
+    <div>
+      <div
+        className="just-another-hand text-3xl"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <h1
+          className="header-font header-format"
+          style={{ fontSize: "2em", padding: "25px" }}
+        >
+          C O M M I S S I O N S
+        </h1>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        </div>
+
+        <div className="flex w-full just-another-hand justify-around items-center">
+          <h2 className="text-6xl">Welcome, Guest! Please log in to view your commissions.</h2>
+        </div>
     </div>
   );
 }
@@ -267,7 +297,7 @@ function CommissionItem({ id, clientName, description, items, setItems, setFormD
   );
 }
 
-function UsersPersonalCommissionItem ({ id, clientName, description, status, date, reloadData }) {
+function UsersPersonalCommissionItem({ id, clientName, description, status, date }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPolicyDisplayed, setPolicyDisplay] = useState(false);
   const [action, setAction] = useState("");
@@ -297,7 +327,7 @@ function UsersPersonalCommissionItem ({ id, clientName, description, status, dat
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = dateCreated.toLocaleDateString('en-US', options);
 
-  return(
+  return (
     <div className="w-full border border-gray-300 rounded overflow-hidden mb-2 just-another-hand text-3xl">
       <div className="flex justify-between">
         <div
@@ -494,10 +524,10 @@ function UserCommisionsSection() {
     if (commissionFormOpen) {
       // Up arrow
       setButtonText("Add A Commission\u25B4");
-    }else{
+    } else {
       // Down arrow
       setButtonText("Add A Commission\u25BE");
-    } 
+    }
     setFormOpen(!commissionFormOpen);
   }
 
@@ -523,9 +553,11 @@ function UserCommisionsSection() {
     }
   };
 
-  //function to grab users data when loading page
-  const grabOwnCommissions = () => {
-    const testEmail = "example@gmail.com"; // Replace with the email you want to test
+  useEffect(() => {
+    //function to grab users data when loading page
+    const grabOwnCommissions = () => {
+
+      const testEmail = "example@gmail.com"; // Replace with the email you want to test
 
     axios.get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`, {
       params: {
@@ -566,29 +598,33 @@ function UserCommisionsSection() {
       try {
         // Send the data to the backend using Axios
         axios.post('https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development', commissionData, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
+          headers: {
+            'Content-Type': 'application/json',
+          }
         })
-        .then(response => {
+          .then(response => {
             console.log('Success:', response.data);
-            
+
             if (response.status === 200) {
               showToast("Commission Sent!","success")
               grabOwnCommissions();
             }
-        })
-        .catch(error => {
+            })
+            .catch(error => {
             console.error('Error:', error);
             window.alert("Failed to send commission. Please try again.");
-        });
-      }catch(error) {
+          });
+      } catch (error) {
+          });
+      } catch (error) {
         // Handle synchronous errors (not from Axios)
         console.error("Error sending commission data:", error);
         window.alert("Failed to send commission. Please try again.");
-      } 
+      }
+      }
 
-    }else{
+    } else {
+    } else {
       window.alert("You pressed cancel, commission not sent!");
     }
   };
@@ -624,18 +660,19 @@ function UserCommisionsSection() {
 
       <div className="flex w-full justify-around items-center">
         {/*creates and displays the commission item components from the data in the commission array*/}
-        
-        {userCommissionArray.length === 0 ? 
+
+        {userCommissionArray.length === 0 ?
           (
             // Render if the array is empty
-            <p>You currently have no commissions.</p> 
+            <p>You currently have no commissions.</p>
           ) : (
             <ul className="justify-around w-4/5">
               {userCommissionArray.map(userCommission => (
                 <UsersPersonalCommissionItem
                   key={userCommission.id}
                   id={userCommission.id}
-                  clientName={userCommission.firstName+' '+userCommission.lastName}
+                  clientName={userCommission.firstName + ' ' + userCommission.lastName}
+                  clientName={userCommission.firstName + ' ' + userCommission.lastName}
                   description={userCommission.description}
                   status = {userCommission.commissionStatus}
                   date = {userCommission.createdAt}
@@ -647,8 +684,10 @@ function UserCommisionsSection() {
         }
 
       </div>
-      
-      <button className ="m-8 pl-2 bg-white flex justify-center items-center rounded" onClick={toggleForm}>
+
+      <button className="m-8 pl-2 bg-white flex justify-center items-center rounded" onClick={toggleForm}>
+
+      <button className="m-8 pl-2 bg-white flex justify-center items-center rounded" onClick={toggleForm}>
         {addFormButtonText}
       </button>
 
@@ -659,7 +698,8 @@ function UserCommisionsSection() {
           alignItems: "center",
           minHeight: "100vh",
         }}>
-           
+
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label>first name*</label>
@@ -739,17 +779,22 @@ function UserCommisionsSection() {
               </button>
             </div>
           </div>
-
         </div>
       )}
     </div>
   );
 }
 
-export default function CommisionsSection() {
+export default function CommissionsSection({userRole}) {
   return (
     <div>
-      <SwitchViewButton />
+      {userRole === 'admin' ? (
+        <AdminCommissionSection />
+      ) : userRole === 'customer' ? (
+        <UserCommisionsSection />
+      ) : (
+        <GuestCommissionSection />
+      )}
     </div>
   );
 }

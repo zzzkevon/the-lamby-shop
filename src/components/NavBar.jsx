@@ -4,8 +4,11 @@ import web_title from '../images/web_title.png'
 import { FiShoppingCart } from 'react-icons/fi';
 import { GiSheep } from 'react-icons/gi';
 import { VscAccount } from "react-icons/vsc";
+import Dropdown from './Dropdown';
 
-const NavBar = () => {
+
+const NavBar = ({ userRole, setUserRole }) => {
+
   return (
     <div className='main-bg flex justify-between items-center just-another-hand px-4 text-3xl font-medium'>
       <nav className=''>
@@ -36,23 +39,28 @@ const NavBar = () => {
             </a>
           </li>
           <li className='mr-4'>
-            <a href='/account-management'>
-              account management (this is temporary)
+            <a href='/role-based-view'>
+              dashboard
             </a>
           </li>
         </ul>
       </nav>
-      <div style={{paddingRight : '250px'}}>
-        <img src={ web_title } alt='' />
-        <img src={ bunny } alt='' className='ml-20 pb-10'/>
+      <div style={{ paddingRight: '250px' }}>
+        <img src={web_title} alt='' />
+        <img src={bunny} alt='' className='ml-20 pb-10' />
       </div>
       <div className='flex pt-32 mr-20'>
-      <a href='/admin/admin-dashboard'>
+        <a href='/account-management'>
           <VscAccount size={25} className='mr-4' />
         </a>
         <a href='/profile'>
           <GiSheep size={25} className='mr-4' />
         </a>
+
+
+        <div className="absolute top-0 right-0 mt-4 mr-4">
+          <Dropdown userRole={userRole} setUserRole={setUserRole} />
+        </div>
         <a href='/shoppingcart'>
           <FiShoppingCart size={25} />
         </a>

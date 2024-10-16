@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRef } from 'react';
+import axios from 'axios';
 import star from '../images/story_stars_1.png'
 import React from 'react';
 
@@ -103,6 +104,7 @@ const CreateAccount = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const role = "customer";
         if(!firstName.trim() && !lastName.trim() && !userName.trim() && !email.trim() &&
         !password.trim() && !confirmPassword.trim()) {
             console.log('All fields are empty, Form submission aborted.');
@@ -111,17 +113,9 @@ const CreateAccount = () => {
 
         try {
             //After getting input from user for account check if email already exists if so notify user of error
-            const usernameCheckResponse = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const usernameCheckResponse = await axios.get('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users');
 
-            if(!usernameCheckResponse.ok) {
-                throw new Error ('Failed to fetch users for username check');
-            }
-            const userCheck = await usernameCheckResponse.json();
+            const userCheck = await usernameCheckResponse.data;
 
             const usernameExists = userCheck.some(userCheck => userCheck.userName === userName);
 
@@ -132,17 +126,8 @@ const CreateAccount = () => {
             }
 
             //
-            const emailCheckResponse = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if(!emailCheckResponse.ok) {
-                throw new Error ('Failed to fetch users for email check');
-            }
-            const users = await emailCheckResponse.json();
+            const emailCheckResponse = await axios.get('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users');
+            const users = await emailCheckResponse.data;
 
             const emailExists = users.some(user => user.email === email);
 
@@ -153,22 +138,17 @@ const CreateAccount = () => {
             }
 
             //
-            const response = await fetch('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userName,
-                    password,
-                    email,
-                    firstName,
-                    lastName
-                }),
+            const response = await axios.post('https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users', {
+                userName,
+                password,
+                email,
+                firstName,
+                lastName,
+                role
             });
 
-            if (response.ok) {
-                const data = await response.json();
+            if (response.status === 200) {
+                const data = await response.data;
                 console.log('Account created sucessfully', data);
             } else {
                 console.log('Error creating account');
