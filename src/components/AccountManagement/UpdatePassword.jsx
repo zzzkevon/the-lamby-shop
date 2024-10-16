@@ -2,6 +2,8 @@ import React from 'react';
 import { useRef } from 'react'
 import { useState } from 'react';
 import star from '../../images/story_stars_1.png'
+import axios from 'axios';
+import bcryptjs from 'bcryptjs' // password hashing
 
 const UpdatePassword = () => {
   const debug = true;   //DEBUG VARIABLE    true = debug output in console    false = no output
@@ -83,7 +85,7 @@ const UpdatePassword = () => {
   }
 
   //submission function
-  const submitInfo = (e) => {
+  const submitInfo = async (e) => {
     e.preventDefault();
 
     //final safety check
@@ -92,25 +94,78 @@ const UpdatePassword = () => {
 
     if(!newPasswordError && !passwordConfError) {
       //no errors
-      console.log("Everything is good to go. Perform hashing on the data before sending to the server:");
-      console.log("current password: " + current_password);
-      console.log("new password: " + new_password);
-      console.log("new password confirmation: " + password_conf);
+      if(debug) {
+        console.log("Everything is good to go. Perform hashing on the data before sending to the server:");
+        console.log("current password: " + current_password);
+        console.log("new password: " + new_password);
+        console.log("new password confirmation: " + password_conf);
+      }
+      
+
+      setServerDenial("");
 
       //do hashing
+      bcryptjs.hash(new_password, 10, function(err, password) {
+        if(err) {
+          console.log("An error occured while trying to hash the password");
+        }
+        else {
+          //hashing complete    send all hashed data to the server
+          const data = { password }
+          if(debug) {
+            console.log("hashed password: " + data);
+          }
+          
 
-      //send all hashed data to the server
+          //get the email from the server
+          const email = "test@test.com"
+          window.alert("Warning: this page is not completed. email for the user still needs to be retrieved from the db")
 
-      //if server sends back a denial saying password was not correct then dont leave page and display a message saying the password was incorrect
+          //API Gateway URL
+          const apiURL = "https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users/" + email;
+
+          //create the payload
+          const payload = {
+            "password": data
+          };
+
+          //send the payload to the server
+          try {
+            axios.put(apiURL, payload)
+              .then(response => {
+                console.log('Success:', response.data);
+                
+                if (response.status === 200) {
+                  //payload sent successfully redirect the user
+                  window.alert("Password sent successfully!");
+                  window.location.href = '/password-success'; //redirect user
+                }
+                else {
+                  setServerDenial("Password was not able to be changed. Please try again after checking that your current password is correct.");
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                window.alert("Failed to send password. Please try again.");
+                setServerDenial("Something went wrong. Please try again");
+              });
+          }
+          catch(error) {
+            // Handle synchronous errors (not from Axios)
+            console.error("Error sending password:", error);
+            window.alert("Failed to send password. Please try again.");
+            setServerDenial("Something went wrong. Please try again later.");
+          }
+
+        }
+      });
+
+      /* //if server sends back a denial saying password was not correct then dont leave page and display a message saying the password was incorrect
       if(debug) {
         setServerDenial(serverDenial + " denied");  //denial gets longer every time you submit to show this works  DELETE ONCE EVERYTHING IS COMPLETE
         console.log(serverDenial);
-      }
+      } */
           
-
-      //if server sends back a confirmation then either log user out to test their new password or redirect user back to their account management page
-
-
     }
     else {
       //this section should never run because of final safety check
