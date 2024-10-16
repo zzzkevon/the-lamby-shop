@@ -21,6 +21,7 @@ import AdminDashboard from './components/adminPages/AdminDashboard';
 import AccountManagement from './components/AccountManagement/AccountManagement';
 import UpdateEmail from './components/AccountManagement/UpdateEmail';
 import UpdatePassword from './components/AccountManagement/UpdatePassword';
+import PasswordSuccess from './components/AccountManagement/PasswordSuccess';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
@@ -90,7 +91,7 @@ function App() {
     <CarouselContext1.Provider value={currentCarouselContext1}>
     <CarouselContext.Provider value={currentCarouselContext}>
     <ToastProvider>
-      <Router>
+    <Router>
           <NavBar />
           <Routes>
             <Route path="/" element={<HeroSection />} />
@@ -111,6 +112,7 @@ function App() {
             <Route path="/account-management" element={<AccountManagement />} />
             <Route path="/update-email" element={<UpdateEmail />} />
             <Route path="/update-password" element={<UpdatePassword />} />
+            <Route path="/password-success" element={<PasswordSuccess/>} />
             <Route path="/update-payment" element={<UpdatePayment />} />
             <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
           </Routes>
