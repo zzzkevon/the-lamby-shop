@@ -1,7 +1,7 @@
 import React from 'react';
 import AdminView from './AdminView';
 import CustomerView from './CustomerView';
-import DefaultView from './DefaultView';
+import GuestView from './GuestView';
 
 const RoleBasedView = ({ userRole }) => {
     switch (userRole) {
@@ -10,7 +10,7 @@ const RoleBasedView = ({ userRole }) => {
         case 'customer':
             return <CustomerView />;
         default:
-            return <DefaultView />;
+            return <GuestView />;
     }
 };
 
