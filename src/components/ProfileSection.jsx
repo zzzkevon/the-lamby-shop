@@ -1,124 +1,110 @@
-import React from "react";
-import star from "../images/story_stars_1.png";
-import { useState } from "react";
+import { Authenticator, ThemeProvider, defaultTheme } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import { getCurrentUser, fetchUserAttributes, signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
+import outputs from '../amplify_outputs.json';
+import '@aws-amplify/ui-react/styles.css';
+import { useState, useEffect } from 'react';
+
+// Configure Amplify
+Amplify.configure(outputs);
+
+// Custom theme
+const customTheme = {
+  tokens: {
+    components: {
+      authenticator: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+      },
+      heading: {
+        fontWeight: { value: '400' },
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '32px' },
+      },
+      button: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '25px' },
+        primary: {
+          _hover: { backgroundColor: { value: '#4E0000' } },
+        },
+      },
+      input: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '25px' },
+      },
+      label: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '25px' },
+      },
+    },
+  },
+};
+
+// Helper function to check if the user is an admin
+async function isAdminUser() {
+  try {
+    const user = await getCurrentUser(); // Get the authenticated user
+    const attributesArray = await fetchUserAttributes(user); // Fetch user attributes
+    console.log('User Attributes:', attributesArray); // Debugging log
+
+    // Find the custom:isAdmin attribute
+    const isAdminAttr = attributesArray["custom:isAdmin"];
+    console.log("test",isAdminAttr);
+
+    return isAdminAttr?.Value === 'true'; // Return true if admin
+  } catch (error) {
+    console.error('Error fetching user attributes:', error);
+    return false;
+  }
+}
 
 const ProfileSection = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [formError, setFormError] = useState("");
-  // update when profile page available.
-  // function LoginForm() {
-  // }
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const handleSignIn = () => {
-    if (username.trim() === "" || password.trim() === "") {
-      setFormError("Please enter both username and password.");
-      return;
-    }
+  const refreshUserSession = async () => {
+    try {
+      const adminStatus = await isAdminUser(); // Check if user is admin
+      setIsAdmin(adminStatus); // Update admin state
+    } catch (error) {
+      console.error('Error refreshing session:', error);
+      setIsAdmin(false); // Reset admin state if session fetch fails
+    } 
+  };
 
-    console.log("Username: ", username);
-    console.log("Password: ", password);
+  useEffect(() => {
+    refreshUserSession(); // Refresh session on component mount
+  }, []); // Run only once on mount
+
+  const handleSignOut = async () => {
+    setIsAdmin(false); // Reset state
+    await amplifySignOut(); // Use Amplify's sign out
   };
 
   return (
-    <div
-      className="main-bg just-another-hand text-4xl"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <div className="flex flex-col justify-center items-center">
-        <header>
-          <div className="container mx-auto px-4">
-            <div className="flex flex-center justify-center">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img src={star} alt="" className="w-16 h-16 mb-4"></img>
-                <h1
-                  className="header-font header-format"
-                  style={{ fontSize: "2em", padding: "25px" }}
-                >
-                  LOGIN{" "}
-                </h1>
-                <img src={star} alt="" className="w-16 h-16 mb-4"></img>
-
-                <br></br>
-              </div>
-            </div>
-          </div>
-          <div id="input section">
-            <form onSubmit={handleSignIn}>
-              <label>email or username</label>
-              <br></br>
-              <input
-                type="text"
-                id="username"
-                className="input-borders"
-                style={{ width: "300px" }}
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              ></input>
-              <br></br>
-              <br></br>
-              <label>password</label>
-              <br></br>
-              <input
-                type="password"
-                id="password"
-                className="input-borders"
-                style={{ width: "300px" }}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              ></input>
-
-              <br></br>
-              <u>
-                <a href="/accountrecovery" style={{ fontSize: "30px" }}>
-                  Forgot password?{" "}
-                </a>
-              </u>
-
-              {formError && (
-                <div style={{ color: "red", marginTop: "10px" }}>
-                  {formError}
-                </div>
-              )}
-
-              <br></br>
-              <br></br>
-              <div
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <button
-                  className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-8 rounded-full mt-4"
-                  type="submit"
-                  onClick={handleSignIn}
-                >
-                  sign in
-                </button>
-                <br></br>
-                <u>
-                  <a href="/createaccount">create account</a>
-                </u>
-              </div>
-            </form>
-          </div>
-        </header>
-      </div>
-    </div>
+    <ThemeProvider theme={customTheme}>
+      <Authenticator
+        onAuthEvent={async (payload) => {
+          console.log('Auth Event:', payload); // Debugging log
+          if (payload.event === 'signIn') {
+            await refreshUserSession(); // Refresh session on sign in
+          } else if (payload.event === 'signOut') {
+            handleSignOut(); // Reset state on sign out
+          }
+        }}
+      >
+        {({ user }) => (
+          <main>
+            <h1>Hello {user?.username}</h1>
+            <h1>Welcome to the Dashboard</h1>
+            {isAdmin ? (
+              <p>You are an admin. You can manage content here.</p>
+            ) : (
+              <p>You are a regular user.</p>
+            )}
+            <button onClick={handleSignOut}>Sign out</button>
+          </main>
+        )}
+      </Authenticator>
+    </ThemeProvider>
   );
 };
 
