@@ -335,7 +335,11 @@ function CommissionItem({
             onClick={toggleDropdown}
           >
             <div className="flex w-1/4">Id: {id}</div>
-            <div className="flex w-1/2">Client Name: {clientName}</div>
+            {/* 
+              We test if clientName length is 1 for null because 
+              of the space that always gets pushed into clientName
+            */}
+            <div className="flex w-1/2">Client Name: {clientName.length !== 1 ? clientName : "N/A"}</div>
             <div className="flex w-1/4">Date: {formattedDate(createdAt)}</div>
             <div className="flex w-1/4">Current status: {status}</div>
           </div>
