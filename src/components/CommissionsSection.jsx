@@ -59,19 +59,18 @@ function GuestCommissionSection() {
   );
 }
 
+// Admin view of the Commission Page
 function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
 
-  // For popup messages
+  // For invoking popup messages
   const showToast = useToast();
 
-  useEffect(() => {
-    // GET request from API for all existing commissions
+  // GET request from API for all existing commissions
+  const loadAdminCommissions = () => {
     axios
-      .get(
-        `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`
-      )
+      .get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
       .then(response => {
         // Get only the item id, clientName, and description
         let mappedData = response.data.map(item => ({
@@ -84,19 +83,31 @@ function AdminCommissionSection() {
           email: item.email
         }));
         setAdminCommissions(mappedData);
-        showToast("All commissions received!", "success")
+        showToast("All commissions received!", "success");
       })
       .catch(err => {
         showToast("Error getting commission data.", "error");
         console.error(err)
       });
+  }
+
+  /* 
+    When user first loads admin commission page, they will be 
+    prompted with either message based on successful retrieval
+    of all commissions.
+  */
+  useEffect(() => {
+    loadAdminCommissions();
   }, []);
 
   // Getting form data from CommissionItem
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({ id: null, commissionStatus: "" });
 
-  // Adds item to item list everytime formData get's received
+  /* 
+    Adds a form item to items[] whenever setFormData()
+    gets invoked inside of CommissionItem()
+  */
   useEffect(() => {
     setItems([
       ...items,
@@ -107,84 +118,72 @@ function AdminCommissionSection() {
     ]);
   }, [formData]);
 
-  // Update items list everytime setItems is invoked from the useEffect() above this one
+  /* 
+    Update items list everytime setItems is 
+    invoked from the useEffect() above this one.
+  */
   useEffect(() => {
+    // FOR TESTING ADDING FORM DATA INTO ITEMS[] console.log(`Item list size: ${items.length}`)
   }, [items])
 
-
-  const useCustomConfirm = () => {
-    const toast = useToast();
-  
-    const confirm = () => {
-      return new Promise((resolve, reject) => {
-        const toastId = toast({
-          title: "Are you sure you want to continue?",
-          description: "Please confirm your action.",
-          status: "warning",
-          duration: null, // Keep it open until user responds
-          isClosable: false,
-          actions: [
-            {
-              label: "Cancel",
-              onClick: () => {
-                toast.close(toastId); // Close the toast
-                reject(); // Reject the promise
-              },
-            },
-            {
-              label: "Confirm",
-              onClick: () => {
-                toast.close(toastId); // Close the toast
-                resolve(); // Resolve the promise
-              },
-            },
-          ],
-        });
-      });
-    };
-  
-    return confirm;
+  // Custom popup when you click confirm changes button
+  const confirmAction = () => {
+    showToast(
+      (
+        <>
+            <div className="just-another-hand">
+              <p className="font-bold text-4xl">Are you sure you want to confirm changes?</p>
+              <br></br>
+              <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
+                <button className="button" onClick={handleConfirm}>Confirm</button>
+                <button className="button" onClick={handleCancel}>Cancel</button>
+              </div>
+            </div>
+        </>
+      ), "error"
+    );
   };
 
-
-  let confirm = useCustomConfirm();
-
-  // For updating statuses of all selected commissions
+  // Update commission statuses if confirm chosen from confirmAction() 
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Parse through all of the items and push them to db
-    if(window.confirm("You sure g?")) {
-      /* 
-        => Length is 2 here because initially, there is 
-        already 1 item in items[] when page is loaded.
-
-        => So, if items is less than 2 that means user hasn't
-        added any items to change
-      */
-      showToast("Submitting changes for commission statuses");
-      for (let i = 1; i < items.length; i++) {
-        // Skip the item if it's null
-        if(items[i].id == null)
-          continue;
-        // Else, run the update request
-        else
-        {
-          axios
-            .put(updatecommission_url,
-                { commissionStatus: items[i].commissionStatus },
-                { params: { id: items[i].id } })
-            .then(response => {
-              showToast(`Success updating status for commission ID ${items[i].id}`, "success");
-              console.log(response.data);
-            })
-            .catch(error => {
-              showToast(`Error updating status for commission ID ${items[i].id}`, "error");
-              console.error(error);
-            });
+    // Items is empty if length is 1
+    if(items.length == 1) {
+      showToast("Please add a form selection before confirming changes.", "error");
+      return;
+    }
+    showToast("Submitting changes for commission statuses");
+    for (let i = 1; i < items.length; i++) {
+      // Skip item if id is null
+      if(items[i].id == null)
+        continue;
+      // Else, run the update request
+      else { 
+        axios.put(updatecommission_url, 
+                  { commissionStatus: items[i].commissionStatus },
+                  { params: { id: items[i].id } })
+              .then(response => {
+                  showToast(`Success updating status for commission ID ${items[i].id}`, "success");
+                  console.log(response.data);        
+                  /* 
+                    Reload admin commissions with 
+                    the new popup messages on a 
+                    successful update request
+                  */         
+                  loadAdminCommissions();
+              })
+              .catch(error => {
+                  showToast(`Error updating status for commission ID ${items[i].id}`, "error");
+                  console.error(error);
+              });
         }
       }
-    } else { showToast("Canceled. No changes were made to the commission's statuses");}
   };
+
+  // Cancel toast popup if cancel chosen from confirmAction()
+  const handleCancel = () => { 
+    showToast("Canceled. No changes were made to the commission's statuses");
+  }
 
   return (
     <div>
@@ -222,11 +221,12 @@ function AdminCommissionSection() {
                 items={items}
                 setItems={setItems}
                 setFormData={setFormData}
+                reloadData={loadAdminCommissions}
               />
             </>
           ))}
           {/*<button onClick={test} className="button button-text">TEST</button>*/}
-          <button onClick={handleConfirm} className="commission-button text-2xl">
+          <button onClick={confirmAction} className="commission-button text-2xl">
             Confirm Changes
           </button>
         </ul>
@@ -235,18 +235,17 @@ function AdminCommissionSection() {
   );
 }
 
+// Commission items inside of the Admin's commission page
 function CommissionItem({
-  id,
-  clientName,
-  description,
-  createdAt,
-  status,
-  phoneNumber,
-  email,
-  items,
-  setItems,
-  setFormData,
+  id, clientName, description,
+  createdAt, status, phoneNumber,
+  email, items, setItems,
+  setFormData, reloadData
 }) {
+
+  // For invoking popup messages
+  const showToast = useToast();
+
   // For opening the commission item to view dropdown contents
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
@@ -256,11 +255,14 @@ function CommissionItem({
   // For handling checkbox values
   const [selected, setSelected] = useState(null);
 
-  /*  Get's the id and sets the selected commission status, 
-    pushing it to formData in AdminCommissionSection().  */
+  /*  
+    Get's the id and sets the selected 
+    commission status, pushing it into the
+    formData array in AdminCommissionSection()
+  */
   const handleFormChanges = event => {
+    // Prevent default form submission action
     event.stopPropagation();
-
     // Add selection if item checkbox isn't checked
     if (selected === null) {
       setSelected(event.target.value);
@@ -280,6 +282,7 @@ function CommissionItem({
     }
   };
 
+  // For formatting the date
   const formattedDate = (date) => {
     const dateCreated = new Date(date);
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -287,25 +290,41 @@ function CommissionItem({
     return formattedDate;
   };
 
-  // For deleting commissions
+  const confirmAction = () => {
+    showToast(
+      (
+        <>
+            <div className="just-another-hand">
+              <p className="font-bold text-4xl">Are you sure with deleting this commission?</p>
+              <br></br>
+              <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
+                <button className="button" onClick={handleDelete}>Confirm</button>
+                <button className="button" onClick={handleCancel}>Cancel</button>
+              </div>
+            </div>
+        </>
+      ), "error"
+    );
+  }
+
+  // For handling delete commission button
   const handleDelete = () => {
     let deletecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    if (window.confirm(`Are you sure you want to delete item ${id}?`)) {
-      axios
-        .delete(deletecommission_url, { params: { id: id } })
-        .then(response => {
-          console.log(`Deleting commission ID ${id}`, response.data);
-        })
-        .catch(error =>
-          console.error(`Error deleting commission ID ${id}`, error)
-        );
-      // Reload page here
-
-
-    } else {
-      alert("Canceled delete.");
-    }
+    axios.delete(deletecommission_url, { params: { id: id } })
+          .then(response => {
+              showToast(`Deleting commission ID ${id}`, "success");
+              console.log(response.data);
+              // Reload data on successful delete
+              reloadData();
+          })
+          .catch(error =>{
+              showToast(`Error deleting commission ID ${id}`, "error")
+              console.error(error);
+          });   
   };
+
+  // Handling cancel in confirmAction() when confirming to delete commission submission
+  const handleCancel = () => { showToast("Canceled delete."); }
 
   return (
     <>
@@ -366,7 +385,7 @@ function CommissionItem({
                 <p className="font-bold flex w-1/4">--Contact info--</p>
                 <p className="flex w-1/4">Phone Number: {phoneNumber.length !== 0 ? phoneNumber : "N/A"}</p>
                 <p className="flex w-1/4">Email: {email.length !== 0 ? email : "N/A"}</p>
-                <button onClick={handleDelete} className="commission-button">
+                <button onClick={confirmAction} className="commission-button">
                   Delete Commission
                 </button>
               </div>
