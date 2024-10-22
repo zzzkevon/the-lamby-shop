@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import {
-  CardElement,
-  useStripe,
-  useElements,
-  Elements,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
-
-// Load Stripe using the publishable key
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutInfo = () => {
   const stripe = useStripe();
   const elements = useElements();
+
+  // Define state for each form field
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -41,17 +34,17 @@ const CheckoutInfo = () => {
       // Step 1: Create Payment Method using Stripe Elements
       const { paymentMethod, error: paymentMethodError } =
         await stripe.createPaymentMethod({
-          type: 'card',
+          type: "card",
           card: cardElement,
           billing_details: {
             name: `${firstName} ${lastName}`,
             email,
-            phone: phoneNumber,
+            phone: phoneNumber, // Use phoneNumber from state
             address: {
-              city,
-              state,
-              postal_code: zip,
-              line1: address,
+              city, // Use city from state
+              state, // Use state from state
+              postal_code: zip, // Use zip from state
+              line1: address, // Use address from state
             },
           },
         });
@@ -62,12 +55,17 @@ const CheckoutInfo = () => {
         return;
       }
 
-      // Step 2: Call your AWS Lambda endpoint to create a payment intent
+      // Step 2: Call your AWS Lambda backend via API Gateway
       const response = await axios.post(
-        process.env.REACT_APP_STRIPE_API_URL, // Replace with your Stripe API URL
+        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/Prod/", // Replace this with your API Gateway endpoint
         {
           paymentMethodId: paymentMethod.id, // Send the created paymentMethodId
-          amount: 5000, // will need to change this later to accept the total calculated from CheckoutItemInfojsx
+          amount: 5000, // You can calculate this based on cart items
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -80,7 +78,6 @@ const CheckoutInfo = () => {
         });
 
       if (stripeError) {
-        console.log("Error in step 3");
         setError(stripeError.message);
         setLoading(false);
       } else if (paymentIntent.status === "succeeded") {
@@ -172,8 +169,8 @@ const CheckoutInfo = () => {
           <input
             type="text"
             id="phoneNumber"
-            value={phoneNumber}
-            onChange={e => setPhoneNumber(e.target.value)}
+            value={phoneNumber} // Fix for missing phoneNumber definition
+            onChange={e => setPhoneNumber(e.target.value)} // Update the state
             className="w-full p-2 border-2 border-gray-500 just-another-hand text-2xl"
             placeholder="phone number"
           />
@@ -210,10 +207,4 @@ const CheckoutInfo = () => {
   );
 };
 
-export default function Checkout() {
-  return (
-    <Elements stripe={stripePromise}>
-      <CheckoutInfo />
-    </Elements>
-  );
-}
+export default CheckoutInfo;
