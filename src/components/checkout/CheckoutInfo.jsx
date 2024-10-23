@@ -57,7 +57,7 @@ const CheckoutInfo = () => {
 
       // Step 2: Call your AWS Lambda backend via API Gateway
       const response = await axios.post(
-        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/Prod/", // Replace this with your API Gateway endpoint
+        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/dev", // Replace this with your API Gateway endpoint
         {
           paymentMethodId: paymentMethod.id, // Send the created paymentMethodId
           amount: 5000, // You can calculate this based on cart items
