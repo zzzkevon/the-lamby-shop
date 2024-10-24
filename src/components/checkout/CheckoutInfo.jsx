@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
 
 const CheckoutInfo = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
 
   // Define state for each form field
   const [email, setEmail] = useState("");
@@ -39,12 +41,12 @@ const CheckoutInfo = () => {
           billing_details: {
             name: `${firstName} ${lastName}`,
             email,
-            phone: phoneNumber, // Use phoneNumber from state
+            phone: phoneNumber,
             address: {
-              city, // Use city from state
-              state, // Use state from state
-              postal_code: zip, // Use zip from state
-              line1: address, // Use address from state
+              city,
+              state,
+              postal_code: zip,
+              line1: address,
             },
           },
         });
@@ -57,10 +59,10 @@ const CheckoutInfo = () => {
 
       // Step 2: Call your AWS Lambda backend via API Gateway
       const response = await axios.post(
-        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/dev", // Replace this with your API Gateway endpoint
+        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/dev",
         {
-          paymentMethodId: paymentMethod.id, // Send the created paymentMethodId
-          amount: 5000, // You can calculate this based on cart items
+          paymentMethodId: paymentMethod.id,
+          amount: 5000,
         },
         {
           headers: {
@@ -81,7 +83,7 @@ const CheckoutInfo = () => {
         setError(stripeError.message);
         setLoading(false);
       } else if (paymentIntent.status === "succeeded") {
-        alert("Payment successful!");
+        navigate("/payment-success");
         console.log("Payment successful! PaymentIntent ID:", paymentIntent.id);
       }
     } catch (err) {
@@ -169,8 +171,8 @@ const CheckoutInfo = () => {
           <input
             type="text"
             id="phoneNumber"
-            value={phoneNumber} // Fix for missing phoneNumber definition
-            onChange={e => setPhoneNumber(e.target.value)} // Update the state
+            value={phoneNumber}
+            onChange={e => setPhoneNumber(e.target.value)}
             className="w-full p-2 border-2 border-gray-500 just-another-hand text-2xl"
             placeholder="phone number"
           />
