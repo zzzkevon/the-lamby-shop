@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { clearCart, getCart } from "../cart/cart";
 import axios from "axios";
 
 const CheckoutInfo = () => {
@@ -19,6 +20,36 @@ const CheckoutInfo = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Checkout summary variables
+  const [items, setItems] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [shipping, setShipping] = useState(10); // Default shipping cost
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    // Fetch items from the cart and calculate totals
+    const cartItems = getCart(); // getCart should be imported or defined to fetch cart items
+    setItems(cartItems);
+
+    // Calculate subtotal, tax, shipping, and total
+    const subtotalValue = cartItems.reduce(
+      (acc, item) => acc + item.itemPrice * item.quantity,
+      0
+    );
+    setSubtotal(subtotalValue);
+
+    const taxValue = subtotalValue * 0.0725;
+    setTax(taxValue);
+
+    const shippingValue = subtotalValue > 50 ? 0 : 10;
+    setShipping(shippingValue);
+
+    const totalValue = subtotalValue + taxValue + shippingValue - discount;
+    setTotal(totalValue);
+  }, [discount]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -57,12 +88,12 @@ const CheckoutInfo = () => {
         return;
       }
 
-      // Step 2: Call your AWS Lambda backend via API Gateway
+      // Step 2: Call your AWS Lambda backend via API Gateway to create payment intent
       const response = await axios.post(
-        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/dev",
+        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/dev", // Replace with your endpoint
         {
           paymentMethodId: paymentMethod.id,
-          amount: 5000,
+          amount: Math.round(total * 100), // Amount in cents
         },
         {
           headers: {
@@ -83,17 +114,28 @@ const CheckoutInfo = () => {
         setError(stripeError.message);
         setLoading(false);
       } else if (paymentIntent.status === "succeeded") {
-        navigate("/payment-success");
-        console.log("Payment successful! PaymentIntent ID:", paymentIntent.id);
+        // clear local storage cart
+        clearCart();
+
+        // Navigate to PaymentSuccess with all necessary data
+        navigate("/payment-success", {
+          state: {
+            items,
+            subtotal,
+            tax,
+            shipping,
+            discount,
+            total,
+          },
+        });
       }
     } catch (err) {
       setError("An error occurred during payment processing.");
-      console.error(err);
+      // console.error(err);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <form
       onSubmit={handleSubmit}
