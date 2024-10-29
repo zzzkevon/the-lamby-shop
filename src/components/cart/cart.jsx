@@ -41,5 +41,6 @@ export function removeFromCart(item) {
 }
 
 export function clearCart() {
-  localStorage.removeItem("cart");
+  // localStorage.removeItem("cart");
+  localStorage.clear();
 }
