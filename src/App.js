@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import SnackbarProvider from 'react-simple-snackbar'
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
@@ -97,6 +98,7 @@ function App() {
   return (
     <CarouselContext1.Provider value={currentCarouselContext1}>
     <CarouselContext.Provider value={currentCarouselContext}>
+    <SnackbarProvider>
     <ToastProvider>
     <Router>
           <NavBar userRole={userRole} setUserRole={setUserRole}/>
@@ -128,6 +130,7 @@ function App() {
           </Routes>
         </Router>
         </ToastProvider>
+        </SnackbarProvider>
         </CarouselContext.Provider>
         </CarouselContext1.Provider>
         

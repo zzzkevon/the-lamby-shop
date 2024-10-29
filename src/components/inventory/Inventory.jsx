@@ -3,6 +3,7 @@ import axios from "axios";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 import { useTheme } from "@mui/system";
 import { addToCart } from "../cart/cart";
+import { useSnackbar } from "react-simple-snackbar";
 
 function useIsDarkMode() {
   const theme = useTheme();
@@ -10,10 +11,12 @@ function useIsDarkMode() {
 }
 
 // Modify this function to include "Add to Cart" functionality
-function itemInformation({ item, itemName, itemDescription, itemPrice }) {
+function ItemInformation({ item, itemName, itemDescription, itemPrice }) {
+  const [openSnack, closeSnack] = useSnackbar({position: 'top-right', style:{backgroundColor: "#991B1B", fontFamily: "just-another-hand", fontSize: "20px"}})
   const handleAddToCart = item => {
     addToCart(item); // Add the item to the cart
-    alert(`${itemName} added to cart!`); // Notify the user (optional)
+    openSnack(`${itemName} added to cart!`, 5000)
+    //alert(`${itemName} added to cart!`); // Notify the user (optional)
   };
 
   return (
@@ -90,7 +93,7 @@ const Inventory = () => {
             disablePortal
             className="popup-content"
           >
-            {itemInformation({
+            {ItemInformation({
               item: selectedItem,
               itemName: selectedItem.itemName,
               itemDescription: selectedItem.itemDescription,
