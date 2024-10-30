@@ -227,3 +227,53 @@ body {
   left: -35px;
   content: "✖";
 }
+
+/* index.css or App.css */
+body, button, input, h1, h2, h3, h4, h5, h6, label {
+  font-family: 'Just Another Hand', cursive !important;
+}
+
+/* index.css or App.css */
+
+/* Tabs: Sign In / Create Account */
+.amplify-tabs button {
+  font-size: 26px !important;
+  font-family: 'Just Another Hand', cursive !important;
+  
+}
+
+/* Labels: Email, Password */
+.amplify-label {
+  font-size: 22px !important;
+  font-family: 'Just Another Hand', cursive !important;
+}
+
+/* Input Fields */
+.amplify-input {
+  font-size: 20px !important;
+  font-family: 'Just Another Hand', cursive !important;
+}
+
+/* Buttons: Sign In */
+.amplify-button {
+  font-size: 24px !important;
+  font-family: 'Just Another Hand', cursive !important;
+}
+
+/* Footer Links: Forgot your password? */
+.amplify-footer {
+  font-size: 18px !important;
+  font-family: 'Just Another Hand', cursive !important;
+}
+
+[data-amplify-authenticator] {
+  --amplify-components-authenticator-router-box-shadow: 0 0 16px var(--amplify-colors-overlay-10);
+  --amplify-components-authenticator-router-border-width: 0;
+  --amplify-components-authenticator-form-padding: var(--amplify-space-medium) var(--amplify-space-xl) var(--amplify-space-xl);
+  --amplify-components-button-primary-background-color: #780000;
+  --amplify-components-fieldcontrol-focus-box-shadow: 0 0 0 2px black;
+  --amplify-components-tabs-item-active-border-color: #780000;
+  --amplify-components-tabs-item-color: var(--amplify-colors-neutral-80);
+  --amplify-components-tabs-item-active-color: black;
+  --amplify-components-button-link-color: black;
+}

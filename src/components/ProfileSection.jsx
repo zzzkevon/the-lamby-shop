@@ -1,124 +1,136 @@
-import React from "react";
-import star from "../images/story_stars_1.png";
-import { useState } from "react";
+import { Authenticator, ThemeProvider, defaultTheme } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import { getCurrentUser, fetchUserAttributes, signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
+import outputs from '../amplify_outputs.json';
+import '@aws-amplify/ui-react/styles.css';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Configure Amplify
+Amplify.configure(outputs);
+
+// Custom theme
+const customTheme = {
+  tokens: {
+    components: {
+      authenticator: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+      },
+      heading: {
+        fontWeight: { value: '400' },
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '32px' },
+      },
+      button: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '25px' },
+        primary: {
+          _hover: { backgroundColor: { value: '#4E0000' } },
+        },
+      },
+      input: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '25px' },
+      },
+      label: {
+        fontFamily: { value: '"Just Another Hand", cursive' },
+        fontSize: { value: '25px' },
+      },
+    },
+  },
+};
+
+// Helper function to check if the user is an admin
+async function isAdminUser() {
+  try {
+    const user = await getCurrentUser();
+    // console.log('User:', user); // Log user details
+
+    const attributesArray = await fetchUserAttributes(user);
+    console.log('Attributes:', attributesArray); // Log fetched attributes
+
+    // Safely access 'custom:isAdmin'
+    const isAdminAttr = attributesArray['custom:isAdmin'];
+    // console.log('isAdmin Attribute:', isAdminAttr); // Log attribute value
+
+    // Ensure we handle cases where 'isAdminAttr' is missing or invalid
+    const isAdminValue = isAdminAttr ? isAdminAttr.trim() : ''; 
+    // console.log('isAdmin Value after trim:', isAdminValue); // Check value after trim
+
+    return isAdminValue === 'true'; // Return true if admin
+  } catch (error) {
+    console.error('Error fetching user attributes:', error);
+    return false;
+  }
+}
+
 
 const ProfileSection = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [formError, setFormError] = useState("");
-  // update when profile page available.
-  // function LoginForm() {
-  // }
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    if (username.trim() === "" || password.trim() === "") {
-      setFormError("Please enter both username and password.");
-      return;
+  const refreshUserSession = async () => {
+    try {
+      const adminStatus = await isAdminUser(); // Check admin status
+      // console.log('Admin status:', adminStatus); // Check if true
+      setIsAdmin((prev) => {
+        // console.log('Previous isAdmin:', prev); // Log previous state
+        // console.log('New adminStatus:', adminStatus); // Log new status
+        return adminStatus;
+      });
+    } catch (error) {
+      console.error('Error refreshing session:', error);
+      setIsAdmin(false); // Reset to false on error
+    } finally {
+      setLoading(false); // End loading state
     }
-
-    console.log("Username: ", username);
-    console.log("Password: ", password);
   };
 
+  useEffect(() => {
+    refreshUserSession(); // Refresh session on component mount
+    // console.log('Admin status in useEffect:', isAdmin);
+  }, []); // Run only once on mount
+  
+
+  const handleSignOut = async () => {
+    setIsAdmin(false); // Reset state
+    await amplifySignOut(); // Use Amplify's sign out
+  };
+
+  if (loading) return <p>Loading...</p>; // Wait until loading finishes
+
   return (
-    <div
-      className="main-bg just-another-hand text-4xl"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <div className="flex flex-col justify-center items-center">
-        <header>
-          <div className="container mx-auto px-4">
-            <div className="flex flex-center justify-center">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img src={star} alt="" className="w-16 h-16 mb-4"></img>
-                <h1
-                  className="header-font header-format"
-                  style={{ fontSize: "2em", padding: "25px" }}
-                >
-                  LOGIN{" "}
-                </h1>
-                <img src={star} alt="" className="w-16 h-16 mb-4"></img>
-
-                <br></br>
-              </div>
-            </div>
-          </div>
-          <div id="input section">
-            <form onSubmit={handleSignIn}>
-              <label>email or username</label>
-              <br></br>
-              <input
-                type="text"
-                id="username"
-                className="input-borders"
-                style={{ width: "300px" }}
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              ></input>
-              <br></br>
-              <br></br>
-              <label>password</label>
-              <br></br>
-              <input
-                type="password"
-                id="password"
-                className="input-borders"
-                style={{ width: "300px" }}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              ></input>
-
-              <br></br>
-              <u>
-                <a href="/accountrecovery" style={{ fontSize: "30px" }}>
-                  Forgot password?{" "}
-                </a>
-              </u>
-
-              {formError && (
-                <div style={{ color: "red", marginTop: "10px" }}>
-                  {formError}
-                </div>
-              )}
-
-              <br></br>
-              <br></br>
-              <div
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <button
-                  className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-8 rounded-full mt-4"
-                  type="submit"
-                  onClick={handleSignIn}
-                >
-                  sign in
-                </button>
-                <br></br>
-                <u>
-                  <a href="/createaccount">create account</a>
-                </u>
-              </div>
-            </form>
-          </div>
-        </header>
-      </div>
-    </div>
+    <ThemeProvider theme={customTheme}>
+      <Authenticator
+        onAuthEvent={async (payload) => {
+          // console.log('Auth Event:', payload); // Debugging log
+          if (payload.event === 'signIn') {
+            // console.log('Sign-in detected');
+            await refreshUserSession(); // Refresh session on sign in
+            // console.log("Rerouting page 2");
+            // window.location.replace(window.location.href); // Reload 
+            navigate('/');
+          } else if (payload.event === 'signOut') {
+            handleSignOut(); // Reset state on sign out
+          }
+        }}
+        onStateChange={(state) => console.log('State changed:', state)}
+      >
+        {({ user }) => (
+          <main>
+            <h1>Hello {user?.username}</h1>
+            <h1>Welcome to the Dashboard</h1>
+            {isAdmin ? (
+              <p>You are an admin. You can manage content here.</p>
+            ) : (
+              <p>You are a regular user.</p>
+            )}
+            <button onClick={handleSignOut}>Sign out</button>
+          </main>
+        )}
+      </Authenticator>
+    </ThemeProvider>
   );
 };
 
