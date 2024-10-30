@@ -4,31 +4,6 @@ import axios from "axios";
 import { FCPThresholds } from "web-vitals";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
 
-/* Test commission
-const commissionArray = [
-  {
-    id: 1,
-    clientName: "Attila Diocletian",
-    description: "This description is for Attila Diocletian.",
-  },
-  {
-    id: 2,
-    clientName: "Gavrilo Juma",
-    description: "This description is for Gavrilo Juma.",
-  },
-  {
-    id: 3,
-    clientName: "Eilert Lakshman",
-    description: "This description is for Eilert Lakshman.",
-  },
-  {
-    id: 4,
-    clientName: "Goemon Ives",
-    description: "This description is for Goemon Ives.",
-  },
-];
-*/
-
 function GuestCommissionSection() {
   return (
     <div>
@@ -70,7 +45,9 @@ function AdminCommissionSection() {
   // GET request from API for all existing commissions
   const loadAdminCommissions = () => {
     axios
-      .get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
+      .get(
+        `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`
+      )
       .then(response => {
         // Get only the item id, clientName, and description
         let mappedData = response.data.map(item => ({
@@ -80,16 +57,16 @@ function AdminCommissionSection() {
           createdAt: item.createdAt,
           status: item.commissionStatus,
           phoneNumber: item.phoneNumber,
-          email: item.email
+          email: item.email,
         }));
         setAdminCommissions(mappedData);
         showToast("All commissions received!", "success");
       })
       .catch(err => {
         showToast("Error getting commission data.", "error");
-        console.error(err)
+        console.error(err);
       });
-  }
+  };
 
   /* 
     When user first loads admin commission page, they will be 
@@ -124,66 +101,82 @@ function AdminCommissionSection() {
   */
   useEffect(() => {
     // FOR TESTING ADDING FORM DATA INTO ITEMS[] console.log(`Item list size: ${items.length}`)
-  }, [items])
+  }, [items]);
 
   // Custom popup when you click confirm changes button
   const confirmAction = () => {
     showToast(
-      (
-        <>
-            <div className="just-another-hand">
-              <p className="font-bold text-4xl">Are you sure you want to confirm changes?</p>
-              <br></br>
-              <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
-                <button className="button" onClick={handleConfirm}>Confirm</button>
-                <button className="button" onClick={handleCancel}>Cancel</button>
-              </div>
-            </div>
-        </>
-      ), "error"
+      <>
+        <div className="just-another-hand">
+          <p className="font-bold text-4xl">
+            Are you sure you want to confirm changes?
+          </p>
+          <br></br>
+          <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
+            <button className="button" onClick={handleConfirm}>
+              Confirm
+            </button>
+            <button className="button" onClick={handleCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </>,
+      "error"
     );
   };
 
-  // Update commission statuses if confirm chosen from confirmAction() 
+  // Update commission statuses if confirm chosen from confirmAction()
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
     // Items is empty if length is 1
-    if(items.length == 1) {
-      showToast("Please add a form selection before confirming changes.", "error");
+    if (items.length == 1) {
+      showToast(
+        "Please add a form selection before confirming changes.",
+        "error"
+      );
       return;
     }
     showToast("Submitting changes for commission statuses");
     for (let i = 1; i < items.length; i++) {
       // Skip item if id is null
-      if(items[i].id == null)
-        continue;
+      if (items[i].id == null) continue;
       // Else, run the update request
-      else { 
-        axios.put(updatecommission_url, 
-                  { commissionStatus: items[i].commissionStatus },
-                  { params: { id: items[i].id } })
-              .then(response => {
-                  showToast(`Success updating status for commission ID ${items[i].id}`, "success");
-                  console.log(response.data);        
-                  /* 
+      else {
+        axios
+          .put(
+            updatecommission_url,
+            { commissionStatus: items[i].commissionStatus },
+            { params: { id: items[i].id } }
+          )
+          .then(response => {
+            showToast(
+              `Success updating status for commission ID ${items[i].id}`,
+              "success"
+            );
+            console.log(response.data);
+            /* 
                     Reload admin commissions with 
                     the new popup messages on a 
                     successful update request
-                  */         
-                  loadAdminCommissions();
-              })
-              .catch(error => {
-                  showToast(`Error updating status for commission ID ${items[i].id}`, "error");
-                  console.error(error);
-              });
-        }
+                  */
+            loadAdminCommissions();
+          })
+          .catch(error => {
+            showToast(
+              `Error updating status for commission ID ${items[i].id}`,
+              "error"
+            );
+            console.error(error);
+          });
       }
+    }
   };
 
   // Cancel toast popup if cancel chosen from confirmAction()
-  const handleCancel = () => { 
+  const handleCancel = () => {
     showToast("Canceled. No changes were made to the commission's statuses");
-  }
+  };
 
   return (
     <div>
@@ -226,7 +219,10 @@ function AdminCommissionSection() {
             </>
           ))}
           {/*<button onClick={test} className="button button-text">TEST</button>*/}
-          <button onClick={confirmAction} className="commission-button text-2xl">
+          <button
+            onClick={confirmAction}
+            className="commission-button text-2xl"
+          >
             Confirm Changes
           </button>
         </ul>
@@ -237,12 +233,18 @@ function AdminCommissionSection() {
 
 // Commission items inside of the Admin's commission page
 function CommissionItem({
-  id, clientName, description,
-  createdAt, status, phoneNumber,
-  email, items, setItems,
-  setFormData, reloadData
+  id,
+  clientName,
+  description,
+  createdAt,
+  status,
+  phoneNumber,
+  email,
+  items,
+  setItems,
+  setFormData,
+  reloadData,
 }) {
-
   // For invoking popup messages
   const showToast = useToast();
 
@@ -267,7 +269,7 @@ function CommissionItem({
     if (selected === null) {
       setSelected(event.target.value);
       setFormData({ id: id, commissionStatus: event.target.value });
-    } 
+    }
     // Else, remove the item from item array
     else {
       setSelected(null);
@@ -283,7 +285,7 @@ function CommissionItem({
   };
 
   // For formatting the date
-  const formattedDate = (date) => {
+  const formattedDate = date => {
     const dateCreated = new Date(date);
     const options = { year: "numeric", month: "long", day: "numeric" };
     const formattedDate = dateCreated.toLocaleDateString("en-US", options);
@@ -292,39 +294,47 @@ function CommissionItem({
 
   const confirmAction = () => {
     showToast(
-      (
-        <>
-            <div className="just-another-hand">
-              <p className="font-bold text-4xl">Are you sure with deleting this commission?</p>
-              <br></br>
-              <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
-                <button className="button" onClick={handleDelete}>Confirm</button>
-                <button className="button" onClick={handleCancel}>Cancel</button>
-              </div>
-            </div>
-        </>
-      ), "error"
+      <>
+        <div className="just-another-hand">
+          <p className="font-bold text-4xl">
+            Are you sure with deleting this commission?
+          </p>
+          <br></br>
+          <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
+            <button className="button" onClick={handleDelete}>
+              Confirm
+            </button>
+            <button className="button" onClick={handleCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </>,
+      "error"
     );
-  }
+  };
 
   // For handling delete commission button
   const handleDelete = () => {
     let deletecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    axios.delete(deletecommission_url, { params: { id: id } })
-          .then(response => {
-              showToast(`Deleting commission ID ${id}`, "success");
-              console.log(response.data);
-              // Reload data on successful delete
-              reloadData();
-          })
-          .catch(error =>{
-              showToast(`Error deleting commission ID ${id}`, "error")
-              console.error(error);
-          });   
+    axios
+      .delete(deletecommission_url, { params: { id: id } })
+      .then(response => {
+        showToast(`Deleting commission ID ${id}`, "success");
+        console.log(response.data);
+        // Reload data on successful delete
+        reloadData();
+      })
+      .catch(error => {
+        showToast(`Error deleting commission ID ${id}`, "error");
+        console.error(error);
+      });
   };
 
   // Handling cancel in confirmAction() when confirming to delete commission submission
-  const handleCancel = () => { showToast("Canceled delete."); }
+  const handleCancel = () => {
+    showToast("Canceled delete.");
+  };
 
   return (
     <>
@@ -339,7 +349,9 @@ function CommissionItem({
               We test if clientName length is 1 for null because 
               of the space that always gets pushed into clientName
             */}
-            <div className="flex w-1/2">Client Name: {clientName.length !== 1 ? clientName : "N/A"}</div>
+            <div className="flex w-1/2">
+              Client Name: {clientName.length !== 1 ? clientName : "N/A"}
+            </div>
             <div className="flex w-1/4">Date: {formattedDate(createdAt)}</div>
             <div className="flex w-1/4">Current status: {status}</div>
           </div>
@@ -387,8 +399,12 @@ function CommissionItem({
             <div className="grid grid-cols-2 block p-2 bg-white border-t border-gray-300 text-2xl">
               <div>
                 <p className="font-bold flex w-1/4">--Contact info--</p>
-                <p className="flex w-1/4">Phone Number: {phoneNumber.length !== 0 ? phoneNumber : "N/A"}</p>
-                <p className="flex w-1/4">Email: {email.length !== 0 ? email : "N/A"}</p>
+                <p className="flex w-1/4">
+                  Phone Number: {phoneNumber.length !== 0 ? phoneNumber : "N/A"}
+                </p>
+                <p className="flex w-1/4">
+                  Email: {email.length !== 0 ? email : "N/A"}
+                </p>
                 <button onClick={confirmAction} className="commission-button">
                   Delete Commission
                 </button>
@@ -398,7 +414,6 @@ function CommissionItem({
                 <p className="font-bold">--Description--</p>
                 <p>{description}</p>
               </div>
-
             </div>
           </>
         )}
@@ -458,7 +473,6 @@ function UsersPersonalCommissionItem({
       </div>
       {isOpen && (
         <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
-          <p>This is the dropdown content!</p>
           <p>Description: {description}</p>
           <div className="flex justify-end space-x-2 mt-4">
             <button
@@ -519,7 +533,7 @@ function UserPolicy({ handleClose }) {
   );
 }
 
-function UserEditCommissionScreen({
+export function UserEditCommissionScreen({
   display,
   id,
   description,
@@ -540,12 +554,12 @@ function UserEditCommissionScreen({
       })
       .then(response => {
         console.log("Response:", response.data);
-        //window.alert("Successfully Updated Commission");
         showToast("Sucessfully updated commission!", "success");
         reloadData();
       })
       .catch(error => {
         console.error("Error updating data:", error);
+        showToast("Error! Network put request failed.", "error");
       });
   };
 
@@ -559,7 +573,6 @@ function UserEditCommissionScreen({
          since it is not in the pending status.`,
         "error"
       );
-      //window.alert("Sorry, the commission can't be changed since it is not in the pending status.");
       display(false);
     }
   };
@@ -617,6 +630,7 @@ function UserCancelCommissionScreen({ display, id, status, reloadData }) {
       })
       .catch(error => {
         console.error("Error deleting item:", error);
+        showToast("Error! Network delete request failed.", "error");
       });
   };
 
@@ -661,6 +675,37 @@ function UserCancelCommissionScreen({ display, id, status, reloadData }) {
   );
 }
 
+function SubmitCommissionPopup({ exitScreen, submitCommission }) {
+  const sendCommission = () => {
+    submitCommission();
+    exitScreen();
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="w-1/4 bg-white rounded-lg p-4">
+        <h1 className="text-3xl text-center font-bold">Submit Commission?</h1>
+        <p>
+          Are you sure you want to submit your commission now? Please be sure
+          the information you provided is correct. You might not have a chance
+          to change it later.
+        </p>
+        <div className="flex justify-end space-x-2 mt-4">
+          <button
+            onClick={exitScreen}
+            className="commission-button closebutton rounded"
+          >
+            Go Back
+          </button>
+          <button onClick={sendCommission} className="commission-button">
+            Submit Commission
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function UserCommisionsSection() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -670,6 +715,7 @@ function UserCommisionsSection() {
   const [userCommissionArray, setUserCommissions] = useState([]);
   const [commissionFormOpen, setFormOpen] = useState(false);
   const [addFormButtonText, setButtonText] = useState("Add A Commission\u25B4");
+  const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
   const showToast = useToast();
 
   const toggleForm = () => {
@@ -679,6 +725,18 @@ function UserCommisionsSection() {
       setButtonText("Add A Commission\u25BE");
     }
     setFormOpen(!commissionFormOpen);
+  };
+
+  const clearForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhoneNumber("");
+    setDescription("");
+  };
+
+  const toggleSubmissionPopup = () => {
+    setSendCommissionPopup(!sendCommissionPopup);
   };
 
   // Function to handle no special characters in input
@@ -718,6 +776,7 @@ function UserCommisionsSection() {
       })
       .catch(error => {
         console.error("Error:", error);
+        showToast("Error! Network get request failed.", "error");
       });
   };
 
@@ -726,37 +785,34 @@ function UserCommisionsSection() {
   }, []);
 
   const handleSubmit = async () => {
-    if (window.confirm("Are you sure you want to submit?")) {
-      const commissionData = {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        description,
-      };
+    const commissionData = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      description,
+    };
 
-      try {
-        const response = await axios.post(
-          "https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development",
-          commissionData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log("Success:", response.data);
-
-        if (response.status === 200) {
-          showToast("Commission Sent!", "success");
-          grabOwnCommissions();
+    try {
+      const response = await axios.post(
+        "https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development",
+        commissionData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (error) {
-        console.error("Error sending commission data:", error);
-        window.alert("Failed to send commission. Please try again.");
+      );
+      console.log("Success:", response.data);
+
+      if (response.status === 200) {
+        showToast("Commission Sent!", "success");
+        clearForm();
+        grabOwnCommissions();
       }
-    } else {
-      window.alert("You pressed cancel, commission not sent!");
+    } catch (error) {
+      console.error("Error sending commission data:", error);
+      showToast("Error! Network post request failed.", "error");
     }
   };
 
@@ -818,6 +874,13 @@ function UserCommisionsSection() {
         {addFormButtonText}
       </button>
 
+      {sendCommissionPopup && (
+        <SubmitCommissionPopup
+          exitScreen={toggleSubmissionPopup}
+          submitCommission={handleSubmit}
+        />
+      )}
+
       {commissionFormOpen && (
         <div
           style={{
@@ -840,6 +903,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="fname"
                 className="input-borders"
+                value={firstName}
                 onChange={e => setFirstName(e.target.value)}
               />
             </div>
@@ -848,6 +912,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="lname"
                 className="input-borders"
+                value={lastName}
                 onChange={e => setLastName(e.target.value)}
               />
             </div>
@@ -864,6 +929,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="email"
                 className="input-borders"
+                value={email}
                 onChange={e => setEmail(e.target.value)}
               />
             </div>
@@ -872,6 +938,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="phone"
                 className="input-borders"
+                value={phoneNumber}
                 onChange={e => setPhoneNumber(e.target.value)}
               />
             </div>
@@ -889,6 +956,7 @@ function UserCommisionsSection() {
                 name="customRequest"
                 onKeyPress={handleKeyPress}
                 maxLength={250}
+                value={description}
                 onChange={e => setDescription(e.target.value)}
                 style={{ width: "877px", height: "162px" }}
               />
@@ -901,7 +969,10 @@ function UserCommisionsSection() {
                 justifyContent: "center",
               }}
             >
-              <button className="button button-text" onClick={handleSubmit}>
+              <button
+                className="button button-text"
+                onClick={toggleSubmissionPopup}
+              >
                 s u b m i t
               </button>
             </div>
