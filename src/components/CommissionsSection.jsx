@@ -4,30 +4,6 @@ import axios from "axios";
 import { FCPThresholds } from "web-vitals";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
 
-/* Test commission
-const commissionArray = [
-  {
-    id: 1,
-    clientName: "Attila Diocletian",
-    description: "This description is for Attila Diocletian.",
-  },
-  {
-    id: 2,
-    clientName: "Gavrilo Juma",
-    description: "This description is for Gavrilo Juma.",
-  },
-  {
-    id: 3,
-    clientName: "Eilert Lakshman",
-    description: "This description is for Eilert Lakshman.",
-  },
-  {
-    id: 4,
-    clientName: "Goemon Ives",
-    description: "This description is for Goemon Ives.",
-  },
-];
-*/
 
 function GuestCommissionSection() {
   return (
@@ -58,36 +34,6 @@ function GuestCommissionSection() {
     </div>
   );
 }
-
-// function AdminCommissionSection() {
-//   return (
-//     <div>
-//       <div
-//         className="just-another-hand text-3xl"
-//         style={{
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "center",
-//         }}
-//       >
-//         <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-//         <h1
-//           className="header-font header-format"
-//           style={{ fontSize: "2em", padding: "25px" }}
-//         >
-//           C O M M I S S I O N S
-//         </h1>
-//         <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-//       </div>
-
-//       <div className="flex w-full just-another-hand justify-around items-center">
-//         <h2 className="text-6xl">
-//           Welcome, Guest! Please log in to view your commissions.
-//         </h2>
-//       </div>
-//     </div>
-//   );
-// }
 
 function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
@@ -390,7 +336,6 @@ function UsersPersonalCommissionItem({
       </div>
       {isOpen && (
         <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
-          <p>This is the dropdown content!</p>
           <p>Description: {description}</p>
           <div className="flex justify-end space-x-2 mt-4">
             <button
@@ -451,7 +396,7 @@ function UserPolicy({ handleClose }) {
   );
 }
 
-function UserEditCommissionScreen({
+export function UserEditCommissionScreen({
   display,
   id,
   description,
@@ -472,12 +417,12 @@ function UserEditCommissionScreen({
       })
       .then(response => {
         console.log("Response:", response.data);
-        //window.alert("Successfully Updated Commission");
         showToast("Sucessfully updated commission!", "success");
         reloadData();
       })
       .catch(error => {
         console.error("Error updating data:", error);
+        showToast("Error! Network put request failed.", "error");
       });
   };
 
@@ -491,7 +436,6 @@ function UserEditCommissionScreen({
          since it is not in the pending status.`,
         "error"
       );
-      //window.alert("Sorry, the commission can't be changed since it is not in the pending status.");
       display(false);
     }
   };
@@ -549,6 +493,7 @@ function UserCancelCommissionScreen({ display, id, status, reloadData }) {
       })
       .catch(error => {
         console.error("Error deleting item:", error);
+        showToast("Error! Network delete request failed.", "error");
       });
   };
 
@@ -593,6 +538,38 @@ function UserCancelCommissionScreen({ display, id, status, reloadData }) {
   );
 }
 
+function SubmitCommissionPopup({exitScreen, submitCommission }) {
+
+  const sendCommission = () => {
+    submitCommission();
+    exitScreen();
+  }
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="w-1/4 bg-white rounded-lg p-4">
+        <h1 className="text-3xl text-center font-bold">Submit Commission?</h1>
+        <p>
+          Are you sure you want to submit your commission now? Please be sure 
+          the information you provided is correct. You might not have a chance to 
+          change it later.
+        </p>
+        <div className="flex justify-end space-x-2 mt-4">
+          <button
+            onClick={exitScreen}
+            className="commission-button closebutton rounded"
+          >
+            Go Back
+          </button>
+          <button onClick={sendCommission} className="commission-button">
+            Submit Commission
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function UserCommisionsSection() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -602,6 +579,7 @@ function UserCommisionsSection() {
   const [userCommissionArray, setUserCommissions] = useState([]);
   const [commissionFormOpen, setFormOpen] = useState(false);
   const [addFormButtonText, setButtonText] = useState("Add A Commission\u25B4");
+  const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
   const showToast = useToast();
 
   const toggleForm = () => {
@@ -612,6 +590,18 @@ function UserCommisionsSection() {
     }
     setFormOpen(!commissionFormOpen);
   };
+
+  const clearForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhoneNumber("");
+    setDescription("");
+  }
+
+  const toggleSubmissionPopup = () => {
+    setSendCommissionPopup(!sendCommissionPopup);
+  }
 
   // Function to handle no special characters in input
   const handleKeyPress = event => {
@@ -650,6 +640,7 @@ function UserCommisionsSection() {
       })
       .catch(error => {
         console.error("Error:", error);
+        showToast("Error! Network get request failed.", "error");
       });
   };
 
@@ -658,37 +649,34 @@ function UserCommisionsSection() {
   }, []);
 
   const handleSubmit = async () => {
-    if (window.confirm("Are you sure you want to submit?")) {
-      const commissionData = {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        description,
-      };
+    const commissionData = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      description,
+    };
 
-      try {
-        const response = await axios.post(
-          "https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development",
-          commissionData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log("Success:", response.data);
-
-        if (response.status === 200) {
-          showToast("Commission Sent!", "success");
-          grabOwnCommissions();
+    try {
+      const response = await axios.post(
+        "https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development",
+        commissionData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (error) {
-        console.error("Error sending commission data:", error);
-        window.alert("Failed to send commission. Please try again.");
+      );
+      console.log("Success:", response.data);
+
+      if (response.status === 200) {
+        showToast("Commission Sent!", "success");
+        clearForm();
+        grabOwnCommissions();
       }
-    } else {
-      window.alert("You pressed cancel, commission not sent!");
+    } catch (error) {
+      console.error("Error sending commission data:", error);
+      showToast("Error! Network post request failed.","error");
     }
   };
 
@@ -750,6 +738,13 @@ function UserCommisionsSection() {
         {addFormButtonText}
       </button>
 
+      {sendCommissionPopup && 
+        (<SubmitCommissionPopup 
+          exitScreen = {toggleSubmissionPopup}
+          submitCommission={handleSubmit}
+        />)
+      }
+
       {commissionFormOpen && (
         <div
           style={{
@@ -772,6 +767,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="fname"
                 className="input-borders"
+                value={firstName}
                 onChange={e => setFirstName(e.target.value)}
               />
             </div>
@@ -780,6 +776,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="lname"
                 className="input-borders"
+                value={lastName}
                 onChange={e => setLastName(e.target.value)}
               />
             </div>
@@ -796,6 +793,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="email"
                 className="input-borders"
+                value={email}
                 onChange={e => setEmail(e.target.value)}
               />
             </div>
@@ -804,6 +802,7 @@ function UserCommisionsSection() {
                 type="text"
                 id="phone"
                 className="input-borders"
+                value={phoneNumber}
                 onChange={e => setPhoneNumber(e.target.value)}
               />
             </div>
@@ -821,6 +820,7 @@ function UserCommisionsSection() {
                 name="customRequest"
                 onKeyPress={handleKeyPress}
                 maxLength={250}
+                value={description}
                 onChange={e => setDescription(e.target.value)}
                 style={{ width: "877px", height: "162px" }}
               />
@@ -833,7 +833,7 @@ function UserCommisionsSection() {
                 justifyContent: "center",
               }}
             >
-              <button className="button button-text" onClick={handleSubmit}>
+              <button className="button button-text" onClick={toggleSubmissionPopup}>
                 s u b m i t
               </button>
             </div>
