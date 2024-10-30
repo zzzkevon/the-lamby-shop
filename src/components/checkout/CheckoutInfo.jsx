@@ -1,19 +1,15 @@
-import React, { useState } from "react";
-import {
-  CardElement,
-  useStripe,
-  useElements,
-  Elements,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useState, useEffect } from "react";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { clearCart, getCart } from "../cart/cart";
 import axios from "axios";
-
-// Load Stripe using the publishable key
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutInfo = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
+
+  // Define state for each form field
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,6 +20,36 @@ const CheckoutInfo = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Checkout summary variables
+  const [items, setItems] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [shipping, setShipping] = useState(10); // Default shipping cost
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    // Fetch items from the cart and calculate totals
+    const cartItems = getCart(); // getCart should be imported or defined to fetch cart items
+    setItems(cartItems);
+
+    // Calculate subtotal, tax, shipping, and total
+    const subtotalValue = cartItems.reduce(
+      (acc, item) => acc + item.itemPrice * item.quantity,
+      0
+    );
+    setSubtotal(subtotalValue);
+
+    const taxValue = subtotalValue * 0.0725;
+    setTax(taxValue);
+
+    const shippingValue = subtotalValue > 50 ? 0 : 10;
+    setShipping(shippingValue);
+
+    const totalValue = subtotalValue + taxValue + shippingValue - discount;
+    setTotal(totalValue);
+  }, [discount]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -41,7 +67,7 @@ const CheckoutInfo = () => {
       // Step 1: Create Payment Method using Stripe Elements
       const { paymentMethod, error: paymentMethodError } =
         await stripe.createPaymentMethod({
-          type: 'card',
+          type: "card",
           card: cardElement,
           billing_details: {
             name: `${firstName} ${lastName}`,
@@ -62,12 +88,17 @@ const CheckoutInfo = () => {
         return;
       }
 
-      // Step 2: Call your AWS Lambda endpoint to create a payment intent
+      // Step 2: Call your AWS Lambda backend via API Gateway to create payment intent
       const response = await axios.post(
-        process.env.REACT_APP_STRIPE_API_URL, // Replace with your Stripe API URL
+        "https://g3ygonyv9k.execute-api.us-west-2.amazonaws.com/dev", // Replace with your endpoint
         {
-          paymentMethodId: paymentMethod.id, // Send the created paymentMethodId
-          amount: 5000, // will need to change this later to accept the total calculated from CheckoutItemInfojsx
+          paymentMethodId: paymentMethod.id,
+          amount: Math.round(total * 100), // Amount in cents
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -80,21 +111,31 @@ const CheckoutInfo = () => {
         });
 
       if (stripeError) {
-        console.log("Error in step 3");
         setError(stripeError.message);
         setLoading(false);
       } else if (paymentIntent.status === "succeeded") {
-        alert("Payment successful!");
-        console.log("Payment successful! PaymentIntent ID:", paymentIntent.id);
+        // clear local storage cart
+        clearCart();
+
+        // Navigate to PaymentSuccess with all necessary data
+        navigate("/payment-success", {
+          state: {
+            items,
+            subtotal,
+            tax,
+            shipping,
+            discount,
+            total,
+          },
+        });
       }
     } catch (err) {
       setError("An error occurred during payment processing.");
-      console.error(err);
+      // console.error(err);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -210,10 +251,4 @@ const CheckoutInfo = () => {
   );
 };
 
-export default function Checkout() {
-  return (
-    <Elements stripe={stripePromise}>
-      <CheckoutInfo />
-    </Elements>
-  );
-}
+export default CheckoutInfo;

@@ -59,67 +59,56 @@ function GuestCommissionSection() {
   );
 }
 
-// function AdminCommissionSection() {
-//   return (
-//     <div>
-//       <div
-//         className="just-another-hand text-3xl"
-//         style={{
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "center",
-//         }}
-//       >
-//         <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-//         <h1
-//           className="header-font header-format"
-//           style={{ fontSize: "2em", padding: "25px" }}
-//         >
-//           C O M M I S S I O N S
-//         </h1>
-//         <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-//       </div>
-
-//       <div className="flex w-full just-another-hand justify-around items-center">
-//         <h2 className="text-6xl">
-//           Welcome, Guest! Please log in to view your commissions.
-//         </h2>
-//       </div>
-//     </div>
-//   );
-// }
-
+// Admin view of the Commission Page
 function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
 
-  useEffect(() => {
-    // GET request from API for all existing commissions
+  // For invoking popup messages
+  const showToast = useToast();
+
+  // GET request from API for all existing commissions
+  const loadAdminCommissions = () => {
     axios
-      .get(
-        `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`
-      )
+      .get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
       .then(response => {
         // Get only the item id, clientName, and description
         let mappedData = response.data.map(item => ({
           id: item.id,
           clientName: `${item.firstName} ${item.lastName}`,
           description: item.description,
+          createdAt: item.createdAt,
+          status: item.commissionStatus,
+          phoneNumber: item.phoneNumber,
+          email: item.email
         }));
-        //console.log(mappedData);
         setAdminCommissions(mappedData);
+        showToast("All commissions received!", "success");
       })
-      .catch(err => console.error(`Error getting commission data`, err));
+      .catch(err => {
+        showToast("Error getting commission data.", "error");
+        console.error(err)
+      });
+  }
+
+  /* 
+    When user first loads admin commission page, they will be 
+    prompted with either message based on successful retrieval
+    of all commissions.
+  */
+  useEffect(() => {
+    loadAdminCommissions();
   }, []);
 
   // Getting form data from CommissionItem
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({ id: null, commissionStatus: "" });
 
-  // Add commission item to item list everytime an status selection is made
+  /* 
+    Adds a form item to items[] whenever setFormData()
+    gets invoked inside of CommissionItem()
+  */
   useEffect(() => {
-    //console.log('Commission Item added to list to be updated: ', formData);
-    // Add item to list
     setItems([
       ...items,
       {
@@ -127,49 +116,74 @@ function AdminCommissionSection() {
         commissionStatus: formData.commissionStatus,
       },
     ]);
-    //console.log('Commission Item list size: ', items.length);
   }, [formData]);
 
-  /*
-  const test = () => {
-    // For items array, start at index 1
-    // Index 0 is the initial state declared in formData
-    for(let i = 1; i < items.length; i++){
-      console.log(`Commission Item ${i}: ${items[i].id} ${items[i].commissionStatus}`);
-    }
-  }
+  /* 
+    Update items list everytime setItems is 
+    invoked from the useEffect() above this one.
   */
+  useEffect(() => {
+    // FOR TESTING ADDING FORM DATA INTO ITEMS[] console.log(`Item list size: ${items.length}`)
+  }, [items])
 
-  // For updating statuses of all selected commissions
-  const handleConfirm = () => {
-    let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Parse through all of the items and push them to db
-    if (window.confirm("Are you sure you want to submit changes?")) {
-      alert("Submitting changes for commission statuses");
-      for (let i = 1; i < items.length; i++) {
-        axios
-          .put(
-            updatecommission_url,
-            { commissionStatus: items[i].commissionStatus },
-            { params: { id: items[i].id } }
-          )
-          .then(response => {
-            console.log(
-              `Updating data for commission ID ${items[i].id}`,
-              response.data
-            );
-          })
-          .catch(error =>
-            console.error(
-              `Error updating the data for commission ID ${items[i].id}`,
-              error
-            )
-          );
-      }
-    } else {
-      alert("Canceled, no changes made to commission statuses");
-    }
+  // Custom popup when you click confirm changes button
+  const confirmAction = () => {
+    showToast(
+      (
+        <>
+            <div className="just-another-hand">
+              <p className="font-bold text-4xl">Are you sure you want to confirm changes?</p>
+              <br></br>
+              <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
+                <button className="button" onClick={handleConfirm}>Confirm</button>
+                <button className="button" onClick={handleCancel}>Cancel</button>
+              </div>
+            </div>
+        </>
+      ), "error"
+    );
   };
+
+  // Update commission statuses if confirm chosen from confirmAction() 
+  const handleConfirm = async () => {
+    let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
+    // Items is empty if length is 1
+    if(items.length == 1) {
+      showToast("Please add a form selection before confirming changes.", "error");
+      return;
+    }
+    showToast("Submitting changes for commission statuses");
+    for (let i = 1; i < items.length; i++) {
+      // Skip item if id is null
+      if(items[i].id == null)
+        continue;
+      // Else, run the update request
+      else { 
+        axios.put(updatecommission_url, 
+                  { commissionStatus: items[i].commissionStatus },
+                  { params: { id: items[i].id } })
+              .then(response => {
+                  showToast(`Success updating status for commission ID ${items[i].id}`, "success");
+                  console.log(response.data);        
+                  /* 
+                    Reload admin commissions with 
+                    the new popup messages on a 
+                    successful update request
+                  */         
+                  loadAdminCommissions();
+              })
+              .catch(error => {
+                  showToast(`Error updating status for commission ID ${items[i].id}`, "error");
+                  console.error(error);
+              });
+        }
+      }
+  };
+
+  // Cancel toast popup if cancel chosen from confirmAction()
+  const handleCancel = () => { 
+    showToast("Canceled. No changes were made to the commission's statuses");
+  }
 
   return (
     <div>
@@ -191,7 +205,7 @@ function AdminCommissionSection() {
         <img src={star} alt="" class="w-16 h-16 mb-4"></img>
       </div>
 
-      <div className="flex w-full justify-around items-center">
+      <div className="just-another-hand flex w-full justify-around items-center">
         {/*creates and displays the commission item components from the data in the commission array*/}
         <ul className="justify-around w-4/5">
           {adminCommissions.map(commissionItem => (
@@ -200,15 +214,20 @@ function AdminCommissionSection() {
                 id={commissionItem.id}
                 clientName={commissionItem.clientName}
                 description={commissionItem.description}
+                createdAt={commissionItem.createdAt}
+                status={commissionItem.status}
+                phoneNumber={commissionItem.phoneNumber}
+                email={commissionItem.email}
                 items={items}
                 setItems={setItems}
                 setFormData={setFormData}
+                reloadData={loadAdminCommissions}
               />
             </>
           ))}
           {/*<button onClick={test} className="button button-text">TEST</button>*/}
-          <button onClick={handleConfirm} className="button button-text">
-            Confirm
+          <button onClick={confirmAction} className="commission-button text-2xl">
+            Confirm Changes
           </button>
         </ul>
       </div>
@@ -216,14 +235,17 @@ function AdminCommissionSection() {
   );
 }
 
+// Commission items inside of the Admin's commission page
 function CommissionItem({
-  id,
-  clientName,
-  description,
-  items,
-  setItems,
-  setFormData,
+  id, clientName, description,
+  createdAt, status, phoneNumber,
+  email, items, setItems,
+  setFormData, reloadData
 }) {
+
+  // For invoking popup messages
+  const showToast = useToast();
+
   // For opening the commission item to view dropdown contents
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
@@ -233,13 +255,22 @@ function CommissionItem({
   // For handling checkbox values
   const [selected, setSelected] = useState(null);
 
-  /*  Get's the id and sets the selected commission status, 
-    pushing it to formData in AdminCommissionSection().  */
+  /*  
+    Get's the id and sets the selected 
+    commission status, pushing it into the
+    formData array in AdminCommissionSection()
+  */
   const handleFormChanges = event => {
+    // Prevent default form submission action
     event.stopPropagation();
-    if (event.target.value === selected) {
+    // Add selection if item checkbox isn't checked
+    if (selected === null) {
+      setSelected(event.target.value);
+      setFormData({ id: id, commissionStatus: event.target.value });
+    } 
+    // Else, remove the item from item array
+    else {
       setSelected(null);
-      // Remove item from item array in AdminCommissionSection()
       const index = items.findIndex(item => item.id === id);
       if (index !== -1) {
         const newItemsArray = [
@@ -248,30 +279,52 @@ function CommissionItem({
         ];
         setItems(newItemsArray);
       }
-    } else {
-      setSelected(event.target.value);
-      setFormData({ id: id, commissionStatus: event.target.value });
     }
   };
 
-  // For deleting commissions
+  // For formatting the date
+  const formattedDate = (date) => {
+    const dateCreated = new Date(date);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = dateCreated.toLocaleDateString("en-US", options);
+    return formattedDate;
+  };
+
+  const confirmAction = () => {
+    showToast(
+      (
+        <>
+            <div className="just-another-hand">
+              <p className="font-bold text-4xl">Are you sure with deleting this commission?</p>
+              <br></br>
+              <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
+                <button className="button" onClick={handleDelete}>Confirm</button>
+                <button className="button" onClick={handleCancel}>Cancel</button>
+              </div>
+            </div>
+        </>
+      ), "error"
+    );
+  }
+
+  // For handling delete commission button
   const handleDelete = () => {
     let deletecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    if (window.confirm(`Are you sure you want to delete item ${id}?`)) {
-      axios
-        .delete(deletecommission_url, { params: { id: id } })
-        .then(response => {
-          console.log(`Deleting commission ID ${id}`, response.data);
-        })
-        .catch(error =>
-          console.error(`Error deleting commission ID ${id}`, error)
-        );
-      // Refresh page
-      //window.location.reload();
-    } else {
-      alert("Canceled delete.");
-    }
+    axios.delete(deletecommission_url, { params: { id: id } })
+          .then(response => {
+              showToast(`Deleting commission ID ${id}`, "success");
+              console.log(response.data);
+              // Reload data on successful delete
+              reloadData();
+          })
+          .catch(error =>{
+              showToast(`Error deleting commission ID ${id}`, "error")
+              console.error(error);
+          });   
   };
+
+  // Handling cancel in confirmAction() when confirming to delete commission submission
+  const handleCancel = () => { showToast("Canceled delete."); }
 
   return (
     <>
@@ -282,8 +335,13 @@ function CommissionItem({
             onClick={toggleDropdown}
           >
             <div className="flex w-1/4">Id: {id}</div>
-            <div className="flex w-1/2">Client Name: {clientName}</div>
-            <div className="flex w-1/4">Date: XX-XX-XXXX</div>
+            {/* 
+              We test if clientName length is 1 for null because 
+              of the space that always gets pushed into clientName
+            */}
+            <div className="flex w-1/2">Client Name: {clientName.length !== 1 ? clientName : "N/A"}</div>
+            <div className="flex w-1/4">Date: {formattedDate(createdAt)}</div>
+            <div className="flex w-1/4">Current status: {status}</div>
           </div>
           <div className="flex justify-center border border-black bg-gray-150">
             {/* This part below is the 3 checkboxes.*/}
@@ -291,8 +349,8 @@ function CommissionItem({
               <label className="flex px-2 items-center space-x-2">
                 <input
                   type="checkbox"
-                  value="accept"
-                  checked={selected === "accept"}
+                  value="accepted"
+                  checked={selected === "accepted"}
                   onChange={handleFormChanges}
                   className="form-checkbox accent-green-400"
                 />
@@ -302,8 +360,8 @@ function CommissionItem({
               <label className="flex items-center space-x-2">
                 <input
                   type="checkbox"
-                  value="decline"
-                  checked={selected === "decline"}
+                  value="declined"
+                  checked={selected === "declined"}
                   onChange={handleFormChanges}
                   className="form-checkbox accent-red-500"
                 />
@@ -313,8 +371,8 @@ function CommissionItem({
               <label className="flex px-2 items-center space-x-2">
                 <input
                   type="checkbox"
-                  value="flag"
-                  checked={selected === "flag"}
+                  value="flagged"
+                  checked={selected === "flagged"}
                   onChange={handleFormChanges}
                   className="form-checkbox accent-yellow-300"
                 />
@@ -325,14 +383,24 @@ function CommissionItem({
         </div>
 
         {isOpen && (
-          <div className="block p-2 bg-white border-t border-gray-300 text-2xl">
-            <p>This is the dropdown content!</p>
-            <p>Description: {description}</p>
-            {/* Delete Commission Button */}
-            <button onClick={handleDelete} className="button button-text">
-              Delete
-            </button>
-          </div>
+          <>
+            <div className="grid grid-cols-2 block p-2 bg-white border-t border-gray-300 text-2xl">
+              <div>
+                <p className="font-bold flex w-1/4">--Contact info--</p>
+                <p className="flex w-1/4">Phone Number: {phoneNumber.length !== 0 ? phoneNumber : "N/A"}</p>
+                <p className="flex w-1/4">Email: {email.length !== 0 ? email : "N/A"}</p>
+                <button onClick={confirmAction} className="commission-button">
+                  Delete Commission
+                </button>
+              </div>
+
+              <div>
+                <p className="font-bold">--Description--</p>
+                <p>{description}</p>
+              </div>
+
+            </div>
+          </>
         )}
       </div>
     </>
