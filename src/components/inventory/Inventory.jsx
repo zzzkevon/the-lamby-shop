@@ -3,6 +3,7 @@ import axios from "axios";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 import { useTheme } from "@mui/system";
 import { addToCart } from "../cart/cart";
+import nophoto from '../inventory/nophoto.png'
 
 function useIsDarkMode() {
   const theme = useTheme();
@@ -70,7 +71,7 @@ const Inventory = () => {
           onClick={event => handleClick(event, item)}
         >
           <img
-            src={item.signedUrl}
+            src={item.signedUrl ? item.signedUrl : nophoto}
             alt={item.itemName}
             style={{
               width: "100%",

@@ -23,20 +23,28 @@ function Carousel1() {
     setSlideIndex(index);
   };
 
-  // useEffect(() =>  {
-  //   console.log("from carousel1: ", carousel1)
-  //   console.log("from slide ", slide1)
-
-  // },[carousel1]);
-
   useEffect(() => {
-    if(carousel1 && carousel1.length > 0){
-      setSlide1(carousel1.slice(0,4));
-      setSlide2(carousel1.slice(4,8));
-      setSlide3(carousel1.slice(8,12));
 
-      const filteredNew = carousel1.filter(item => item.type === 'new');
-      setNewItems(filteredNew.slice(0,4));
+    const filterWithImg = carousel1.filter(item => item.signedUrl)
+
+    if(carousel1 && carousel1.length > 0){
+      setSlide1(filterWithImg.slice(0,4));
+      setSlide2(filterWithImg.slice(4,8));
+      setSlide3(filterWithImg.slice(8,12));
+      let filteredNew = filterWithImg.filter(item => item.type === 'new');
+      // console.log('filteredNew: ', filteredNew)
+
+      setNewItems(filteredNew)
+
+      localStorage.setItem('carousel1', JSON.stringify(filteredNew)); 
+
+      if(filteredNew.length < 4){
+        filteredNew = [...filteredNew, ...filterWithImg.slice(5,6)]
+        setNewItems(filteredNew)
+        localStorage.setItem('carousel1', JSON.stringify(filteredNew)); 
+
+
+      }
     }
   }, [carousel1]);
 
@@ -51,7 +59,7 @@ function Carousel1() {
         >
           <div className="grid grid-cols-12 text-center">
             {slide1.map((item, index) => (
-              <div key={item.itemName} className={`col-start-${1 + index * 3} col-span-3 p-3`}>
+              <div key={item.itemName} className={`col-start-${1 + index * 3} col-span-3 p-3 `}>
                 <img
                   src={item.signedUrl}   // use the dynamically fetched image source
                   className="rounded-2xl border-white border"
@@ -88,7 +96,7 @@ function Carousel1() {
         >
           <div className="grid grid-cols-12 text-center">
             {slide3.map((item, index) => (
-              <div key={item.itemName} className={`col-start-${1 + index * 3} col-span-3 p-3`}>
+              <div key={item.itemName} className={`col-start-${1 + index * 3} col-span-3 p-3 `}>
                 <img
                   src={item.signedUrl}   // use the dynamically fetched image source
                   className="rounded-2xl border-white border"
@@ -101,7 +109,6 @@ function Carousel1() {
             </div>
           </div>
         </div>
-
         <div
           style={{ display: slideIndex === 3 ? "flex" : "none" }}
         >
@@ -109,7 +116,7 @@ function Carousel1() {
             {newItems.map((item, index) => (
               <div key={item.itemName} className={`col-start-${1 + index * 3} col-span-3 p-3`}>
                 <img
-                  src={item.signedUrl}   // use the dynamically fetched image source
+                  src={item.signedUrl} 
                   className="rounded-2xl border-white border"
                   alt={`angle${index + 1}`}
                 />
@@ -123,6 +130,7 @@ function Carousel1() {
             </div>
           </div>
         </div>
+
         
 
         <div className="text-center mt-4">
