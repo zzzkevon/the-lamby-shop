@@ -44,18 +44,18 @@ const customTheme = {
 async function isAdminUser() {
   try {
     const user = await getCurrentUser();
-    console.log('User:', user); // Log user details
+    // console.log('User:', user); // Log user details
 
     const attributesArray = await fetchUserAttributes(user);
     console.log('Attributes:', attributesArray); // Log fetched attributes
 
     // Safely access 'custom:isAdmin'
     const isAdminAttr = attributesArray['custom:isAdmin'];
-    console.log('isAdmin Attribute:', isAdminAttr); // Log attribute value
+    // console.log('isAdmin Attribute:', isAdminAttr); // Log attribute value
 
     // Ensure we handle cases where 'isAdminAttr' is missing or invalid
     const isAdminValue = isAdminAttr ? isAdminAttr.trim() : ''; 
-    console.log('isAdmin Value after trim:', isAdminValue); // Check value after trim
+    // console.log('isAdmin Value after trim:', isAdminValue); // Check value after trim
 
     return isAdminValue === 'true'; // Return true if admin
   } catch (error) {
@@ -73,10 +73,10 @@ const ProfileSection = () => {
   const refreshUserSession = async () => {
     try {
       const adminStatus = await isAdminUser(); // Check admin status
-      console.log('Admin status:', adminStatus); // Check if true
+      // console.log('Admin status:', adminStatus); // Check if true
       setIsAdmin((prev) => {
-        console.log('Previous isAdmin:', prev); // Log previous state
-        console.log('New adminStatus:', adminStatus); // Log new status
+        // console.log('Previous isAdmin:', prev); // Log previous state
+        // console.log('New adminStatus:', adminStatus); // Log new status
         return adminStatus;
       });
     } catch (error) {
@@ -89,7 +89,7 @@ const ProfileSection = () => {
 
   useEffect(() => {
     refreshUserSession(); // Refresh session on component mount
-    console.log('Admin status in useEffect:', isAdmin);
+    // console.log('Admin status in useEffect:', isAdmin);
   }, []); // Run only once on mount
   
 
@@ -104,11 +104,11 @@ const ProfileSection = () => {
     <ThemeProvider theme={customTheme}>
       <Authenticator
         onAuthEvent={async (payload) => {
-          console.log('Auth Event:', payload); // Debugging log
+          // console.log('Auth Event:', payload); // Debugging log
           if (payload.event === 'signIn') {
-            console.log('Sign-in detected');
+            // console.log('Sign-in detected');
             await refreshUserSession(); // Refresh session on sign in
-            console.log("Rerouting page 2");
+            // console.log("Rerouting page 2");
             // window.location.replace(window.location.href); // Reload 
             navigate('/');
           } else if (payload.event === 'signOut') {
