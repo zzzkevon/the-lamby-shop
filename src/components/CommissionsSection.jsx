@@ -3,6 +3,11 @@ import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { FCPThresholds } from "web-vitals";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { SnackbarContent } from "@mui/material";
+import { useSnackbar } from "react-simple-snackbar";
 
 /* Test commission
 const commissionArray = [
@@ -93,6 +98,32 @@ function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
 
+  // Snackbar related
+  const [snackMessage, setSnackMessage] = useState('snack message mmmm');
+  const [open, setOpen] = React.useState();
+  
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   useEffect(() => {
     // GET request from API for all existing commissions
     axios
@@ -145,7 +176,9 @@ function AdminCommissionSection() {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
     // Parse through all of the items and push them to db
     if (window.confirm("Are you sure you want to submit changes?")) {
-      alert("Submitting changes for commission statuses");
+      //alert("Submitting changes for commission statuses");
+      setSnackMessage("Submitting changes for commission statuses"); //sets the message for the snackbar
+      setOpen(true);
       for (let i = 1; i < items.length; i++) {
         axios
           .put(
@@ -167,7 +200,9 @@ function AdminCommissionSection() {
           );
       }
     } else {
-      alert("Canceled, no changes made to commission statuses");
+      //alert("Canceled, no changes made to commission statuses");
+      setSnackMessage("Canceled, no changes made to commission statuses");
+      setOpen(true);
     }
   };
 
@@ -212,6 +247,19 @@ function AdminCommissionSection() {
           </button>
         </ul>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+      >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">{snackMessage}</span>}
+        />
+      </Snackbar>
     </div>
   );
 }
@@ -224,6 +272,30 @@ function CommissionItem({
   setItems,
   setFormData,
 }) {
+  // Snackbar related
+  const [open, setOpen] = React.useState();
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   // For opening the commission item to view dropdown contents
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
@@ -269,7 +341,8 @@ function CommissionItem({
       // Refresh page
       //window.location.reload();
     } else {
-      alert("Canceled delete.");
+      //alert("Canceled delete.");
+      setOpen(true)
     }
   };
 
@@ -334,6 +407,19 @@ function CommissionItem({
             </button>
           </div>
         )}
+        <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+        >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">Canceled delete.</span>}
+        />
+        </Snackbar>
       </div>
     </>
   );
@@ -604,6 +690,31 @@ function UserCommisionsSection() {
   const [addFormButtonText, setButtonText] = useState("Add A Commission\u25B4");
   const showToast = useToast();
 
+  // Snackbar related
+  const [open, setOpen] = React.useState();
+  const [snackMessage, setSnackMessage] = useState('snack message mmmm');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   const toggleForm = () => {
     if (commissionFormOpen) {
       setButtonText("Add A Commission\u25B4");
@@ -685,10 +796,14 @@ function UserCommisionsSection() {
         }
       } catch (error) {
         console.error("Error sending commission data:", error);
-        window.alert("Failed to send commission. Please try again.");
+        //window.alert("Failed to send commission. Please try again.");
+        setSnackMessage("Failed to send commission. Please try again.");
+        setOpen(true);
       }
     } else {
-      window.alert("You pressed cancel, commission not sent!");
+      //window.alert("You pressed cancel, commission not sent!");
+      setSnackMessage("You pressed cancel, commission not sent!");
+      setOpen(true);
     }
   };
 
@@ -840,6 +955,19 @@ function UserCommisionsSection() {
           </div>
         </div>
       )}
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+      >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">{snackMessage}</span>}
+        />
+      </Snackbar>
     </div>
   );
 }
