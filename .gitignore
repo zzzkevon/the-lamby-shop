@@ -33,3 +33,5 @@ yarn-error.log*
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+.package-lock.json
