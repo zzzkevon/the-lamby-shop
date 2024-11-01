@@ -3,6 +3,11 @@ import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { FCPThresholds } from "web-vitals";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { SnackbarContent } from "@mui/material";
+import { useSnackbar } from "react-simple-snackbar";
 
 function GuestCommissionSection() {
   return (
@@ -38,6 +43,32 @@ function GuestCommissionSection() {
 function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
+
+  // Snackbar related
+  const [snackMessage, setSnackMessage] = useState('snack message mmmm');
+  const [open, setOpen] = React.useState();
+  
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   // For invoking popup messages
   const showToast = useToast();
@@ -129,20 +160,12 @@ function AdminCommissionSection() {
   // Update commission statuses if confirm chosen from confirmAction()
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Items is empty if length is 1
-    if (items.length == 1) {
-      showToast(
-        "Please add a form selection before confirming changes.",
-        "error"
-      );
-      return;
-    }
-    showToast("Submitting changes for commission statuses");
-    for (let i = 1; i < items.length; i++) {
-      // Skip item if id is null
-      if (items[i].id == null) continue;
-      // Else, run the update request
-      else {
+    // Parse through all of the items and push them to db
+    if (window.confirm("Are you sure you want to submit changes?")) {
+      //alert("Submitting changes for commission statuses");
+      setSnackMessage("Submitting changes for commission statuses"); //sets the message for the snackbar
+      setOpen(true);
+      for (let i = 1; i < items.length; i++) {
         axios
           .put(
             updatecommission_url,
@@ -227,6 +250,19 @@ function AdminCommissionSection() {
           </button>
         </ul>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+      >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">{snackMessage}</span>}
+        />
+      </Snackbar>
     </div>
   );
 }
@@ -245,6 +281,30 @@ function CommissionItem({
   setFormData,
   reloadData,
 }) {
+  // Snackbar related
+  const [open, setOpen] = React.useState();
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   // For invoking popup messages
   const showToast = useToast();
 
@@ -417,6 +477,19 @@ function CommissionItem({
             </div>
           </>
         )}
+        <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+        >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">Canceled delete.</span>}
+        />
+        </Snackbar>
       </div>
     </>
   );
@@ -718,6 +791,31 @@ function UserCommisionsSection() {
   const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
   const showToast = useToast();
 
+  // Snackbar related
+  const [open, setOpen] = React.useState();
+  const [snackMessage, setSnackMessage] = useState('snack message mmmm');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   const toggleForm = () => {
     if (commissionFormOpen) {
       setButtonText("Add A Commission\u25B4");
@@ -805,14 +903,20 @@ function UserCommisionsSection() {
       );
       console.log("Success:", response.data);
 
-      if (response.status === 200) {
-        showToast("Commission Sent!", "success");
-        clearForm();
-        grabOwnCommissions();
+        if (response.status === 200) {
+          showToast("Commission Sent!", "success");
+          grabOwnCommissions();
+        }
+      } catch (error) {
+        console.error("Error sending commission data:", error);
+        //window.alert("Failed to send commission. Please try again.");
+        setSnackMessage("Failed to send commission. Please try again.");
+        setOpen(true);
       }
-    } catch (error) {
-      console.error("Error sending commission data:", error);
-      showToast("Error! Network post request failed.", "error");
+    } else {
+      //window.alert("You pressed cancel, commission not sent!");
+      setSnackMessage("You pressed cancel, commission not sent!");
+      setOpen(true);
     }
   };
 
@@ -979,6 +1083,19 @@ function UserCommisionsSection() {
           </div>
         </div>
       )}
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+      >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">{snackMessage}</span>}
+        />
+      </Snackbar>
     </div>
   );
 }
