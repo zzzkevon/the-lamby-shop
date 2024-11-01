@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useRef } from 'react';
 
 const ToastContext = createContext();
 
@@ -17,9 +17,11 @@ const toastStyles = {
 // Provider component
 export const ToastProvider = ({ children }) => {
 	const [toasts, setToasts] = useState([]);
+	const idRef = useRef(0); // Ref to maintain unique ID counter
 
 	const showToast = (message, type = 'info') => {
-		const id = new Date().getTime(); // Generate a unique ID for each toast
+		// Generate a unique ID for each toast
+		const id = idRef.current++;
 		setToasts((prev) => [...prev, { id, type, message }]);
 
 		// Remove the toast after 3 seconds
