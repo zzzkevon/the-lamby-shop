@@ -3,6 +3,7 @@ import axios from "axios";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 import { useTheme } from "@mui/system";
 import { addToCart } from "../cart/cart";
+import nophoto from "../inventory/nophoto.png";
 import { useSnackbar } from "react-simple-snackbar";
 
 function useIsDarkMode() {
@@ -12,7 +13,14 @@ function useIsDarkMode() {
 
 // Modify this function to include "Add to Cart" functionality
 function ItemInformation({ item, itemName, itemDescription, itemPrice }) {
-  const [openSnack, closeSnack] = useSnackbar({position: 'top-right', style:{backgroundColor: "#991B1B", fontFamily: "just-another-hand", fontSize: "20px"}});
+  const [openSnack, closeSnack] = useSnackbar({
+    position: "top-right",
+    style: {
+      backgroundColor: "#991B1B",
+      fontFamily: "just-another-hand",
+      fontSize: "20px",
+    },
+  });
   const handleAddToCart = item => {
     addToCart(item); // Add the item to the cart
     openSnack(`${itemName} added to cart!`, 5000);
@@ -73,7 +81,7 @@ const Inventory = () => {
           onClick={event => handleClick(event, item)}
         >
           <img
-            src={item.signedUrl}
+            src={item.signedUrl ? item.signedUrl : nophoto}
             alt={item.itemName}
             style={{
               width: "100%",

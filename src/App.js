@@ -24,7 +24,6 @@ import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import NotFound from './components/NotFound';
 import RoleBasedView from './components/roles/RoleBasedView';
-import { CarouselProvider } from './contexts/CarouselContext';
 import CarouselContext  from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
@@ -61,8 +60,10 @@ function App() {
         const items = response.data; // Adjust this based on the API response structure
         setCarousel(items); // Set the carousel state with the fetched items
         setCarousel1(items)
-        localStorage.setItem('carousel', JSON.stringify(items)); // Store in localStorage
-        localStorage.setItem('carousel1', JSON.stringify(items)); // Store in localStorage
+        localStorage.setItem('carousel', JSON.stringify(items)); 
+        localStorage.setItem('carousel1', JSON.stringify(items)); 
+        console.log('items: ', carousel);
+
       } catch (error) {
         console.error('Error fetching items:', error);
       }
@@ -70,6 +71,8 @@ function App() {
 
     // Only fetch items if carousel is empty (i.e., no items in localStorage)
     if (carousel.length === 0) {
+      localStorage.removeItem('carousel');
+      localStorage.removeItem('carousel1');
       fetchItems();
     }
 
