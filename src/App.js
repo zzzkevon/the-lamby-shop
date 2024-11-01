@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import SnackbarProvider from 'react-simple-snackbar'
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
@@ -26,6 +27,7 @@ import RoleBasedView from './components/roles/RoleBasedView';
 import CarouselContext  from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
+import PaymentSuccess from './components/checkout/PaymentSuccess';
 import axios from 'axios';
 
 function App() {
@@ -100,6 +102,7 @@ function App() {
   return (
     <CarouselContext1.Provider value={currentCarouselContext1}>
     <CarouselContext.Provider value={currentCarouselContext}>
+    <SnackbarProvider>
     <ToastProvider>
     <Router>
           <NavBar userRole={userRole} setUserRole={setUserRole}/>
@@ -128,9 +131,11 @@ function App() {
             <Route path="*" element={<NotFound />}/>
             <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
             <Route path="*" element={<NotFound />}/>
+            <Route path="/payment-success" element={<PaymentSuccess />} />
           </Routes>
         </Router>
         </ToastProvider>
+        </SnackbarProvider>
         </CarouselContext.Provider>
         </CarouselContext1.Provider>
         

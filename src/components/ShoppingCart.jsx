@@ -1,10 +1,36 @@
 import React, { useState, useEffect } from "react";
 import ItemCard from "./itemCard";
 import { getCart, removeFromCart } from "./cart/cart";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { SnackbarContent } from "@mui/material";
 
 const ShoppingCart = () => {
   const [items, setItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const [open, setOpen] = React.useState();
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     const cartItems = getCart();
@@ -50,12 +76,17 @@ const ShoppingCart = () => {
     setSubtotal(total);
   };
 
-  const handleCheckout = () => {
+  const HandleCheckout = () => {
+    //const [openSnack, closeSnack] = useSnackbar({position: 'top-right', style:{backgroundColor: "#991B1B", fontFamily: "just-another-hand", fontSize: "20px"}})
     if (items.length === 0) {
-      alert("Your cart is empty. Add items before proceeding to checkout.");
+      //openSnack("Your cart is empty. Add items before proceeding to checkout.", 5000)
+      setOpen(true);
+      //alert("Your cart is empty. Add items before proceeding to checkout.");
     } else {
+      //openSnack("Your cart is empty. Add items before proceeding to checkout.", 5000)
       window.location.href = "/shoppingcart/checkout";
     }
+    
   };
 
   return (
@@ -94,7 +125,7 @@ const ShoppingCart = () => {
             </div>
             <button
               className="w-full bg-[#780000] text-white rounded-full text-4xl hover:underline my-3"
-              onClick={handleCheckout}
+              onClick={HandleCheckout}
             >
               Check Out
             </button>
@@ -102,6 +133,19 @@ const ShoppingCart = () => {
         </div>
       </div>
       <div className="w-full h-10"></div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{vertical:'top', horizontal: 'right'}}
+        action={action}
+      >
+        <SnackbarContent style={{
+        backgroundColor:'#991B1B',
+        }}
+        message={<span id="client-snackbar">Your cart is empty. Add items before proceeding to checkout.</span>}
+        />
+      </Snackbar>
     </div>
   );
 };

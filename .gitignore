@@ -28,3 +28,9 @@ yarn-error.log*
 .env
 .env.build
 .vercel
+
+# amplify
+.amplify
+amplifyconfiguration*
+
+.package-lock.json
