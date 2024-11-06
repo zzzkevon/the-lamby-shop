@@ -81,6 +81,11 @@ const Carousel2 = () => {
   let totalWidthPerItem = 100 / itemsToShow;
   let translateAmount = currentSlide * totalWidthPerItem;
   const extraWidth = window.innerWidth < 500 ? "pl-6" : "pl-0";
+  const [ carouselSetup, setCarouselSetup] = useState([])
+useEffect(() => {
+  const filterWithImg = carousel.filter(item => item.signedUrl);
+  setCarouselSetup(filterWithImg);
+}, [carousel])
 
   return (
     <div className={`flex flex-row justify-center items-center`}>
@@ -101,7 +106,7 @@ const Carousel2 = () => {
               className={`flex transition-transform duration-500 ease-in-out`}
               style={{ transform: `translateX(-${translateAmount}%)` }}
             >
-      {carousel.map((item, index) => (
+      {carouselSetup.map((item, index) => (
         <div
           key={item.itemName}
           style={{

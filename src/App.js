@@ -36,22 +36,17 @@ function App() {
   });
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
-        const items = response.data; // Adjust this based on the API response structure
-        setCarousel(items); // Set the carousel state with the fetched items
-        localStorage.setItem('carousel', JSON.stringify(items)); // Store in localStorage
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
+    axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items')
+    .then(response => {
+        setCarousel(response.data); // Assuming response.data is an array of items
+        localStorage.setItem('carousel', JSON.stringify(response.data)); // Store in localStorage
+ 
+    })
+    .catch(error => console.error('Error fetching items:', error));
 
-    // Only fetch items if carousel is empty (i.e., no items in localStorage)
-    if (carousel.length === 0) {
-      fetchItems();
-    }
-  }, [carousel]);
+
+  },[carousel])
+
 
   // Store carousel in localStorage whenever it changes
   useEffect(() => {
