@@ -7,7 +7,6 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { SnackbarContent } from "@mui/material";
-import { useSnackbar } from "react-simple-snackbar";
 
 function GuestCommissionSection() {
   return (
@@ -40,7 +39,7 @@ function GuestCommissionSection() {
 }
 
 // Admin view of the Commission Page
-function AdminCommissionSection() {
+export function AdminCommissionSection() {
   // For getting and setting admin commissions from DB
   const [adminCommissions, setAdminCommissions] = useState([]);
 
@@ -157,43 +156,40 @@ function AdminCommissionSection() {
     );
   };
 
-  // Update commission statuses if confirm chosen from confirmAction()
+  // Update commission statuses if confirm chosen from confirmAction() 
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Parse through all of the items and push them to db
-    if (window.confirm("Are you sure you want to submit changes?")) {
-      //alert("Submitting changes for commission statuses");
-      setSnackMessage("Submitting changes for commission statuses"); //sets the message for the snackbar
-      setOpen(true);
-      for (let i = 1; i < items.length; i++) {
-        axios
-          .put(
-            updatecommission_url,
-            { commissionStatus: items[i].commissionStatus },
-            { params: { id: items[i].id } }
-          )
-          .then(response => {
-            showToast(
-              `Success updating status for commission ID ${items[i].id}`,
-              "success"
-            );
-            console.log(response.data);
-            /* 
+    // Items is empty if length is 1
+    if(items.length == 1) {
+      showToast("Please add a form selection before confirming changes.", "error");
+      return;
+    }
+    showToast("Submitting changes for commission statuses");
+    for (let i = 1; i < items.length; i++) {
+      // Skip item if id is null
+      if(items[i].id == null)
+        continue;
+      // Else, run the update request
+      else { 
+        axios.put(updatecommission_url, 
+                  { commissionStatus: items[i].commissionStatus },
+                  { params: { id: items[i].id } })
+              .then(response => {
+                  showToast(`Success updating status for commission ID ${items[i].id}`, "success");
+                  console.log(response.data);        
+                  /* 
                     Reload admin commissions with 
                     the new popup messages on a 
                     successful update request
-                  */
-            loadAdminCommissions();
-          })
-          .catch(error => {
-            showToast(
-              `Error updating status for commission ID ${items[i].id}`,
-              "error"
-            );
-            console.error(error);
-          });
+                  */         
+                  loadAdminCommissions();
+              })
+              .catch(error => {
+                  showToast(`Error updating status for commission ID ${items[i].id}`, "error");
+                  console.error(error);
+              });
+        }
       }
-    }
   };
 
   // Cancel toast popup if cancel chosen from confirmAction()
@@ -268,7 +264,7 @@ function AdminCommissionSection() {
 }
 
 // Commission items inside of the Admin's commission page
-function CommissionItem({
+export function CommissionItem({
   id,
   clientName,
   description,
@@ -902,23 +898,19 @@ function UserCommisionsSection() {
         }
       );
       console.log("Success:", response.data);
-
         if (response.status === 200) {
           showToast("Commission Sent!", "success");
           grabOwnCommissions();
+        } else {
+          setSnackMessage("You pressed cancel, commission not sent!");
+          setOpen(true);
         }
       } catch (error) {
         console.error("Error sending commission data:", error);
-        //window.alert("Failed to send commission. Please try again.");
         setSnackMessage("Failed to send commission. Please try again.");
         setOpen(true);
       }
-    } else {
-      //window.alert("You pressed cancel, commission not sent!");
-      setSnackMessage("You pressed cancel, commission not sent!");
-      setOpen(true);
-    }
-  };
+  } 
 
   return (
     <div

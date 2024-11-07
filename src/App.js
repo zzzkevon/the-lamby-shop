@@ -113,7 +113,7 @@ function App() {
             <Route path="/shop" element={<ShopSection />} />
             <Route path="/commissions" element={<CommisionsSection userRole={userRole} />} />
             <Route path="/contact" element={<ContactSection />} />
-            <Route path="/profile" element={<ProfileSection />} />
+            <Route path="/profile" element={<ProfileSection setUserRole={setUserRole}/>} />
             <Route path="/shoppingcart" element={<ShoppingCart />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/createaccount" element={<CreateAccount />} />
