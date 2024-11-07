@@ -52,29 +52,42 @@ function App() {
 
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
-        const items = response.data; // Adjust this based on the API response structure
-        setCarousel(items); // Set the carousel state with the fetched items
-        setCarousel1(items)
-        localStorage.setItem('carousel', JSON.stringify(items)); 
-        localStorage.setItem('carousel1', JSON.stringify(items)); 
-        console.log('items: ', carousel);
+    axios
+      .get("https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items")
+      .then(response => {
+        setCarousel(response.data);
+        setCarousel1(response.data);
+        localStorage.setItem('carousel', JSON.stringify(response.data)); 
+        localStorage.setItem('carousel1', JSON.stringify(response.data)); 
+        console.log(response.data);
+      })
+      .catch(error => console.error("Error fetching items:", error));
+  }, [carousel, carousel1])
 
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchItems = async () => {
+  //     try {
+  //       const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
+  //       const items = response.data; // Adjust this based on the API response structure
+  //       setCarousel(items); // Set the carousel state with the fetched items
+  //       setCarousel1(items)
+  //       localStorage.setItem('carousel', JSON.stringify(items)); 
+  //       localStorage.setItem('carousel1', JSON.stringify(items)); 
+  //       console.log('items: ', carousel);
 
-    // Only fetch items if carousel is empty (i.e., no items in localStorage)
-    if (carousel.length === 0) {
-      localStorage.removeItem('carousel');
-      localStorage.removeItem('carousel1');
-      fetchItems();
-    }
+  //     } catch (error) {
+  //       console.error('Error fetching items:', error);
+  //     }
+  //   };
 
-  }, [carousel, carousel1]);
+  //   // Only fetch items if carousel is empty (i.e., no items in localStorage)
+  //   if (carousel.length === 0) {
+  //     localStorage.removeItem('carousel');
+  //     localStorage.removeItem('carousel1');
+  //     fetchItems();
+  //   }
+
+  // }, [carousel, carousel1]);
 
   // Store carousel in localStorage whenever it changes
   useEffect(() => {
