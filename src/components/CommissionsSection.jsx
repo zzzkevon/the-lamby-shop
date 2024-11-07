@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { SnackbarContent } from "@mui/material";
 
 function GuestCommissionSection() {
   return (
@@ -233,7 +237,6 @@ function CommissionItem({
   setFormData,
   reloadData,
 }) {
-
   // For invoking popup messages
   const showToast = useToast();
 
@@ -707,7 +710,6 @@ function UserCommisionsSection() {
   const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
   const showToast = useToast();
 
-
   const toggleForm = () => {
     if (commissionFormOpen) {
       setButtonText("Add A Commission\u25B4");
@@ -795,15 +797,22 @@ function UserCommisionsSection() {
       );
       console.log("Success:", response.data);
 
-        if (response.status === 200) {
-          showToast("Commission Sent!", "success");
-          grabOwnCommissions();
-        }
-      } catch (error) {
-        console.error("Error sending commission data:", error);
-        window.alert("Failed to send commission. Please try again.");
+      if (response.status === 200) {
+        showToast("Commission Sent!", "success");
+        grabOwnCommissions();
       }
+    } catch (error) {
+      console.error("Error sending commission data:", error);
+      //window.alert("Failed to send commission. Please try again.");
+      setSnackMessage("Failed to send commission. Please try again.");
+      setOpen(true);
+    }
   };
+  /* else {
+      //window.alert("You pressed cancel, commission not sent!");
+      setSnackMessageUser("You pressed cancel, commission not sent!");
+      setOpen(true);
+    } */ //I have no clue where this was supposed to go
 
   return (
     <div
