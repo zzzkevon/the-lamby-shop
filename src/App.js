@@ -54,29 +54,35 @@ function App() {
 
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
-        const items = response.data; // Adjust this based on the API response structure
-        setCarousel(items); // Set the carousel state with the fetched items
-        setCarousel1(items)
-        localStorage.setItem('carousel', JSON.stringify(items)); 
-        localStorage.setItem('carousel1', JSON.stringify(items)); 
-        console.log('items: ', carousel);
-
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
-
-    // Only fetch items if carousel is empty (i.e., no items in localStorage)
-    if (carousel.length === 0) {
+    // Check if this is the first time loading in the session
+    if (!sessionStorage.getItem('initialLoadDone')) {
+      // Clear localStorage items on first load
       localStorage.removeItem('carousel');
       localStorage.removeItem('carousel1');
-      fetchItems();
+  
+      // Set a sessionStorage flag to prevent this from running again
+      sessionStorage.setItem('initialLoadDone', 'true');
     }
+  
+    // Proceed with your usual data-fetching logic
+    const storedCarousel = localStorage.getItem('carousel');
+    const storedCarousel1 = localStorage.getItem('carousel1');
 
-  }, [carousel, carousel1]);
+    if (!storedCarousel) {
+      axios
+        .get("https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items")
+        .then(response => {
+          setCarousel(response.data);
+          setCarousel1(response.data);
+          localStorage.setItem('carousel', JSON.stringify(response.data)); 
+          localStorage.setItem('carousel1', JSON.stringify(response.data)); 
+        })
+        .catch(error => console.error("Error fetching items:", error));
+    } else {
+      setCarousel(JSON.parse(storedCarousel));
+    }
+  }, []);
+  
 
   // Store carousel in localStorage whenever it changes
   useEffect(() => {
@@ -90,6 +96,7 @@ function App() {
       localStorage.setItem('carousel1', JSON.stringify(carousel1));
     }
   }, [carousel1]);
+
   const currentCarouselContext = useMemo(
     () => ({carousel, setCarousel}),
     [carousel]
@@ -113,7 +120,7 @@ function App() {
             <Route path="/shop" element={<ShopSection />} />
             <Route path="/commissions" element={<CommisionsSection userRole={userRole} />} />
             <Route path="/contact" element={<ContactSection />} />
-            <Route path="/profile" element={<ProfileSection setUserRole={setUserRole}/>} />
+            <Route path="/profile" element={<ProfileSection />} />
             <Route path="/shoppingcart" element={<ShoppingCart />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/createaccount" element={<CreateAccount />} />

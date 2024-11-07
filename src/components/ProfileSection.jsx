@@ -5,7 +5,6 @@ import outputs from '../amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginContext from '../contexts/LoginContext';
 
 // Configure Amplify
 Amplify.configure(outputs);
@@ -66,8 +65,7 @@ async function isAdminUser() {
 }
 
 
-const ProfileSection = ({setUserRole}) => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+const ProfileSection = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -80,21 +78,10 @@ const ProfileSection = ({setUserRole}) => {
         // console.log('Previous isAdmin:', prev); // Log previous state
         // console.log('New adminStatus:', adminStatus); // Log new status
         return adminStatus;
-      });    
-
-      // Set role on login based on isAdmin
-      if(isSignedIn === false){
-        setUserRole('guest');
-      } else {
-        if(adminStatus === true) {setUserRole('admin')}
-        else{setUserRole('customer')}
-      }
-      
+      });
     } catch (error) {
       console.error('Error refreshing session:', error);
       setIsAdmin(false); // Reset to false on error
-      setIsSignedIn(false);
-
     } finally {
       setLoading(false); // End loading state
     }
@@ -104,10 +91,6 @@ const ProfileSection = ({setUserRole}) => {
     refreshUserSession(); // Refresh session on component mount
     // console.log('Admin status in useEffect:', isAdmin);
   }, []); // Run only once on mount
-
-  useEffect(() => {
-    console.log("sign in status: ",isSignedIn)
-  }, [isSignedIn])
   
 
   const handleSignOut = async () => {
@@ -125,13 +108,11 @@ const ProfileSection = ({setUserRole}) => {
           if (payload.event === 'signIn') {
             // console.log('Sign-in detected');
             await refreshUserSession(); // Refresh session on sign in
-            setIsSignedIn(true);
             // console.log("Rerouting page 2");
             // window.location.replace(window.location.href); // Reload 
             navigate('/');
           } else if (payload.event === 'signOut') {
             handleSignOut(); // Reset state on sign out
-            setIsSignedIn(false);
           }
         }}
         onStateChange={(state) => console.log('State changed:', state)}
