@@ -54,7 +54,8 @@ function App() {
 
 
   useEffect(() => {
-    axios
+    if(carousel.length ===0){
+      axios
       .get("https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items")
       .then(response => {
         setCarousel(response.data);
@@ -64,6 +65,8 @@ function App() {
         console.log(response.data);
       })
       .catch(error => console.error("Error fetching items:", error));
+    }
+
   }, [carousel, carousel1])
 
   // useEffect(() => {
