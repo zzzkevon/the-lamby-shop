@@ -37,7 +37,7 @@ const ContactSection = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-center justify-center">
               <img src={star} alt="" class="w-16 h-16 mb-4"></img>
-              <p class="just-another-hand text-center text-6xl mb-4">
+              <p class="just-another-hand header-font text-center text-6xl mb-4">
                 Contact
               </p>
               <img src={star} alt="" class="w-16 h-16 mb-4"></img>

@@ -1,5 +1,6 @@
 import { Authenticator, ThemeProvider, defaultTheme } from '@aws-amplify/ui-react';
 import { Amplify } from 'aws-amplify';
+//import { Auth } from 'Amplify';
 import { getCurrentUser, fetchUserAttributes, signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
 import outputs from '../amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
@@ -44,7 +45,7 @@ const customTheme = {
 async function isAdminUser() {
   try {
     const user = await getCurrentUser();
-    // console.log('User:', user); // Log user details
+    //console.log('User:', user); // Log user details
 
     const attributesArray = await fetchUserAttributes(user);
     console.log('Attributes:', attributesArray); // Log fetched attributes
@@ -55,7 +56,7 @@ async function isAdminUser() {
 
     // Ensure we handle cases where 'isAdminAttr' is missing or invalid
     const isAdminValue = isAdminAttr ? isAdminAttr.trim() : ''; 
-    // console.log('isAdmin Value after trim:', isAdminValue); // Check value after trim
+    console.log('isAdmin Value after trim:', isAdminValue); // Check value after trim
 
     return isAdminValue === 'true'; // Return true if admin
   } catch (error) {
@@ -64,21 +65,46 @@ async function isAdminUser() {
   }
 }
 
+async function getEmail() {
+  try {
+    const user = await getCurrentUser();
 
-const ProfileSection = () => {
+    const attributesArray = await fetchUserAttributes(user);
+    const emailAttr = attributesArray['email'];
+    const emailValue = emailAttr ? emailAttr.trim() : '';
+    console.error('EmailValue: ', emailValue);
+    return emailValue;
+  } catch (error) {
+    console.error('Error fetching user email/attributes', error);
+    return null;
+  }
+}
+
+const ProfileSection = ( { handleSignOut }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const refreshUserSession = async () => {
     try {
+      //const currentUser = await Auth.currentAuthicatedUser();
       const adminStatus = await isAdminUser(); // Check admin status
       // console.log('Admin status:', adminStatus); // Check if true
-      setIsAdmin((prev) => {
+      // setIsAdmin((prev) => {
         // console.log('Previous isAdmin:', prev); // Log previous state
         // console.log('New adminStatus:', adminStatus); // Log new status
-        return adminStatus;
-      });
+      //   return adminStatus;
+      // });
+      setIsAdmin(adminStatus);
+      const role = adminStatus ? 'admin' : 'user';
+      localStorage.setItem('userRole', role);
+      
+      const email = await getEmail();
+      localStorage.setItem('email', email);
+  
+      if(adminStatus) {
+        navigate('/admin/admin-dashboard', {state: { role: 'admin'}});
+      }
     } catch (error) {
       console.error('Error refreshing session:', error);
       setIsAdmin(false); // Reset to false on error
@@ -93,10 +119,7 @@ const ProfileSection = () => {
   }, []); // Run only once on mount
   
 
-  const handleSignOut = async () => {
-    setIsAdmin(false); // Reset state
-    await amplifySignOut(); // Use Amplify's sign out
-  };
+
 
   if (loading) return <p>Loading...</p>; // Wait until loading finishes
 
@@ -121,11 +144,8 @@ const ProfileSection = () => {
           <main>
             <h1>Hello {user?.username}</h1>
             <h1>Welcome to the Dashboard</h1>
-            {isAdmin ? (
-              <p>You are an admin. You can manage content here.</p>
-            ) : (
+            <p> This is the email: {localStorage.getItem('email')}</p>
               <p>You are a regular user.</p>
-            )}
             <button onClick={handleSignOut}>Sign out</button>
           </main>
         )}

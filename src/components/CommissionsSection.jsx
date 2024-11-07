@@ -801,12 +801,20 @@ function UserCommisionsSection() {
         showToast("Commission Sent!", "success");
         grabOwnCommissions();
       }
+<<<<<<< HEAD
     } catch (error) {
       console.error("Error sending commission data:", error);
       //window.alert("Failed to send commission. Please try again.");
       setSnackMessage("Failed to send commission. Please try again.");
       setOpen(true);
     }
+=======
+    // } else {
+    //   //window.alert("You pressed cancel, commission not sent!");
+    //   setSnackMessage("You pressed cancel, commission not sent!");
+    //   setOpen(true);
+    // }
+>>>>>>> 069cdd3 (pushing current implementation of the role based view based off role from Amazon Cognito login (not finished yet))
   };
   /* else {
       //window.alert("You pressed cancel, commission not sent!");
