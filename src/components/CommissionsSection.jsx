@@ -913,11 +913,11 @@ function UserCommisionsSection() {
         setSnackMessage("Failed to send commission. Please try again.");
         setOpen(true);
       }
-    } else {
-      //window.alert("You pressed cancel, commission not sent!");
-      setSnackMessage("You pressed cancel, commission not sent!");
-      setOpen(true);
-    }
+    // } else {
+    //   //window.alert("You pressed cancel, commission not sent!");
+    //   setSnackMessage("You pressed cancel, commission not sent!");
+    //   setOpen(true);
+    // }
   };
 
   return (

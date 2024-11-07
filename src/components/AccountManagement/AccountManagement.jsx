@@ -24,21 +24,21 @@ const AccountManagement = () => {
 
       {/** change email button */}
       <a href='/update-email'
-        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-red-800 text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
+        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-[#780000] text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
           Update email
       </a>
       <br/>
       <br/>
       {/** change password button */}
       <a href='/update-password'
-        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-red-800 text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
+        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-[#780000] text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
           Update password
       </a>
       <br/>
       <br/>
       {/** change payment button */}
       <a href='/update-payment'
-        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-red-800 text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
+        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-[#780000] text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
           Update payment method
       </a>
 
