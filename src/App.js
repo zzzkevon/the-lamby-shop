@@ -8,7 +8,7 @@ import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShopSection from './components/ShopSection';
-import CommissionsSection from './components/CommissionsSection';
+import CommissionsSection from './components/CommissionsSection/CommissionsSection';
 import ContactSection from './components/ContactSection';
 
 //Right side of nav bar

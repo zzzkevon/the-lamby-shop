@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { SnackbarContent } from "@mui/material";
+
 
 function GuestCommissionSection() {
   return (
@@ -132,37 +129,37 @@ function AdminCommissionSection() {
   // Update commission statuses if confirm chosen from confirmAction()
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Parse through all of the items and push them to db
-    if (window.confirm("Are you sure you want to submit changes?")) {
-      for (let i = 1; i < items.length; i++) {
-        axios
-          .put(
-            updatecommission_url,
-            { commissionStatus: items[i].commissionStatus },
-            { params: { id: items[i].id } }
-          )
-          .then(response => {
-            showToast(
-              `Success updating status for commission ID ${items[i].id}`,
-              "success"
-            );
-            console.log(response.data);
-            /* 
+    // Items is empty if length is 1
+    if(items.length == 1) {
+      showToast("Please add a form selection before confirming changes.", "error");
+      return;
+    }
+    showToast("Submitting changes for commission statuses");
+    for (let i = 1; i < items.length; i++) {
+      // Skip item if id is null
+      if(items[i].id == null)
+        continue;
+      // Else, run the update request
+      else { 
+        axios.put(updatecommission_url, 
+                  { commissionStatus: items[i].commissionStatus },
+                  { params: { id: items[i].id } })
+              .then(response => {
+                  showToast(`Success updating status for commission ID ${items[i].id}`, "success");
+                  console.log(response.data);        
+                  /* 
                     Reload admin commissions with 
                     the new popup messages on a 
                     successful update request
-                  */
-            loadAdminCommissions();
-          })
-          .catch(error => {
-            showToast(
-              `Error updating status for commission ID ${items[i].id}`,
-              "error"
-            );
-            console.error(error);
-          });
+                  */         
+                  loadAdminCommissions();
+              })
+              .catch(error => {
+                  showToast(`Error updating status for commission ID ${items[i].id}`, "error");
+                  console.error(error);
+              });
+        }
       }
-    }
   };
 
   // Cancel toast popup if cancel chosen from confirmAction()
