@@ -1,11 +1,12 @@
 import React from 'react';
-import { useRef } from 'react'
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import star from '../../images/story_stars_1.png'
 import axios from 'axios';
-import bcryptjs from 'bcryptjs' // password hashing
+import { useToast } from "../../contexts/ToastContext";
+import { useNavigate } from 'react-router-dom';
+/* Removed bcrypt due to AWS Cognito having hashing */
 
-const UpdatePassword = () => {
+const UpdatePassword = ({username}) => {
   const debug = true;   //DEBUG VARIABLE    true = debug output in console    false = no output
 
   const [current_password, setCurrentPassword] = useState('');
@@ -22,31 +23,35 @@ const UpdatePassword = () => {
 
   const [serverDenial, setServerDenial] = useState(''); //for if the server says password was incorrect
 
-  //validation functions
+  const showToast = useToast();
+  const navigate = useNavigate();
 
-  //validate the original password    only checks that it is not blank
-  const validatePassword = () => {
-    //just cant be blank
-    if(current_password.trim() === '') {
-      setCurrentPasswordError("Current password is required");
-      return false;
-    }
-    else {
-      setCurrentPasswordError('');
-      return true;
-    }
-  }
+  /*
+    => Validate Original Password is Redacted
+    => Reason: There is no way to retrieve the current password from AWS Cognito,
+               hence we cannot validate the current password of the account.
 
-  //validate if the new password meets requirements
+      const validatePassword = () => {
+        //just cant be blank
+        if(current_password.trim() === '') {
+          setCurrentPasswordError("Current password is required");
+          return false;
+        }
+        else {
+          setCurrentPasswordError('');
+          return true;
+        }
+      }
+  */
+  
+  // Validate if the new password meets requirements
   const validateNewPassword = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,32}$/;
     if (new_password.trim() === '') {
-      //alert("Email is required");
       setNewPasswordError("New password is required");
       return false;
     }
     else if(!passwordRegex.test(new_password)) {
-      //alert("Email is not in the correct format");
       setNewPasswordError("Password must contain at least 1 uppercase letter and 1 number, and be 8-32 characters long");
       return false;
     }
@@ -55,8 +60,7 @@ const UpdatePassword = () => {
       return true;
     }
   }
-
-  //checks if new password and password confirmation are EXACTLY the same (case sensitive)
+  // Check if new password and password confirmation are EXACTLY the same (case sensitive)
   const comparePassword = () => {
     if(password_conf.localeCompare(new_password) !== 0) {
       //alert("Emails are not the same");
@@ -69,13 +73,13 @@ const UpdatePassword = () => {
     }
   }
 
-  //validates everything
+  // Validates everything
   const validateAll = () => {
-    if(!validatePassword() || !validateNewPassword() || !comparePassword()) {
+    if(!validateNewPassword() || !comparePassword()) {
       //error
       if(debug) {
         console.log("Unable to submit. Something is not valid:");
-        console.log("current password: " + current_password);
+        //console.log("current password: " + current_password);
         console.log("new password: " + new_password);
         console.log("new password confirmation: " + password_conf);
       }
@@ -84,103 +88,77 @@ const UpdatePassword = () => {
     return true;
   }
 
-  //submission function
+  // Submission function
   const submitInfo = async (e) => {
     e.preventDefault();
 
-    //final safety check
+    // Final safety check
     if(!validateAll()) {return}
 
-
     if(!newPasswordError && !passwordConfError) {
-      //no errors
+      // No errors
       if(debug) {
         console.log("Everything is good to go. Perform hashing on the data before sending to the server:");
-        console.log("current password: " + current_password);
+        //console.log("current password: " + current_password);
         console.log("new password: " + new_password);
         console.log("new password confirmation: " + password_conf);
       }
-      
-
       setServerDenial("");
 
-      //do hashing
-      bcryptjs.hash(new_password, 10, function(err, password) {
-        if(err) {
-          console.log("An error occured while trying to hash the password");
-        }
-        else {
-          //hashing complete    send all hashed data to the server
-          const data = { password }
+      /* 
+        => API Gateway URL
+        => Changed url to the API that handles changing cognito accounts 
+        => Removed bcrypt hashing due to AWS Cognito already having hashing functionality
+      */
+      const apiURL = "https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/Prod/cognito";
+      const payload = {
+        "sub" : username, // Username is the sub ID (aka unique user ID) of the Cognito Account
+        "newPassword": new_password
+      };
+
+      // Send the payload to the server
+      try {
+        axios.put(apiURL, payload)
+          .then(response => {
+            // Payload sent successfully redirect the user
+            console.log('Success:', response.data); 
+            if (response.status === 200) {
+              showToast("Password sent successfully!", "success");
+              navigate('/password-success'); //redirect user
+            }
+            else { setServerDenial("Password was not able to be changed. Please try again after checking that your current password is correct."); }
+          })
+          .catch(error => {
+            // Error with axios PUT request
+            console.error('Error:', error);
+            showToast("Failed to send password. Please try again.", "error");
+            setServerDenial("Something went wrong. Please try again");
+          });
+      } catch(error) {
+        // Handle synchronous errors (not from Axios)
+        console.error("Error sending password:", error);
+        showToast("Failed to send password. Please try again.", "error");
+        setServerDenial("Something went wrong. Please try again later.");
+      }
+
+      /* 
+        => if server sends back a denial saying password was not correct, then
+        dont leave page and display a message saying the password was incorrect
+
           if(debug) {
-            console.log("hashed password: " + data);
-          }
-          
-
-          //get the email from the server
-          const email = "test@test.com"
-          window.alert("Warning: this page is not completed. email for the user still needs to be retrieved from the db")
-
-          //API Gateway URL
-          const apiURL = "https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/dev/users/" + email;
-
-          //create the payload
-          const payload = {
-            "password": data
-          };
-
-          //send the payload to the server
-          try {
-            axios.put(apiURL, payload)
-              .then(response => {
-                console.log('Success:', response.data);
-                
-                if (response.status === 200) {
-                  //payload sent successfully redirect the user
-                  window.alert("Password sent successfully!");
-                  window.location.href = '/password-success'; //redirect user
-                }
-                else {
-                  setServerDenial("Password was not able to be changed. Please try again after checking that your current password is correct.");
-                }
-              })
-              .catch(error => {
-                console.error('Error:', error);
-                window.alert("Failed to send password. Please try again.");
-                setServerDenial("Something went wrong. Please try again");
-              });
-          }
-          catch(error) {
-            // Handle synchronous errors (not from Axios)
-            console.error("Error sending password:", error);
-            window.alert("Failed to send password. Please try again.");
-            setServerDenial("Something went wrong. Please try again later.");
-          }
-
-        }
-      });
-
-      /* //if server sends back a denial saying password was not correct then dont leave page and display a message saying the password was incorrect
-      if(debug) {
-        setServerDenial(serverDenial + " denied");  //denial gets longer every time you submit to show this works  DELETE ONCE EVERYTHING IS COMPLETE
-        console.log(serverDenial);
-      } */
-          
+            setServerDenial(serverDenial + " denied");  //denial gets longer every time you submit to show this works  DELETE ONCE EVERYTHING IS COMPLETE
+            console.log(serverDenial);
+          } 
+      */        
+    } else {
+      // This section should never run because of final safety check
+      console.log("Something went wrong");
     }
-    else {
-      //this section should never run because of final safety check
-      console.log("something went wrong");
-    }
-
   }
 
-
-
   return (
-
     <div className="main-bg just-another-hand 4xl"> 
       <div className="flex flex-col justify-start items-center">
-
         {/** Page Title */}
         <div className="flex flex-center justify-center p-8">
           <img src={star} alt="" class="w-16 h-16 mb-4"></img>
@@ -194,16 +172,23 @@ const UpdatePassword = () => {
         <div className="flex flex-col items-start text-3xl">
           <form onSubmit={submitInfo}>
 
-          {/** current password field */}
-          <p className="font-bold text-3xl mt-2">
-              <span className="text-red-500"> *</span>
-              <span className="just-another-hand">current password</span>
-            </p>
-            <input type="password"
-              id="current-password" value={current_password} onChange={(e) => setCurrentPassword(e.target.value)}
-              className="border border-[#780000] px-2 py-1 w-full resize-none" placeholder="current password"
-              onBlur={validatePassword} ref={currentPasswordRef}
-            />
+          {
+          /* 
+            => Current Password Field IS REDACTED
+            => Reason: There is no way to retrieve the current password from AWS Cognito,
+                       hence we cannot validate the current password of the account.
+
+              <p className="font-bold text-3xl mt-2">
+                <span className="text-red-500"> *</span>
+                <span className="just-another-hand">current password</span>
+              </p>
+              <input type="password"
+                id="current-password" value={current_password} onChange={(e) => setCurrentPassword(e.target.value)}
+                className="border border-[#780000] px-2 py-1 w-full resize-none" placeholder="current password"
+                onBlur={validatePassword} ref={currentPasswordRef}
+              />
+          */
+          }
 
             {/** new password field */}
             <p className="font-bold text-3xl mt-2">

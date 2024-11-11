@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminView from './AdminView';
+import AdminView from '../adminPages/AdminDashboard';
 import CustomerView from './CustomerView';
 import GuestView from './GuestView';
 

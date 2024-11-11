@@ -1,11 +1,11 @@
 import React from 'react';
-import { useRef } from 'react'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import star from '../../images/story_stars_1.png'
+import axios from 'axios';
+import { useToast } from '../../contexts/ToastContext';
 
-const UpdateEmail = () => {
+const UpdateEmail = ({ username }) => {
   const debug = true;       //DEBUG VARIABLE      true = debug output in console     true = no console output
-
 
   const [new_email, setEmail] = useState('');
   const [email_conf, setEmailConf] = useState('');
@@ -16,8 +16,10 @@ const UpdateEmail = () => {
   const [emailError, setEmailError] = useState('');
   const [emailConfError, setEmailConfError] = useState('');
 
-  //validation functions
+  const showToast = useToast();
+  const apiURL = "https://xgj9xa22l3.execute-api.us-west-2.amazonaws.com/Prod/cognito";
 
+  //validation functions
   //validate all
   const validateAll = () => {
     //if either of these returns false then validation failed
@@ -75,7 +77,6 @@ const UpdateEmail = () => {
     //safety validation of all fields to make sure nothing slipped by
     if(!validateAll()) {return;}
 
-
     //this section of code is pretty useless with validate all=======perhaps delete this
     if(!new_email.trim() || !email_conf.trim()) {
       //alert("empty field");
@@ -90,15 +91,29 @@ const UpdateEmail = () => {
     if(!emailError && !emailConfError) {
       //no errors
       //good to submit here or further process the information before sending (hashing?)
-
       if(debug) {
         console.log("Everything looks good. Process the data further or send it off to the server from here");
         console.log("email: " + new_email);
         console.log("email confirmation: " + email_conf);
-      }
-      
-      //do information processing here
+      }    
 
+      // PUT request to update email
+      let payload = {
+        "sub" : username, // Username holds cognito account's unique user ID
+        "newEmail" : new_email
+      }
+      showToast("Changing email...","info")
+      axios.put(apiURL, payload)
+        .then(response => { // If email doesn't exists, push changes
+          console.log("Change successful.", response); 
+          showToast("Email changed!", "success");
+          setEmail('');
+          setEmailConf('')
+        })
+        .catch(error => { // If email exists, do nothing
+          console.error("Error, email change aborted.", error); 
+          showToast("Error, email already exists", "error");
+        })
     }
     else {
       //this should be impossible to get here

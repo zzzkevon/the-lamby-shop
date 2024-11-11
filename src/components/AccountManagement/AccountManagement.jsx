@@ -4,7 +4,6 @@ import star from '../../images/story_stars_1.png'
 //this page consists of three buttons that will each redirect you to a different page
 //button1 will take you to the change email page
 //button2 will take you to the change password page
-//button3 will take you to the change payment page
 const AccountManagement = () => {
   return (
 
@@ -24,24 +23,19 @@ const AccountManagement = () => {
 
       {/** change email button */}
       <a href='/update-email'
-        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-red-800 text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
+        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-[#780000] text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
           Update email
       </a>
       <br/>
       <br/>
       {/** change password button */}
       <a href='/update-password'
-        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-red-800 text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
+        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-[#780000] text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
           Update password
       </a>
-      <br/>
-      <br/>
-      {/** change payment button */}
-      <a href='/update-payment'
-        className="w-[20vw] flex items-center justify-center mx-auto h-24 bg-red-800 text-white just-another-hand rounded-md sm:text-lg md:text-xl lg:text-4xl xl:text-4xl">
-          Update payment method
-      </a>
-
+      {/* 
+        => Stripe handles adding payment, removed update payment button 
+      */}
       <br/>
       <br/>
 
