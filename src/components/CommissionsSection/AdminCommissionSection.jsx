@@ -16,9 +16,7 @@ export default function AdminCommissionSection() {
     // GET request from API for all existing commissions
     const loadAdminCommissions = () => {
       axios
-        .get(
-          `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`
-        )
+        .get(`https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/admin`)
         .then(response => {
           // Get only the item id, clientName, and description
           let mappedData = response.data.map(item => ({
@@ -152,6 +150,7 @@ export default function AdminCommissionSection() {
           <h1
             className="header-font header-format"
             style={{ fontSize: "2em", padding: "25px" }}
+            data-testid="commissions-header"
           >
             C O M M I S S I O N S
           </h1>
@@ -182,6 +181,7 @@ export default function AdminCommissionSection() {
             <button
               onClick={confirmAction}
               className="commission-button text-2xl"
+              data-testid="confirm-changes-button"
             >
               Confirm Changes
             </button>
