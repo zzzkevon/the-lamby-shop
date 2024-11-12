@@ -98,10 +98,10 @@ const UpdatePassword = ({username}) => {
     if(!newPasswordError && !passwordConfError) {
       // No errors
       if(debug) {
-        console.log("Everything is good to go. Perform hashing on the data before sending to the server:");
+        console.log("Everything is good to go, sending updated password.");
         //console.log("current password: " + current_password);
-        console.log("new password: " + new_password);
-        console.log("new password confirmation: " + password_conf);
+        //console.log("new password: " + new_password);
+        //console.log("new password confirmation: " + password_conf);
       }
       setServerDenial("");
 
@@ -170,7 +170,7 @@ const UpdatePassword = ({username}) => {
 
         {/** form starts here */}
         <div className="flex flex-col items-start text-3xl">
-          <form onSubmit={submitInfo}>
+          <form onSubmit={submitInfo} data-testid='change-pass-form'>
 
           {
           /* 
@@ -198,7 +198,7 @@ const UpdatePassword = ({username}) => {
             <input type="password"
               id="new-password" value={new_password} onChange={(e) => setNewPassword(e.target.value)}
               className="border border-[#780000] px-2 py-1 w-full resize-none" placeholder="new password"
-              onBlur={validateNewPassword} ref={newPasswordRef}
+              onBlur={validateNewPassword} ref={newPasswordRef} data-testid='new-pass'
             />
 
             {/** new password confirmation field */}
@@ -209,19 +209,19 @@ const UpdatePassword = ({username}) => {
             <input type="password"
               id="password-conf" value={password_conf} onChange={(e) => setPasswordConf(e.target.value)}
               className="border border-[#780000] px-2 py-1 w-full resize-none" placeholder="confirm new password"
-              onBlur={comparePassword} ref={passwordConfRef}
+              onBlur={comparePassword} ref={passwordConfRef} data-testid='conf-new-pass'
             />
 
           </form>
         </div>
 
         {/** submit button */}
-        <button className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-4 rounded-full mt-4" onClick={submitInfo}>Change Password</button>
+        <button className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-4 rounded-full mt-4" onClick={submitInfo} data-testid='change-pass-btn'>Change Password</button>
 
         {/** error messages */}
         {currentPasswordError && <span className="text-red-500 text-3xl">{currentPasswordError}</span>}
-        {newPasswordError && <span className="text-red-500 text-3xl">{newPasswordError}</span>}
-        {passwordConfError && <span className="text-red-500 text-3xl">{passwordConfError}</span>}
+        {newPasswordError && <span className="text-red-500 text-3xl" data-testid='new-pass-err'>{newPasswordError}</span>}
+        {passwordConfError && <span className="text-red-500 text-3xl" data-testid='conf-pass-err'>{passwordConfError}</span>}
         {serverDenial && <span className="text-red-500 text-6xl">{serverDenial}</span>}
 
       </div>

@@ -27,8 +27,8 @@ const UpdateEmail = ({ username }) => {
       //there is an error
       if(debug) {
         console.log("Unable to submit. Something is not valid:");
-        console.log("email: " + new_email);
-        console.log("email confirmation: " + email_conf);
+        //console.log("email: " + new_email);
+        //console.log("email confirmation: " + email_conf);
       }
       
       return false;
@@ -92,9 +92,9 @@ const UpdateEmail = ({ username }) => {
       //no errors
       //good to submit here or further process the information before sending (hashing?)
       if(debug) {
-        console.log("Everything looks good. Process the data further or send it off to the server from here");
-        console.log("email: " + new_email);
-        console.log("email confirmation: " + email_conf);
+        //console.log("Everything looks good. Process the data further or send it off to the server from here");
+        //console.log("email: " + new_email);
+        //console.log("email confirmation: " + email_conf);
       }    
 
       // PUT request to update email
@@ -148,7 +148,7 @@ const UpdateEmail = ({ username }) => {
             <input
               id="new-email" value={new_email} onChange={(e) => setEmail(e.target.value)}
               className="border border-[#780000] px-2 py-1 w-full resize-none" placeholder="new email"
-              onBlur={validateEmail} ref={emailRef}
+              onBlur={validateEmail} ref={emailRef} data-testid='new-email'
             />
 
             {/** email confirmation field */}
@@ -159,14 +159,14 @@ const UpdateEmail = ({ username }) => {
             <input
               id="email-conf" value={email_conf} onChange={(e) => setEmailConf(e.target.value)}
               className="border border-[#780000] px-2 py-1 w-full resize-none" placeholder="confirm new email"
-              onBlur={compareEmail} ref={emailConfRef}
+              onBlur={compareEmail} ref={emailConfRef} data-testid='conf-email'
             />
 
           </form>
         </div>
 
         {/** submission button */}
-        <button className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-4 rounded-full mt-4" onClick={submitInfo}>Change Email</button>
+        <button className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-4 rounded-full mt-4" onClick={submitInfo} data-testid='change-email-btn'>Change Email</button>
 
         {/** error messages. these will only show when a specific error occurs */}
         {emailError && <span className="text-red-500 text-3xl">{emailError}</span>}
