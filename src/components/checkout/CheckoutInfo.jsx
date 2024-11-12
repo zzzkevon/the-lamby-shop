@@ -29,6 +29,50 @@ const CheckoutInfo = () => {
   const [shipping, setShipping] = useState(10); // Default shipping cost
   const [total, setTotal] = useState(0);
 
+  const sendEmailReceipt = async (
+    clientEmail,
+    items,
+    subtotal,
+    tax,
+    shipping,
+    discount,
+    total
+  ) => {
+    try {
+      // Define the payload
+      const payload = {
+        clientEmail: clientEmail, // Customer's email address
+        ownerEmail: "thelambyshop@gmail.com", // Owner's email address
+        items: items, // Array of purchased items
+        subtotal: subtotal,
+        tax: tax,
+        shipping: shipping,
+        discount: discount,
+        total: total,
+      };
+
+      // Make the POST request to your AWS API Gateway endpoint
+      const response = await axios.post(
+        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev", // Replace with your API Gateway endpoint
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Check the response
+      if (response.status === 200) {
+        console.log("Email sent successfully:", response.data);
+      } else {
+        console.error("Failed to send email:", response.data);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
   useEffect(() => {
     // Fetch items from the cart and calculate totals
     const cartItems = getCart(); // getCart should be imported or defined to fetch cart items
@@ -117,6 +161,17 @@ const CheckoutInfo = () => {
         // clear local storage cart
         clearCart();
 
+        // email to client and owner
+        await sendEmailReceipt(
+          email, // Customer's email
+          items, // Purchased items
+          subtotal,
+          tax,
+          shipping,
+          discount,
+          total
+        );
+
         // Navigate to PaymentSuccess with all necessary data
         navigate("/payment-success", {
           state: {
@@ -136,6 +191,7 @@ const CheckoutInfo = () => {
       setLoading(false);
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit}

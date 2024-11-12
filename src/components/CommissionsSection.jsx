@@ -239,7 +239,8 @@ function CommissionItem({
 }) {
   // For invoking popup messages
   const showToast = useToast();
-
+  const [snackMessage, setSnackMessage] = useState("");
+  const [open, setOpen] = useState(false);
   // For opening the commission item to view dropdown contents
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
@@ -708,6 +709,8 @@ function UserCommisionsSection() {
   const [commissionFormOpen, setFormOpen] = useState(false);
   const [addFormButtonText, setButtonText] = useState("Add A Commission\u25B4");
   const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
+  const [open, setOpen] = useState(false);
   const showToast = useToast();
 
   const toggleForm = () => {
