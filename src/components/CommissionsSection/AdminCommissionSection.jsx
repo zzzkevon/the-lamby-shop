@@ -76,13 +76,13 @@ export default function AdminCommissionSection() {
     const confirmAction = () => {
       showToast(
         <>
-          <div className="just-another-hand">
+          <div className="just-another-hand" data-testid="confirm-changes-toast">
             <p className="font-bold text-4xl">
               Are you sure you want to confirm changes?
             </p>
             <br></br>
             <div className="flex items-center justify-center grid grid-cols-2 text-2xl">
-              <button className="button" onClick={handleConfirm}>
+              <button className="button" onClick={handleConfirm} data-testid="confirm-changes-toast-btn">
                 Confirm
               </button>
               <button className="button" onClick={handleCancel}>

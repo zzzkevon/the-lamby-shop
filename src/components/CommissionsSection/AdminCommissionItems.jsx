@@ -114,17 +114,19 @@ export default function AdminCommissionItem({
             <div
               className="flex w-full p-2 bg-gray-200 cursor-pointer justify-start"
               onClick={toggleDropdown}
+              data-testid="open-dropdown-commission"
             >
-              <div className="flex w-1/4">Id: {id}</div>
+              <div className="flex w-1/4" data-testid="commission-id">Id: {id}</div>
               {/* 
                 We test if clientName length is 1 for null because 
                 of the space that always gets pushed into clientName
               */}
-              <div className="flex w-1/2">
-                Client Name: {clientName.length !== 1 ? clientName : "N/A"}
+              <div className="flex w-1/2" data-testid="client-name">
+                {/* old clientName.length !== 1 ? clientName : "N/A"*/}
+                Client Name: {clientName && clientName.length > 1 ? clientName : "N/A"}
               </div>
-              <div className="flex w-1/4">Date: {formattedDate(createdAt)}</div>
-              <div className="flex w-1/4">Current status: {status}</div>
+              <div className="flex w-1/4" data-testid="commission-date">Date: {formattedDate(createdAt)}</div>
+              <div className="flex w-1/4" data-testid="commission-status">Current status: {status}</div>
             </div>
             <div className="flex justify-center border border-black bg-gray-150">
               {/* This part below is the 3 checkboxes.*/}
@@ -136,6 +138,7 @@ export default function AdminCommissionItem({
                     checked={selected === "accepted"}
                     onChange={handleFormChanges}
                     className="form-checkbox accent-green-400"
+                    data-testid="accept"
                   />
                   <span>Accept</span>
                 </label>
@@ -147,6 +150,7 @@ export default function AdminCommissionItem({
                     checked={selected === "declined"}
                     onChange={handleFormChanges}
                     className="form-checkbox accent-red-500"
+                    data-testid="decline"
                   />
                   <span>Decline</span>
                 </label>
@@ -158,6 +162,7 @@ export default function AdminCommissionItem({
                     checked={selected === "flagged"}
                     onChange={handleFormChanges}
                     className="form-checkbox accent-yellow-300"
+                    data-testid="flag"
                   />
                   <span>Flag</span>
                 </label>
@@ -167,16 +172,16 @@ export default function AdminCommissionItem({
   
           {isOpen && (
             <>
-              <div className="grid grid-cols-2 block p-2 bg-white border-t border-gray-300 text-2xl">
+              <div className="grid grid-cols-2 block p-2 bg-white border-t border-gray-300 text-2xl" data-testid="dropdown-content">
                 <div>
                   <p className="font-bold flex w-1/4">--Contact info--</p>
-                  <p className="flex w-1/4">
-                    Phone Number: {phoneNumber.length !== 0 ? phoneNumber : "N/A"}
+                  <p className="flex w-1/4" data-testid="phone-number">
+                    Phone Number: {phoneNumber && phoneNumber.length !== 0 ? phoneNumber : "N/A"}
                   </p>
-                  <p className="flex w-1/4">
-                    Email: {email.length !== 0 ? email : "N/A"}
+                  <p className="flex w-1/4" data-testid="email">
+                    Email: {email && email.length !== 0 ? email : "N/A"}
                   </p>
-                  <button onClick={confirmAction} className="commission-button">
+                  <button onClick={confirmAction} className="commission-button" data-testid="delete-commission-button">
                     Delete Commission
                   </button>
                 </div>
