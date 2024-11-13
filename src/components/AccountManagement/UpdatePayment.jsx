@@ -4,7 +4,10 @@ import { useState } from 'react';
 import star from '../../images/story_stars_1.png'
 
 
-
+/* 
+  THIS PAGE IS REDACTED
+  => Stripe API handles payments being saved so no need for this page
+*/
 
 
 const UpdatePayment = () => {

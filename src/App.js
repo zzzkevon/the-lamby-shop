@@ -4,6 +4,9 @@ import SnackbarProvider from 'react-simple-snackbar'
 import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
 
 //Nav bar left
+import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
+
+//Nav bar left
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
@@ -35,11 +38,15 @@ import CarouselContext from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
 import PaymentSuccess from './components/checkout/PaymentSuccess';
+import MessageSubscribers from './components/adminPages/MessageSubscribers';
 import axios from 'axios';
 
+
 function App() {
+  const [email, setEmail] = useState(null);
   const [userRole, setUserRole] = useState('guest');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     const storedRole = localStorage.getItem('userRole');
@@ -47,11 +54,28 @@ function App() {
       setUserRole(storedRole);
     }
   }, []);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('email');
+    if(storedEmail)
+      setEmail(storedEmail);
+  }, [])
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if(storedUsername)
+      setUsername(storedUsername);
+  }, [])
+
+  useEffect(() => {
+    console.log(`Email is ${email} with role ${userRole} with user ID ${username}`);
+  }, [email, userRole, username])
+
   const handleSignOut = async () => {
     setIsAdmin(false); // Reset state
-    await amplifySignOut(); // Use Amplify's sign out
+    await amplifySignOut(); // Use Amplify's sign out 
     localStorage.removeItem('userRole'); // Clear role from storage
-    localStorage.removeItem('email');
+    localStorage.removeItem('email'); // Clear email from storage
   };
 
   const [carousel, setCarousel] = useState(() => {
@@ -109,7 +133,7 @@ function App() {
           setCarousel(response.data);
           setCarousel1(response.data);
           localStorage.setItem('carousel', JSON.stringify(response.data)); 
-          localStorage.setItem('carousel1', JSON.stringify(response.data)); 
+          localStorage.setItem('carousel1', JSON.stringify(response.data));
         })
         .catch(error => console.error("Error fetching items:", error));
     } else {

@@ -28,7 +28,7 @@ function ItemInformation({ item, itemName, itemDescription, itemPrice }) {
   };
 
   return (
-    <div>
+    <div className="text-2xl">
       <p>
         <strong>{itemName}</strong>
       </p>

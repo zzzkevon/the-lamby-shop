@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { SnackbarContent } from "@mui/material";
 
 function GuestCommissionSection() {
   return (
@@ -132,9 +128,20 @@ function AdminCommissionSection() {
   // Update commission statuses if confirm chosen from confirmAction()
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Parse through all of the items and push them to db
-    if (window.confirm("Are you sure you want to submit changes?")) {
-      for (let i = 1; i < items.length; i++) {
+    // Items is empty if length is 1
+    if (items.length == 1) {
+      showToast(
+        "Please add a form selection before confirming changes.",
+        "error"
+      );
+      return;
+    }
+    showToast("Submitting changes for commission statuses");
+    for (let i = 1; i < items.length; i++) {
+      // Skip item if id is null
+      if (items[i].id == null) continue;
+      // Else, run the update request
+      else {
         axios
           .put(
             updatecommission_url,
@@ -698,10 +705,10 @@ function SubmitCommissionPopup({ exitScreen, submitCommission }) {
   );
 }
 
-function UserCommisionsSection() {
+function UserCommisionsSection({ userEmail }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  //const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
   const [userCommissionArray, setUserCommissions] = useState([]);
@@ -722,7 +729,7 @@ function UserCommisionsSection() {
   const clearForm = () => {
     setFirstName("");
     setLastName("");
-    setEmail("");
+    //setEmail("");
     setPhoneNumber("");
     setDescription("");
   };
@@ -753,7 +760,7 @@ function UserCommisionsSection() {
 
   // Move the function out of the useEffect
   const grabOwnCommissions = () => {
-    const testEmail = "example@gmail.com";
+    const testEmail = userEmail; // User account email is used
     axios
       .get(
         `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`,
@@ -777,6 +784,7 @@ function UserCommisionsSection() {
   }, []);
 
   const handleSubmit = async () => {
+    let email = userEmail;
     const commissionData = {
       firstName,
       lastName,
@@ -796,17 +804,16 @@ function UserCommisionsSection() {
         }
       );
       console.log("Success:", response.data);
-
       if (response.status === 200) {
         showToast("Commission Sent!", "success");
         grabOwnCommissions();
+      } else {
+        showToast("You pressed cancel, commission not sent!", "error");
       }
 <<<<<<< HEAD
     } catch (error) {
       console.error("Error sending commission data:", error);
-      //window.alert("Failed to send commission. Please try again.");
-      setSnackMessage("Failed to send commission. Please try again.");
-      setOpen(true);
+      showToast("Failed to send commission. Please try again.", "error");
     }
 =======
     // } else {
@@ -816,11 +823,6 @@ function UserCommisionsSection() {
     // }
 >>>>>>> 069cdd3 (pushing current implementation of the role based view based off role from Amazon Cognito login (not finished yet))
   };
-  /* else {
-      //window.alert("You pressed cancel, commission not sent!");
-      setSnackMessageUser("You pressed cancel, commission not sent!");
-      setOpen(true);
-    } */ //I have no clue where this was supposed to go
 
   return (
     <div
@@ -896,14 +898,10 @@ function UserCommisionsSection() {
             minHeight: "100vh",
           }}
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <div>
               <label>first name*</label>
             </div>
-            <div>
-              <label>last name*</label>
-            </div>
-
             <div>
               <input
                 type="text"
@@ -912,6 +910,10 @@ function UserCommisionsSection() {
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
               />
+            </div>
+
+            <div>
+              <label>last name*</label>
             </div>
             <div>
               <input
@@ -924,20 +926,7 @@ function UserCommisionsSection() {
             </div>
 
             <div>
-              <label>email*</label>
-            </div>
-            <div>
               <label>phone number*</label>
-            </div>
-
-            <div>
-              <input
-                type="text"
-                id="email"
-                className="input-borders"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
             </div>
             <div>
               <input
@@ -989,13 +978,13 @@ function UserCommisionsSection() {
   );
 }
 
-export default function CommissionsSection({ userRole }) {
+export default function CommissionsSection({ userRole, email, username }) {
   return (
     <div>
       {userRole === "admin" ? (
         <AdminCommissionSection />
-      ) : userRole === "customer" ? (
-        <UserCommisionsSection />
+      ) : userRole === "customer" || userRole === "user" ? (
+        <UserCommisionsSection userEmail={email} username={username} />
       ) : (
         <GuestCommissionSection />
       )}
