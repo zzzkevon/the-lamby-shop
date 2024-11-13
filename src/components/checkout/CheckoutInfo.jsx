@@ -29,55 +29,6 @@ const CheckoutInfo = () => {
   const [shipping, setShipping] = useState(10); // Default shipping cost
   const [total, setTotal] = useState(0);
 
-  const sendEmailReceipt = async (
-    clientEmail,
-    items,
-    subtotal,
-    tax,
-    shipping,
-    discount,
-    total
-  ) => {
-    // Define the payload
-    const payload = {
-      body : {
-        clientEmail: clientEmail, // Customer's email address
-        ownerEmail: "thelambyshop@gmail.com", // Owner's email address
-        items: items, // Array of purchased items
-        subtotal: subtotal,
-        tax: tax,
-        shipping: shipping,
-        discount: discount,
-        total: total,
-      }
-    };
-
-    console.log(payload);
-
-    try {
-
-      // Make the POST request to your AWS API Gateway endpoint
-      const response = await axios.post(
-        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev/putReceipt", // Replace with your API Gateway endpoint
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Check the response
-      if (response.status === 200) {
-        console.log("Email sent successfully:", response.data);
-      } else {
-        console.error("Failed to send email:", response.data);
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-    }
-  };
-
   useEffect(() => {
     // Fetch items from the cart and calculate totals
     const cartItems = getCart(); // getCart should be imported or defined to fetch cart items
@@ -99,6 +50,54 @@ const CheckoutInfo = () => {
     const totalValue = subtotalValue + taxValue + shippingValue - discount;
     setTotal(totalValue);
   }, [discount]);
+
+  const sendEmailReceipt = async (
+    clientEmail,
+    items,
+    subtotal,
+    tax,
+    shipping,
+    discount,
+    total
+  ) => {
+    // Define the payload
+    const payload = {
+      body: {
+        clientEmail: clientEmail, // Customer's email address
+        ownerEmail: "thelambyshop@gmail.com", // Owner's email address
+        items: items, // Array of purchased items
+        subtotal: subtotal,
+        tax: tax,
+        shipping: shipping,
+        discount: discount,
+        total: total,
+      },
+    };
+
+    console.log(payload);
+
+    try {
+      // Make the POST request to your AWS API Gateway endpoint
+      const response = await axios.post(
+        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev/putReceipt", // Replace with your API Gateway endpoint
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Check the response
+      if (response.status === 200) {
+        console.log("Email sent successfully:", response.data);
+      } else {
+        console.error("Failed to send email:", response.data);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
