@@ -18,14 +18,14 @@ function GuestCommissionSection() {
           justifyContent: "center",
         }}
       >
-        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
         <h1
           className="header-font header-format"
           style={{ fontSize: "2em", padding: "25px" }}
         >
           C O M M I S S I O N S
         </h1>
-        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
       </div>
 
       <div className="flex w-full just-another-hand justify-around items-center">
@@ -180,14 +180,14 @@ function AdminCommissionSection() {
           justifyContent: "center",
         }}
       >
-        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
         <h1
           className="header-font header-format"
           style={{ fontSize: "2em", padding: "25px" }}
         >
           C O M M I S S I O N S
         </h1>
-        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
       </div>
 
       <div className="just-another-hand flex w-full justify-around items-center">
@@ -414,7 +414,7 @@ function CommissionItem({
   );
 }
 
-function UsersPersonalCommissionItem({
+export function UsersPersonalCommissionItem({
   id,
   clientName,
   description,
@@ -546,7 +546,7 @@ export function UserEditCommissionScreen({
       })
       .then(response => {
         console.log("Response:", response.data);
-        showToast("Sucessfully updated commission!", "success");
+        showToast("Successfully updated commission!", "success");
         reloadData();
       })
       .catch(error => {
@@ -579,9 +579,9 @@ export function UserEditCommissionScreen({
   };
 
   return (
-    <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div class="w-1/2 bg-white rounded-lg p-4">
-        <h2 class="text-3xl text-center font-bold">Edit Commission?</h2>
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="w-1/2 bg-white rounded-lg p-4">
+        <h2 className="text-3xl text-center font-bold">Edit Commission?</h2>
         <p>New Description:</p>
         <textarea
           value={newDescription}
@@ -604,7 +604,7 @@ export function UserEditCommissionScreen({
   );
 }
 
-function UserCancelCommissionScreen({ display, id, status, reloadData }) {
+export function UserCancelCommissionScreen({ display, id, status, reloadData }) {
   //creates a local reference to the value provided by the ToastContext
   const showToast = useToast();
   const url =
@@ -617,7 +617,7 @@ function UserCancelCommissionScreen({ display, id, status, reloadData }) {
       })
       .then(response => {
         console.log("Delete successful:", response.data);
-        showToast("Sucessfully cancelled commission!", "success");
+        showToast("Successfully cancelled commission!", "success");
         reloadData(); // Call reloadData after a successful delete
       })
       .catch(error => {
@@ -710,6 +710,30 @@ function UserCommisionsSection() {
   const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
   const showToast = useToast();
 
+    // Snackbar related
+  const [open, setOpen] = React.useState();
+  const [snackMessage, setSnackMessage] = useState('snack message mmmm');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+  }
+  
+  setOpen(false);
+  };
+  
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+      <CloseIcon fontSize="small" />
+      </IconButton>
+      </React.Fragment>
+  );
   const toggleForm = () => {
     if (commissionFormOpen) {
       setButtonText("Add A Commission\u25B4");
@@ -800,6 +824,7 @@ function UserCommisionsSection() {
       if (response.status === 200) {
         showToast("Commission Sent!", "success");
         grabOwnCommissions();
+        clearForm();
       }
     } catch (error) {
       console.error("Error sending commission data:", error);
