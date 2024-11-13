@@ -705,7 +705,7 @@ function SubmitCommissionPopup({ exitScreen, submitCommission }) {
   );
 }
 
-function UserCommisionsSection({ userEmail }) {
+function UserCommisionsSection({userEmail}) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   //const [email, setEmail] = useState("");
@@ -807,10 +807,9 @@ function UserCommisionsSection({ userEmail }) {
       if (response.status === 200) {
         showToast("Commission Sent!", "success");
         grabOwnCommissions();
-      } else {
-        showToast("You pressed cancel, commission not sent!", "error");
-      }
-<<<<<<< HEAD
+      } else { 
+        showToast("You pressed cancel, commission not sent!", "error"); 
+      }    
     } catch (error) {
       console.error("Error sending commission data:", error);
       showToast("Failed to send commission. Please try again.", "error");
@@ -984,7 +983,7 @@ export default function CommissionsSection({ userRole, email, username }) {
       {userRole === "admin" ? (
         <AdminCommissionSection />
       ) : userRole === "customer" || userRole === "user" ? (
-        <UserCommisionsSection userEmail={email} username={username} />
+        <UserCommisionsSection userEmail={email} username={username}/>
       ) : (
         <GuestCommissionSection />
       )}

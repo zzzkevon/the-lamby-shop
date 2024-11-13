@@ -91,7 +91,18 @@ async function getEmail() {
 const ProfileSection = ({ handleSignOut }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const [name, setName] = useState("");
+  const [userRole, setUserRole] = useState("null");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    console.log("Logging out...");
+    await handleSignOut();
+    console.log("Navigating to home...");
+    navigate("/");
+  };
 
   const refreshUserSession = async () => {
     try {
@@ -116,6 +127,7 @@ const ProfileSection = ({ handleSignOut }) => {
     } catch (error) {
       console.error("Error refreshing session:", error);
       setIsAdmin(false); // Reset to false on error
+      setUserRole("guest");
     } finally {
       setLoading(false); // End loading state
     }
@@ -147,7 +159,7 @@ const ProfileSection = ({ handleSignOut }) => {
         }}
         onStateChange={state => console.log("State changed:", state)}
       >
-        {({ user }) => (
+        {() => (
           <main>
             <h1>Hello {user?.username}</h1>
             <h1>Welcome to the Dashboard</h1>

@@ -33,7 +33,7 @@ import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import AdminDashboard from './components/adminPages/AdminDashboard';
 import NotFound from './components/NotFound';
-import RoleBasedView from './components/roles/RoleBasedView';
+import RoleBasedProfile from './components/profiles/RoleBasedProfile';
 import CarouselContext from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
@@ -45,7 +45,6 @@ import axios from 'axios';
 function App() {
   const [email, setEmail] = useState(null);
   const [userRole, setUserRole] = useState('guest');
-  const [isAdmin, setIsAdmin] = useState(false);
   const [username, setUsername] = useState(null);
 
   useEffect(() => {
@@ -72,10 +71,15 @@ function App() {
   }, [email, userRole, username])
 
   const handleSignOut = async () => {
-    setIsAdmin(false); // Reset state
-    await amplifySignOut(); // Use Amplify's sign out 
-    localStorage.removeItem('userRole'); // Clear role from storage
-    localStorage.removeItem('email'); // Clear email from storage
+    try {
+      console.log("Sign out initiated");
+      await amplifySignOut(); // Use Amplify's sign out 
+      console.log("Signed out from Amplify");
+      localStorage.clear();
+      setUserRole('guest');
+    } catch (error) {
+      console.error('Sign-out error:', error); // Clear email from storage
+    }
   };
 
   const [carousel, setCarousel] = useState(() => {
@@ -92,36 +96,16 @@ function App() {
 
 
   useEffect(() => {
-<<<<<<< HEAD
     // Check if this is the first time loading in the session
     if (!sessionStorage.getItem('initialLoadDone')) {
       // Clear localStorage items on first load
-=======
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get('https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items');
-        const items = response.data; // Adjust this based on the API response structure
-        setCarousel(items); // Set the carousel state with the fetched items
-        setCarousel1(items)
-        localStorage.setItem('carousel', JSON.stringify(items));
-        localStorage.setItem('carousel1', JSON.stringify(items));
-        console.log('items: ', carousel);
-
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
-
-    // Only fetch items if carousel is empty (i.e., no items in localStorage)
-    if (carousel.length === 0) {
->>>>>>> 069cdd3 (pushing current implementation of the role based view based off role from Amazon Cognito login (not finished yet))
       localStorage.removeItem('carousel');
       localStorage.removeItem('carousel1');
-  
+
       // Set a sessionStorage flag to prevent this from running again
       sessionStorage.setItem('initialLoadDone', 'true');
     }
-  
+
     // Proceed with your usual data-fetching logic
     const storedCarousel = localStorage.getItem('carousel');
     const storedCarousel1 = localStorage.getItem('carousel1');
@@ -132,7 +116,7 @@ function App() {
         .then(response => {
           setCarousel(response.data);
           setCarousel1(response.data);
-          localStorage.setItem('carousel', JSON.stringify(response.data)); 
+          localStorage.setItem('carousel', JSON.stringify(response.data));
           localStorage.setItem('carousel1', JSON.stringify(response.data));
         })
         .catch(error => console.error("Error fetching items:", error));
@@ -140,7 +124,7 @@ function App() {
       setCarousel(JSON.parse(storedCarousel));
     }
   }, []);
-  
+
 
   // Store carousel in localStorage whenever it changes
   useEffect(() => {
@@ -180,7 +164,7 @@ function App() {
                 <Route path="/contact" element={<ContactSection />} />
 
                 <Route path="/accountrecovery" element={<AccountRecovery />} />
-                <Route path="/profile" element={<ProfileSection handleSignOut={handleSignOut} setIsAdmin={setIsAdmin} />} />
+                <Route path="/profile" element={ <ProfileSection handleSignOut={handleSignOut} />} />
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/createaccount" element={<CreateAccount />} />
@@ -189,7 +173,7 @@ function App() {
 
                 {/*Admin route pathings*/}
                 <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-                <Route path="/admin/admin-dashboard" element={<AdminDashboard handleSignOut={handleSignOut} userRole={userRole} isAdmin={isAdmin} />} />
+                <Route path="/admin/admin-dashboard" element={ <AdminDashboard handleSignOut={handleSignOut} userRole={userRole} />} />
                 <Route path="/admin/create-admin" element={<CreateAdmin />} />
                 <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory />} />
 
@@ -198,7 +182,7 @@ function App() {
                 <Route path="/update-password" element={<UpdatePassword />} />
                 <Route path="/password-success" element={<PasswordSuccess />} />
                 <Route path="/update-payment" element={<UpdatePayment />} />
-                <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
+                <Route path="/role-based-profile" element={<RoleBasedProfile userRole={userRole} handleSignOut={handleSignOut} />} />
                 <Route path="/payment-success" element={<PaymentSuccess />} />
 
                 {/*Page routing for 404 or not found*/}
@@ -209,8 +193,6 @@ function App() {
         </SnackbarProvider>
       </CarouselContext.Provider>
     </CarouselContext1.Provider>
-
-
   );
 }
 
