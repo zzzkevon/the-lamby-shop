@@ -53,7 +53,7 @@ const CheckoutInfo = () => {
 
       // Make the POST request to your AWS API Gateway endpoint
       const response = await axios.post(
-        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev", // Replace with your API Gateway endpoint
+        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev/putReceipt", // Replace with your API Gateway endpoint
         payload,
         {
           headers: {
