@@ -18,9 +18,12 @@ const ViewAllButton = () => {
   const viewAllMarginY = width < 1000 ? 'my-1' : 'my-4';
   return (
     <div className={`${viewAllMarginY}`}>
-      <a href='/shop' className={`pl-[13%] just-another-hand pl-[11%]  transition-all duration-300 ease-in-out ${buttonWidthClass}`}>
+      <button
+        onClick={() => window.location.href = '/shop'}
+        className={`pl-[13%] just-another-hand pl-[11%]  transition-all duration-300 ease-in-out ${buttonWidthClass}`}
+      >
         view all
-      </a>
+      </button>
     </div>
   )
 }
