@@ -109,7 +109,7 @@ function App() {
           setCarousel(response.data);
           setCarousel1(response.data);
           localStorage.setItem('carousel', JSON.stringify(response.data)); 
-          localStorage.setItem('carousel1', JSON.stringify(response.data)); 
+          localStorage.setItem('carousel1', JSON.stringify(response.data));
         })
         .catch(error => console.error("Error fetching items:", error));
     } else {
