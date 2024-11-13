@@ -1,9 +1,10 @@
 import star from '../../images/story_stars_1.png';
 import { React, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { addItem } from '../inventoryAPI/functionCalls';
 import ManageInventory from '../inventory/ManageInventory';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ handleSignOut, userRole, isAdmin }) => {
     // const items = useGetAll()
     const [showInventoryModal, setShowInventoryModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -12,7 +13,9 @@ const AdminDashboard = () => {
     const [imageKey, setImageKey] = useState('');
     const [itemDescription, setItemDescription] = useState('');
     const [itemPrice, setItemPrice] = useState('');
-    
+
+    const location = useLocation();
+    const role = location.state?.role || localStorage.getItem('userRole') || 'user';
 
     const useManageInventory = () => {
         console.log("manage inventory clicked.");
@@ -40,6 +43,7 @@ const AdminDashboard = () => {
         setShowAddModal(false);
     }
 
+
     return (
         <div className="main-bg just-another-hand 4xl">
             <div className="flex flex-col justify-start items-center min-w-screen min-h-screen">
@@ -48,41 +52,44 @@ const AdminDashboard = () => {
                         <div className="flex flex-center justify-center">
                             <img src={star} alt="" class="w-16 h-16 mx-2 mb-2"></img>
                             <p className="text-4xl header-font font-bold mb-4 tracking-wider whitespace-pre">
-                                A D M I N   D A S H B O A R D
+                                {/* A D M I N   D A S H B O A R D */}
+                                W e l c o m e  {role === 'admin' ? 'Admin' : 'User, something is wrong then'}
                             </p>
                             <img src={star} alt="" class="w-16 h-16 mx-2 mb-2"></img>
                         </div>
                         <br></br>
 
                         {/* Manage Admin accounts */}
-                        <div className="flex justify-content">
-                            <p className="text-2xl header-font font-bold mb-4 tracking-wider whitespace-pre flex justify-content mt-2">ADMIN ACTIONS</p>
+                        <div className="flex flex-col items-center">
+                            <p className="text-2xl header-font font-bold mb-6 tracking-wider">
+                                ADMIN ACTIONS
+                            </p>
 
-                            <div className="flex flex-row w-full md:w-1/2 mt-8 m-10">
+                            <div className="flex flex-row justify-center space-x-6">
                                 <a href="/admin/create-admin">
-                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6 mr-10">
-                                Create New Admin
+                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
+                                        Create New Admin
                                     </button>
                                 </a>
 
-                                
-                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-8 rounded-full mt-6">
-                                Manage Users
-                                    </button>
-                               
-                             </div>
+                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
+                                    Manage Users
+                                </button>
+                            </div>
                         </div>
 
 
-                        <div className="flex justify-content mt-2">
-                            <p className="text-2xl header-font font-bold mb-4 tracking-wider whitespace-pre flex justify-content mt-2">MANAGE PRODUCTS</p>
+                        <div className="flex flex-col items-center">
+                            <p className="text-2xl header-font font-bold mt-6 mb-4 tracking-wider">
+                                MANAGE PRODUCTS
+                            </p>
 
-                            <div className="flex flex-row w-full md:w-1/2 mt-8 m-10 space-x-10">
+                            <div className="flex flex-row justify-center w-full mt-4 space-x-10">
 
-                                <div className="flex flex-col items-center mt-2 ">
+                                <div className="flex flex-col items-center">
                                     {/* button should call procedure to add products*/}
-                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8"
-                                    onClick={() => setShowAddModal(true)}>
+                                    <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap"
+                                        onClick={() => setShowAddModal(true)}>
                                         Add Product
                                     </button>
                                 </div>
@@ -144,16 +151,16 @@ const AdminDashboard = () => {
                                     </div>
                                 )}
                                 {/*manage product's category, price, etc.*/}
-                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8"
-                                onClick={useManageInventory}>
-                                Manage Inventory
+                                <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap"
+                                    onClick={useManageInventory}>
+                                    Manage Inventory
                                 </button>
                                 {showInventoryModal && (
                                     <div className="modal-overlay-admin">
                                         <div className="modal-content flex flex-col justify-center">
                                             <button onClick={closeModal}>Close</button>
                                             <ManageInventory />
-                                            <div className="flex justify-center mt-4">                                            
+                                            <div className="flex justify-center mt-4">
                                                 <a href="/admin/admin-manage-inventory">
                                                     <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-8 rounded-full whitespace-nowrap">
                                                         Change Carousel Items
@@ -165,30 +172,41 @@ const AdminDashboard = () => {
                                 )}
                             </div>
                         </div>
-        
-                            <div className="flex justify-content mt-2">
-                                <p className="text-2xl header-font font-bold mb-4 tracking-wider whitespace-pre flex justify-content mt-2">MANAGE CUSTOMERS</p>
 
-                                <div className="flex flex-row w-full md:w-1/2 mt-8 m-10 space-x-10">
+                        <div className="flex flex-col items-center">
+                            <p className="text-2xl header-font font-bold mt-6 mb-4 tracking-wider">
+                                MANAGE CUSTOMERS
+                            </p>
 
-                                    <div className="flex flex-col items-center mt-2 "> 
-                                        {/* button should call procedure to manage products
+                            <div className="flex flex-row justify-center space-x-6">
+
+                                <div className="flex flex-col items-center mt-2 ">
+                                    {/* button should call procedure to manage products
                                             should be able to access customer info, order history, account status */}
-                                    
-                                        <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
-                                            View Customers
-                                        </button>
-                                        
-                                    </div>
 
-                                    {/* button should call procedure to view and respond to customer questions*/}
-                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-10 rounded-full mt-6 mr-8">
-                                    Customer Queries
+                                    <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
+                                        View Customers
                                     </button>
+
                                 </div>
+
+                                {/* button should call procedure to view and respond to customer questions*/}
+                                <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
+                                    Customer Queries
+                                </button>
                             </div>
+                        </div>
 
                     </div>
+                    <div className="flex flex-col items-center mt-10"> {/* Adding margin-top to push down */}
+                        <button
+                            onClick={handleSignOut}
+                            className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6"
+                        >
+                            Sign out
+                        </button>
+                    </div>
+                    {/*<button onClick={handleSignOut} className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6 mr-10">Sign out</button>*/}
                 </header>
             </div>
         </div>

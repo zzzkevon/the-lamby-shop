@@ -1,14 +1,20 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SnackbarProvider from 'react-simple-snackbar'
+import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
+
+//Nav bar left
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
+import ShopSection from './components/ShopSection';
+import CommissionsSection from './components/CommissionsSection/CommissionsSection';
+import ContactSection from './components/ContactSection';
+
+//Right side of nav bar
 import ShoppingCart from './components/ShoppingCart';
 import ProfileSection from './components/ProfileSection';
-import ShopSection from './components/ShopSection';
-import CommisionsSection from './components/CommissionsSection';
-import ContactSection from './components/ContactSection';
+
 import CreateAccount from './components/CreateAccount';
 import ForgotPassword from './components/ForgotPassword';
 import AccountRecovery from './components/AccountRecovery';
@@ -22,17 +28,22 @@ import PasswordSuccess from './components/AccountManagement/PasswordSuccess';
 import UpdatePayment from './components/AccountManagement/UpdatePayment';
 import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
+import AdminDashboard from './components/adminPages/AdminDashboard';
 import NotFound from './components/NotFound';
 import RoleBasedView from './components/roles/RoleBasedView';
-import CarouselContext  from './contexts/CarouselContext';
+import CarouselContext from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
 import PaymentSuccess from './components/checkout/PaymentSuccess';
 import MessageSubscribers from './components/adminPages/MessageSubscribers';
 import axios from 'axios';
 
+
 function App() {
+  const [email, setEmail] = useState(null);
   const [userRole, setUserRole] = useState('guest');
+  const [username, setUsername] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const storedRole = localStorage.getItem('userRole');
@@ -40,6 +51,29 @@ function App() {
       setUserRole(storedRole);
     }
   }, []);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('email');
+    if(storedEmail)
+      setEmail(storedEmail);
+  }, [])
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if(storedUsername)
+      setUsername(storedUsername);
+  }, [])
+
+  useEffect(() => {
+    console.log(`Email is ${email} with role ${userRole} with user ID ${username}`);
+  }, [email, userRole, username])
+
+  const handleSignOut = async () => {
+    setIsAdmin(false); // Reset state
+    await amplifySignOut(); // Use Amplify's sign out 
+    localStorage.removeItem('userRole'); // Clear role from storage
+    localStorage.removeItem('email'); // Clear email from storage
+  };
 
   const [carousel, setCarousel] = useState(() => {
     const storedCarousel = localStorage.getItem('carousel');
@@ -76,7 +110,7 @@ function App() {
           setCarousel(response.data);
           setCarousel1(response.data);
           localStorage.setItem('carousel', JSON.stringify(response.data)); 
-          localStorage.setItem('carousel1', JSON.stringify(response.data)); 
+          localStorage.setItem('carousel1', JSON.stringify(response.data));
         })
         .catch(error => console.error("Error fetching items:", error));
     } else {
@@ -99,55 +133,60 @@ function App() {
   }, [carousel1]);
 
   const currentCarouselContext = useMemo(
-    () => ({carousel, setCarousel}),
+    () => ({ carousel, setCarousel }),
     [carousel]
   );
 
   const currentCarouselContext1 = useMemo(
-    () => ({carousel1, setCarousel1}),
+    () => ({ carousel1, setCarousel1 }),
     [carousel1]
   );
   return (
     <CarouselContext1.Provider value={currentCarouselContext1}>
-    <CarouselContext.Provider value={currentCarouselContext}>
-    <SnackbarProvider>
-    <ToastProvider>
-    <Router>
-          <NavBar userRole={userRole} setUserRole={setUserRole}/>
-          <Routes>
-            <Route path="/" element={<HeroSection />} />
-            <Route path="/about" element={<AboutSection />} />
-            <Route path="/accountrecovery" element={<AccountRecovery />} />
-            <Route path="/shop" element={<ShopSection />} />
-            <Route path="/commissions" element={<CommisionsSection userRole={userRole} />} />
-            <Route path="/contact" element={<ContactSection />} />
-            <Route path="/profile" element={<ProfileSection />} />
-            <Route path="/shoppingcart" element={<ShoppingCart />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/createaccount" element={<CreateAccount />} />
-            <Route path="/update-account" element={<AccountUpdate />} />
-            <Route path="/shoppingcart/checkout" element={<CheckoutSection />} />
-            <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-            <Route path="/admin/create-admin" element={<CreateAdmin />} />
-            <Route path="/account-management" element={<AccountManagement />} />
-            <Route path="/update-email" element={<UpdateEmail />} />
-            <Route path="/update-password" element={<UpdatePassword />} />
-            <Route path="/password-success" element={<PasswordSuccess/>} />
-            <Route path="/update-payment" element={<UpdatePayment />} />
-            <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory/>} />
-            <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
-            <Route path="*" element={<NotFound />}/>
-            <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
-            <Route path="*" element={<NotFound />}/>
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/message-subscribers" element={<MessageSubscribers />} />
-          </Routes>
-        </Router>
-        </ToastProvider>
+      <CarouselContext.Provider value={currentCarouselContext}>
+        <SnackbarProvider>
+          <ToastProvider>
+            <Router>
+              <NavBar userRole={userRole} setUserRole={setUserRole} />
+              <Routes>
+                {/*Left side of the nav bar functions*/}
+                <Route path="/" element={<HeroSection />} />
+                <Route path="/about" element={<AboutSection />} />
+                <Route path="/shop" element={<ShopSection />} />
+                <Route path="/commissions" element={<CommissionsSection userRole={userRole} email={email} />} />
+                <Route path="/contact" element={<ContactSection />} />
+
+                <Route path="/accountrecovery" element={<AccountRecovery />} />
+                <Route path="/profile" element={<ProfileSection handleSignOut={handleSignOut} setIsAdmin={setIsAdmin} />} />
+                <Route path="/shoppingcart" element={<ShoppingCart />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/createaccount" element={<CreateAccount />} />
+                <Route path="/update-account" element={<AccountUpdate />} />
+                <Route path="/shoppingcart/checkout" element={<CheckoutSection />} />
+
+                {/*Admin route pathings*/}
+                <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
+                <Route path="/admin/admin-dashboard" element={<AdminDashboard handleSignOut={handleSignOut} userRole={userRole} isAdmin={isAdmin} />} />
+                <Route path="/admin/create-admin" element={<CreateAdmin />} />
+                <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory />} />
+
+                <Route path="/account-management" element={<AccountManagement />} />
+                <Route path="/update-email" element={<UpdateEmail username={username} />} />
+                <Route path="/update-password" element={<UpdatePassword username={username} />} />
+                <Route path="/password-success" element={<PasswordSuccess />} />
+                <Route path="/update-payment" element={<UpdatePayment />} />
+                <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+
+                {/*Page routing for 404 or not found*/}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+          </ToastProvider>
         </SnackbarProvider>
-        </CarouselContext.Provider>
-        </CarouselContext1.Provider>
-        
+      </CarouselContext.Provider>
+    </CarouselContext1.Provider>
+
 
   );
 }
