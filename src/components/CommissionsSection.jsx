@@ -132,6 +132,7 @@ function AdminCommissionSection() {
   // Update commission statuses if confirm chosen from confirmAction()
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
+    // console.log("New commissions status: ", items);
     // Parse through all of the items and push them to db
     if (window.confirm("Are you sure you want to submit changes?")) {
       for (let i = 1; i < items.length; i++) {

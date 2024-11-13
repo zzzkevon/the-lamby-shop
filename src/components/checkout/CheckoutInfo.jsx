@@ -38,9 +38,9 @@ const CheckoutInfo = () => {
     discount,
     total
   ) => {
-    try {
-      // Define the payload
-      const payload = {
+    // Define the payload
+    const payload = {
+      body : {
         clientEmail: clientEmail, // Customer's email address
         ownerEmail: "thelambyshop@gmail.com", // Owner's email address
         items: items, // Array of purchased items
@@ -49,11 +49,16 @@ const CheckoutInfo = () => {
         shipping: shipping,
         discount: discount,
         total: total,
-      };
+      }
+    };
+
+    console.log(payload);
+
+    try {
 
       // Make the POST request to your AWS API Gateway endpoint
       const response = await axios.post(
-        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev", // Replace with your API Gateway endpoint
+        "https://ikc2uhcqo2.execute-api.us-west-2.amazonaws.com/dev/putReceipt", // Replace with your API Gateway endpoint
         payload,
         {
           headers: {

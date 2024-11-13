@@ -14,6 +14,9 @@ const AdminView = () => {
                 <li>
                     <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full text-white mt-4" onClick={() => navigate('/commissions')}>Commissions</button>
                 </li>
+                <li>
+                    <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full text-white mt-4" onClick={() => navigate('/message-subscribers')}>Message Subscribers</button>
+                </li>
             </ul>
         </div>
     );

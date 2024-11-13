@@ -28,6 +28,7 @@ import CarouselContext  from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
 import PaymentSuccess from './components/checkout/PaymentSuccess';
+import MessageSubscribers from './components/adminPages/MessageSubscribers';
 import axios from 'axios';
 
 function App() {
@@ -139,6 +140,7 @@ function App() {
             <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
             <Route path="*" element={<NotFound />}/>
             <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/message-subscribers" element={<MessageSubscribers />} />
           </Routes>
         </Router>
         </ToastProvider>
