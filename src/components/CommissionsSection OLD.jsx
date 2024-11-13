@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { SnackbarContent } from "@mui/material";
 
 function GuestCommissionSection() {
   return (
@@ -18,14 +14,14 @@ function GuestCommissionSection() {
           justifyContent: "center",
         }}
       >
-        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
         <h1
           className="header-font header-format"
           style={{ fontSize: "2em", padding: "25px" }}
         >
           C O M M I S S I O N S
         </h1>
-        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
       </div>
 
       <div className="flex w-full just-another-hand justify-around items-center">
@@ -132,9 +128,20 @@ function AdminCommissionSection() {
   // Update commission statuses if confirm chosen from confirmAction()
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
-    // Parse through all of the items and push them to db
-    if (window.confirm("Are you sure you want to submit changes?")) {
-      for (let i = 1; i < items.length; i++) {
+    // Items is empty if length is 1
+    if (items.length == 1) {
+      showToast(
+        "Please add a form selection before confirming changes.",
+        "error"
+      );
+      return;
+    }
+    showToast("Submitting changes for commission statuses");
+    for (let i = 1; i < items.length; i++) {
+      // Skip item if id is null
+      if (items[i].id == null) continue;
+      // Else, run the update request
+      else {
         axios
           .put(
             updatecommission_url,
@@ -180,14 +187,14 @@ function AdminCommissionSection() {
           justifyContent: "center",
         }}
       >
-        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
         <h1
           className="header-font header-format"
           style={{ fontSize: "2em", padding: "25px" }}
         >
           C O M M I S S I O N S
         </h1>
-        <img src={star} alt="" className="w-16 h-16 mb-4"></img>
+        <img src={star} alt="" class="w-16 h-16 mb-4"></img>
       </div>
 
       <div className="just-another-hand flex w-full justify-around items-center">
@@ -414,7 +421,7 @@ function CommissionItem({
   );
 }
 
-export function UsersPersonalCommissionItem({
+function UsersPersonalCommissionItem({
   id,
   clientName,
   description,
@@ -546,7 +553,7 @@ export function UserEditCommissionScreen({
       })
       .then(response => {
         console.log("Response:", response.data);
-        showToast("Successfully updated commission!", "success");
+        showToast("Sucessfully updated commission!", "success");
         reloadData();
       })
       .catch(error => {
@@ -579,9 +586,9 @@ export function UserEditCommissionScreen({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="w-1/2 bg-white rounded-lg p-4">
-        <h2 className="text-3xl text-center font-bold">Edit Commission?</h2>
+    <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div class="w-1/2 bg-white rounded-lg p-4">
+        <h2 class="text-3xl text-center font-bold">Edit Commission?</h2>
         <p>New Description:</p>
         <textarea
           value={newDescription}
@@ -604,7 +611,7 @@ export function UserEditCommissionScreen({
   );
 }
 
-export function UserCancelCommissionScreen({ display, id, status, reloadData }) {
+function UserCancelCommissionScreen({ display, id, status, reloadData }) {
   //creates a local reference to the value provided by the ToastContext
   const showToast = useToast();
   const url =
@@ -617,7 +624,7 @@ export function UserCancelCommissionScreen({ display, id, status, reloadData }) 
       })
       .then(response => {
         console.log("Delete successful:", response.data);
-        showToast("Successfully cancelled commission!", "success");
+        showToast("Sucessfully cancelled commission!", "success");
         reloadData(); // Call reloadData after a successful delete
       })
       .catch(error => {
@@ -698,10 +705,10 @@ function SubmitCommissionPopup({ exitScreen, submitCommission }) {
   );
 }
 
-function UserCommisionsSection() {
+function UserCommisionsSection({ userEmail }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  //const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
   const [userCommissionArray, setUserCommissions] = useState([]);
@@ -710,30 +717,6 @@ function UserCommisionsSection() {
   const [sendCommissionPopup, setSendCommissionPopup] = useState(false);
   const showToast = useToast();
 
-    // Snackbar related
-  const [open, setOpen] = React.useState();
-  const [snackMessage, setSnackMessage] = useState('snack message mmmm');
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-  }
-  
-  setOpen(false);
-  };
-  
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-      <CloseIcon fontSize="small" />
-      </IconButton>
-      </React.Fragment>
-  );
   const toggleForm = () => {
     if (commissionFormOpen) {
       setButtonText("Add A Commission\u25B4");
@@ -746,7 +729,7 @@ function UserCommisionsSection() {
   const clearForm = () => {
     setFirstName("");
     setLastName("");
-    setEmail("");
+    //setEmail("");
     setPhoneNumber("");
     setDescription("");
   };
@@ -777,7 +760,7 @@ function UserCommisionsSection() {
 
   // Move the function out of the useEffect
   const grabOwnCommissions = () => {
-    const testEmail = "example@gmail.com";
+    const testEmail = userEmail; // User account email is used
     axios
       .get(
         `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/getUserCommissions`,
@@ -801,6 +784,7 @@ function UserCommisionsSection() {
   }, []);
 
   const handleSubmit = async () => {
+    let email = userEmail;
     const commissionData = {
       firstName,
       lastName,
@@ -820,24 +804,17 @@ function UserCommisionsSection() {
         }
       );
       console.log("Success:", response.data);
-
       if (response.status === 200) {
         showToast("Commission Sent!", "success");
         grabOwnCommissions();
-        clearForm();
+      } else {
+        showToast("You pressed cancel, commission not sent!", "error");
       }
     } catch (error) {
       console.error("Error sending commission data:", error);
-      //window.alert("Failed to send commission. Please try again.");
-      setSnackMessage("Failed to send commission. Please try again.");
-      setOpen(true);
+      showToast("Failed to send commission. Please try again.", "error");
     }
   };
-  /* else {
-      //window.alert("You pressed cancel, commission not sent!");
-      setSnackMessageUser("You pressed cancel, commission not sent!");
-      setOpen(true);
-    } */ //I have no clue where this was supposed to go
 
   return (
     <div
@@ -913,14 +890,10 @@ function UserCommisionsSection() {
             minHeight: "100vh",
           }}
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <div>
               <label>first name*</label>
             </div>
-            <div>
-              <label>last name*</label>
-            </div>
-
             <div>
               <input
                 type="text"
@@ -929,6 +902,10 @@ function UserCommisionsSection() {
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
               />
+            </div>
+
+            <div>
+              <label>last name*</label>
             </div>
             <div>
               <input
@@ -941,20 +918,7 @@ function UserCommisionsSection() {
             </div>
 
             <div>
-              <label>email*</label>
-            </div>
-            <div>
               <label>phone number*</label>
-            </div>
-
-            <div>
-              <input
-                type="text"
-                id="email"
-                className="input-borders"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
             </div>
             <div>
               <input
@@ -1006,13 +970,13 @@ function UserCommisionsSection() {
   );
 }
 
-export default function CommissionsSection({ userRole }) {
+export default function CommissionsSection({ userRole, email, username }) {
   return (
     <div>
       {userRole === "admin" ? (
         <AdminCommissionSection />
-      ) : userRole === "customer" ? (
-        <UserCommisionsSection />
+      ) : userRole === "customer" || userRole === "user" ? (
+        <UserCommisionsSection userEmail={email} username={username} />
       ) : (
         <GuestCommissionSection />
       )}

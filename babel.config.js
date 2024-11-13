@@ -3,4 +3,5 @@ module.exports = {
       '@babel/preset-env', // Transforms ES6+ syntax
       '@babel/preset-react', // Transforms React JSX
     ],
-};
+  };
+  
