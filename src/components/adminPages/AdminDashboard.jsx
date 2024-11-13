@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { addItem } from '../inventoryAPI/functionCalls';
 import ManageInventory from '../inventory/ManageInventory';
 
-const AdminDashboard = ({ handleSignOut, userRole, isAdmin }) => {
+const AdminDashboard = ({ handleSignOut}) => {
     // const items = useGetAll()
     const [showInventoryModal, setShowInventoryModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -20,10 +20,6 @@ const AdminDashboard = ({ handleSignOut, userRole, isAdmin }) => {
     const useManageInventory = () => {
         console.log("manage inventory clicked.");
         setShowInventoryModal(true);
-        // console.log(items);
-        // Pop up the tiles
-        // create file called ManageInventory.jsx and call it here
-        // <ManageInventory></ManageInventory>
     };
 
     const closeModal = () => {
@@ -43,7 +39,6 @@ const AdminDashboard = ({ handleSignOut, userRole, isAdmin }) => {
         setShowAddModal(false);
     }
 
-
     return (
         <div className="main-bg just-another-hand 4xl">
             <div className="flex flex-col justify-start items-center min-w-screen min-h-screen">
@@ -58,26 +53,6 @@ const AdminDashboard = ({ handleSignOut, userRole, isAdmin }) => {
                             <img src={star} alt="" class="w-16 h-16 mx-2 mb-2"></img>
                         </div>
                         <br></br>
-
-                        {/* Manage Admin accounts */}
-                        <div className="flex flex-col items-center">
-                            <p className="text-2xl header-font font-bold mb-6 tracking-wider">
-                                ADMIN ACTIONS
-                            </p>
-
-                            <div className="flex flex-row justify-center space-x-6">
-                                <a href="/admin/create-admin">
-                                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
-                                        Create New Admin
-                                    </button>
-                                </a>
-
-                                <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
-                                    Manage Users
-                                </button>
-                            </div>
-                        </div>
-
 
                         <div className="flex flex-col items-center">
                             <p className="text-2xl header-font font-bold mt-6 mb-4 tracking-wider">

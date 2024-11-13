@@ -4,11 +4,14 @@ import SnackbarProvider from 'react-simple-snackbar'
 import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
 
 //Nav bar left
+import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
+
+//Nav bar left
 import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShopSection from './components/ShopSection';
-import CommissionsSection from './components/CommissionsSection/CommissionsSection';
+import CommissionsSection from './components/CommissionsSection';
 import ContactSection from './components/ContactSection';
 
 //Right side of nav bar
@@ -30,7 +33,7 @@ import AdminManageProfile from './components/AdminManageProfile';
 import AdminManageInventory from './components/adminPages/AdminManageInventory';
 import AdminDashboard from './components/adminPages/AdminDashboard';
 import NotFound from './components/NotFound';
-import RoleBasedView from './components/roles/RoleBasedView';
+import RoleBasedProfile from './components/profiles/RoleBasedProfile';
 import CarouselContext from './contexts/CarouselContext';
 import CarouselContext1 from './contexts/CarouselContext1';
 import { ToastProvider } from './contexts/ToastContext';
@@ -43,7 +46,6 @@ function App() {
   const [email, setEmail] = useState(null);
   const [userRole, setUserRole] = useState('guest');
   const [username, setUsername] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const storedRole = localStorage.getItem('userRole');
@@ -69,10 +71,15 @@ function App() {
   }, [email, userRole, username])
 
   const handleSignOut = async () => {
-    setIsAdmin(false); // Reset state
-    await amplifySignOut(); // Use Amplify's sign out 
-    localStorage.removeItem('userRole'); // Clear role from storage
-    localStorage.removeItem('email'); // Clear email from storage
+    try {
+      console.log("Sign out initiated");
+      await amplifySignOut(); // Use Amplify's sign out 
+      console.log("Signed out from Amplify");
+      localStorage.clear();
+      setUserRole('guest');
+    } catch (error) {
+      console.error('Sign-out error:', error); // Clear email from storage
+    }
   };
 
   const [carousel, setCarousel] = useState(() => {
@@ -94,11 +101,11 @@ function App() {
       // Clear localStorage items on first load
       localStorage.removeItem('carousel');
       localStorage.removeItem('carousel1');
-  
+
       // Set a sessionStorage flag to prevent this from running again
       sessionStorage.setItem('initialLoadDone', 'true');
     }
-  
+
     // Proceed with your usual data-fetching logic
     const storedCarousel = localStorage.getItem('carousel');
     const storedCarousel1 = localStorage.getItem('carousel1');
@@ -109,7 +116,7 @@ function App() {
         .then(response => {
           setCarousel(response.data);
           setCarousel1(response.data);
-          localStorage.setItem('carousel', JSON.stringify(response.data)); 
+          localStorage.setItem('carousel', JSON.stringify(response.data));
           localStorage.setItem('carousel1', JSON.stringify(response.data));
         })
         .catch(error => console.error("Error fetching items:", error));
@@ -117,7 +124,7 @@ function App() {
       setCarousel(JSON.parse(storedCarousel));
     }
   }, []);
-  
+
 
   // Store carousel in localStorage whenever it changes
   useEffect(() => {
@@ -153,11 +160,11 @@ function App() {
                 <Route path="/" element={<HeroSection />} />
                 <Route path="/about" element={<AboutSection />} />
                 <Route path="/shop" element={<ShopSection />} />
-                <Route path="/commissions" element={<CommissionsSection userRole={userRole} email={email} />} />
+                <Route path="/commissions" element={<CommissionsSection userRole={userRole} />} />
                 <Route path="/contact" element={<ContactSection />} />
 
                 <Route path="/accountrecovery" element={<AccountRecovery />} />
-                <Route path="/profile" element={<ProfileSection handleSignOut={handleSignOut} setIsAdmin={setIsAdmin} />} />
+                <Route path="/profile" element={ <ProfileSection handleSignOut={handleSignOut} />} />
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/createaccount" element={<CreateAccount />} />
@@ -166,16 +173,16 @@ function App() {
 
                 {/*Admin route pathings*/}
                 <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-                <Route path="/admin/admin-dashboard" element={<AdminDashboard handleSignOut={handleSignOut} userRole={userRole} isAdmin={isAdmin} />} />
+                <Route path="/admin/admin-dashboard" element={ <AdminDashboard handleSignOut={handleSignOut} userRole={userRole} />} />
                 <Route path="/admin/create-admin" element={<CreateAdmin />} />
                 <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory />} />
 
                 <Route path="/account-management" element={<AccountManagement />} />
-                <Route path="/update-email" element={<UpdateEmail username={username} />} />
-                <Route path="/update-password" element={<UpdatePassword username={username} />} />
+                <Route path="/update-email" element={<UpdateEmail />} />
+                <Route path="/update-password" element={<UpdatePassword />} />
                 <Route path="/password-success" element={<PasswordSuccess />} />
                 <Route path="/update-payment" element={<UpdatePayment />} />
-                <Route path="/role-based-view" element={<RoleBasedView userRole={userRole} />} />
+                <Route path="/role-based-profile" element={<RoleBasedProfile userRole={userRole} handleSignOut={handleSignOut} />} />
                 <Route path="/payment-success" element={<PaymentSuccess />} />
 
                 {/*Page routing for 404 or not found*/}
@@ -186,8 +193,6 @@ function App() {
         </SnackbarProvider>
       </CarouselContext.Provider>
     </CarouselContext1.Provider>
-
-
   );
 }
 
