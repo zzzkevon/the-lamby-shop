@@ -3,7 +3,6 @@ import star from "../images/story_stars_1.png";
 import axios from "axios";
 import { useToast } from "../contexts/ToastContext"; // Import the hook
 
-
 function GuestCommissionSection() {
   return (
     <div>
@@ -130,36 +129,47 @@ function AdminCommissionSection() {
   const handleConfirm = async () => {
     let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
     // Items is empty if length is 1
-    if(items.length == 1) {
-      showToast("Please add a form selection before confirming changes.", "error");
+    if (items.length == 1) {
+      showToast(
+        "Please add a form selection before confirming changes.",
+        "error"
+      );
       return;
     }
     showToast("Submitting changes for commission statuses");
     for (let i = 1; i < items.length; i++) {
       // Skip item if id is null
-      if(items[i].id == null)
-        continue;
+      if (items[i].id == null) continue;
       // Else, run the update request
-      else { 
-        axios.put(updatecommission_url, 
-                  { commissionStatus: items[i].commissionStatus },
-                  { params: { id: items[i].id } })
-              .then(response => {
-                  showToast(`Success updating status for commission ID ${items[i].id}`, "success");
-                  console.log(response.data);        
-                  /* 
+      else {
+        axios
+          .put(
+            updatecommission_url,
+            { commissionStatus: items[i].commissionStatus },
+            { params: { id: items[i].id } }
+          )
+          .then(response => {
+            showToast(
+              `Success updating status for commission ID ${items[i].id}`,
+              "success"
+            );
+            console.log(response.data);
+            /* 
                     Reload admin commissions with 
                     the new popup messages on a 
                     successful update request
-                  */         
-                  loadAdminCommissions();
-              })
-              .catch(error => {
-                  showToast(`Error updating status for commission ID ${items[i].id}`, "error");
-                  console.error(error);
-              });
-        }
+                  */
+            loadAdminCommissions();
+          })
+          .catch(error => {
+            showToast(
+              `Error updating status for commission ID ${items[i].id}`,
+              "error"
+            );
+            console.error(error);
+          });
       }
+    }
   };
 
   // Cancel toast popup if cancel chosen from confirmAction()
@@ -695,7 +705,7 @@ function SubmitCommissionPopup({ exitScreen, submitCommission }) {
   );
 }
 
-function UserCommisionsSection({userEmail}) {
+function UserCommisionsSection({ userEmail }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   //const [email, setEmail] = useState("");
@@ -797,9 +807,9 @@ function UserCommisionsSection({userEmail}) {
       if (response.status === 200) {
         showToast("Commission Sent!", "success");
         grabOwnCommissions();
-      } else { 
-        showToast("You pressed cancel, commission not sent!", "error"); 
-      }    
+      } else {
+        showToast("You pressed cancel, commission not sent!", "error");
+      }
     } catch (error) {
       console.error("Error sending commission data:", error);
       showToast("Failed to send commission. Please try again.", "error");
@@ -966,7 +976,7 @@ export default function CommissionsSection({ userRole, email, username }) {
       {userRole === "admin" ? (
         <AdminCommissionSection />
       ) : userRole === "customer" || userRole === "user" ? (
-        <UserCommisionsSection userEmail={email} username={username}/>
+        <UserCommisionsSection userEmail={email} username={username} />
       ) : (
         <GuestCommissionSection />
       )}
