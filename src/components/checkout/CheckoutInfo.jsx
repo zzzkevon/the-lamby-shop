@@ -60,21 +60,19 @@ const CheckoutInfo = () => {
     discount,
     total
   ) => {
-    // Define the payload
+    // Define the payload directly (without wrapping it in a `body` object)
     const payload = {
-      body: {
-        clientEmail: clientEmail, // Customer's email address
-        ownerEmail: "thelambyshop@gmail.com", // Owner's email address
-        items: items, // Array of purchased items
-        subtotal: subtotal,
-        tax: tax,
-        shipping: shipping,
-        discount: discount,
-        total: total,
-      },
+      clientEmail: clientEmail, // Customer's email address
+      ownerEmail: "thelambyshop@gmail.com", // Owner's email address
+      items: items, // Array of purchased items
+      subtotal: subtotal,
+      tax: tax,
+      shipping: shipping,
+      discount: discount,
+      total: total,
     };
 
-    console.log(payload);
+    console.log("Payload being sent:", payload);
 
     try {
       // Make the POST request to your AWS API Gateway endpoint
@@ -91,6 +89,7 @@ const CheckoutInfo = () => {
       // Check the response
       if (response.status === 200) {
         console.log("Email sent successfully:", response.data);
+        console.log("Email was sent to:", clientEmail);
       } else {
         console.error("Failed to send email:", response.data);
       }
