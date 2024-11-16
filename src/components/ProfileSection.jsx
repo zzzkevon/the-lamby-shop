@@ -14,6 +14,7 @@ import outputs from "../amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import RoleBasedProfile from './profiles/RoleBasedProfile'
 
 // Configure Amplify
 Amplify.configure(outputs);
@@ -107,6 +108,8 @@ const ProfileSection = ({ handleSignOut }) => {
   const refreshUserSession = async () => {
     try {
       //const currentUser = await Auth.currentAuthicatedUser();
+      const user = await getCurrentUser();
+      const attributes = await fetchUserAttributes(user);
       const adminStatus = await isAdminUser(); // Check admin status
       // console.log('Admin status:', adminStatus); // Check if true
       // setIsAdmin((prev) => {
@@ -138,10 +141,10 @@ const ProfileSection = ({ handleSignOut }) => {
     // console.log('Admin status in useEffect:', isAdmin);
   }, []); // Run only once on mount
 
-  const handleSignOut = async () => {
+  /* const handleSignOut = async () => {
     setIsAdmin(false); // Reset state
     await amplifySignOut(); // Use Amplify's sign out
-  };
+  }; */
 
   if (loading) return <p>Loading...</p>; // Wait until loading finishes
 
@@ -161,11 +164,8 @@ const ProfileSection = ({ handleSignOut }) => {
       >
         {() => (
           <main>
-            <h1>Hello {user?.username}</h1>
-            <h1>Welcome to the Dashboard</h1>
-            <p> This is the email: {localStorage.getItem("email")}</p>
-            <p>You are a regular user.</p>
-            <button onClick={handleSignOut}>Sign out</button>
+            {userRole ? <RoleBasedProfile userRole={userRole} /> : <p>Loading profile...</p>}
+            <button onClick={handleLogOut}>Sign out</button>
           </main>
         )}
       </Authenticator>
