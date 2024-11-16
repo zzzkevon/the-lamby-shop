@@ -27,14 +27,12 @@ const CustomerProfile = ({ handleSignOut }) => {
                         Manage my Account
                     </button>
                 </li>
-                <div className="flex flex-col items-center mt-10"> {/* Adding margin-top to push down */}
-                        <button
-                            onClick={handleSignOut}
-                            className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6"
-                        >
-                            Sign out
-                        </button>
-                    </div>
+                <div className="flex flex-col items-center mt-10">
+                    <button className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6"
+                        onClick={handleSignOut}>
+                        Sign out
+                    </button>
+                </div>
             </ul>
         </div>
     );
