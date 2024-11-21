@@ -173,15 +173,7 @@ const AdminDashboard = ({ handleSignOut}) => {
                         </div>
 
                     </div>
-                    <div className="flex flex-col items-center mt-10"> {/* Adding margin-top to push down */}
-                        <button
-                            onClick={handleSignOut}
-                            className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6"
-                        >
-                            Sign out
-                        </button>
-                    </div>
-                    {/*<button onClick={handleSignOut} className="bg-[#780000] hover:bg-[#780000] text-2xl text-white py-2 px-5 rounded-full mt-6 mr-10">Sign out</button>*/}
+
                 </header>
             </div>
         </div>
