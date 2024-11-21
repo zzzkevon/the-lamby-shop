@@ -24,7 +24,7 @@ const CustomerProfile = ({ handleSignOut }) => {
                 <li>
                     <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full text-white mt-4"
                         onClick={() => navigate('/account-management')}>
-                        Manage my Account
+                        Manage Payment
                     </button>
                 </li>
                 <div className="flex flex-col items-center mt-10">
