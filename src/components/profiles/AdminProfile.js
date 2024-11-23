@@ -26,6 +26,12 @@ const AdminProfile = ({ handleSignOut }) => {
                         Commissions
                     </button>
                 </li>
+                <li>
+                    <button className="bg-[#780000] hover:bg-[#780000] text-white py-2 px-4 rounded-full mt-4"
+                        onClick={handleSignOut}>
+                        Sign out
+                    </button>
+                </li>
             </ul>
         </div>
     );

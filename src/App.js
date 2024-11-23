@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SnackbarProvider from 'react-simple-snackbar'
-import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
 
 //Nav bar left
 import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
@@ -11,7 +10,7 @@ import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShopSection from './components/ShopSection';
-import CommissionsSection from './components/CommissionsSection';
+import CommissionsSection from './components/CommissionsSection/CommissionsSection';
 import ContactSection from './components/ContactSection';
 
 //Right side of nav bar
@@ -72,11 +71,10 @@ function App() {
 
   const handleSignOut = async () => {
     try {
-      console.log("Sign out initiated");
-      await amplifySignOut(); // Use Amplify's sign out 
-      console.log("Signed out from Amplify");
+      await amplifySignOut(); // Use Amplify's sign out
       localStorage.clear();
       setUserRole('guest');
+      Navigate('/');
     } catch (error) {
       console.error('Sign-out error:', error); // Clear email from storage
     }
@@ -160,11 +158,13 @@ function App() {
                 <Route path="/" element={<HeroSection />} />
                 <Route path="/about" element={<AboutSection />} />
                 <Route path="/shop" element={<ShopSection />} />
-                <Route path="/commissions" element={<CommissionsSection userRole={userRole} />} />
+                <Route path="/commissions" element={
+                  <CommissionsSection userRole={userRole} />} />
                 <Route path="/contact" element={<ContactSection />} />
 
                 <Route path="/accountrecovery" element={<AccountRecovery />} />
-                <Route path="/profile" element={ <ProfileSection handleSignOut={handleSignOut} />} />
+                <Route path="/profile" element={
+                  <ProfileSection handleSignOut={handleSignOut} />} />
                 <Route path="/shoppingcart" element={<ShoppingCart />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/createaccount" element={<CreateAccount />} />
@@ -173,7 +173,8 @@ function App() {
 
                 {/*Admin route pathings*/}
                 <Route path="/admin/manage-profile" element={<AdminManageProfile />} />
-                <Route path="/admin/admin-dashboard" element={ <AdminDashboard handleSignOut={handleSignOut} userRole={userRole} />} />
+                <Route path="/admin/admin-dashboard" element={
+                  <AdminDashboard handleSignOut={handleSignOut} userRole={userRole} />} />
                 <Route path="/admin/create-admin" element={<CreateAdmin />} />
                 <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory />} />
 
@@ -182,7 +183,8 @@ function App() {
                 <Route path="/update-password" element={<UpdatePassword />} />
                 <Route path="/password-success" element={<PasswordSuccess />} />
                 <Route path="/update-payment" element={<UpdatePayment />} />
-                <Route path="/role-based-profile" element={<RoleBasedProfile userRole={userRole} handleSignOut={handleSignOut} />} />
+                <Route path="/role-based-profile" element={
+                  <RoleBasedProfile userRole={userRole} handleSignOut={handleSignOut} />} />
                 <Route path="/payment-success" element={<PaymentSuccess />} />
 
                 {/*Page routing for 404 or not found*/}
