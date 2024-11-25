@@ -2,9 +2,9 @@
 import { act} from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
-import HeroSection from './HeroSection';
+import HeroSection from '../components/HeroSection.jsx';
 import CarouselContext from '../contexts/CarouselContext.jsx';
-import CarouselContext1 from '../contexts/CarouselContext1';
+import CarouselContext1 from '../contexts/CarouselContext1.jsx';
 
 
 // Mock data for contexts

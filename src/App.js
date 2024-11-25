@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SnackbarProvider from 'react-simple-snackbar'
-import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
 
 //Nav bar left
 import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
@@ -11,7 +10,7 @@ import NavBar from './components/NavBar';
 import HeroSection from './components/HeroSectionV2';
 import AboutSection from './components/AboutSection';
 import ShopSection from './components/ShopSection';
-import CommissionsSection from './components/CommissionsSection';
+import CommissionsSection from './components/CommissionsSection/CommissionsSection';
 import ContactSection from './components/ContactSection';
 
 //Right side of nav bar
@@ -72,6 +71,7 @@ function App() {
 
   const handleSignOut = async () => {
     try {
+      alert("hi");
       console.log("Sign out initiated");
       await amplifySignOut(); // Use Amplify's sign out 
       console.log("Signed out from Amplify");
