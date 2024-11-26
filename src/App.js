@@ -177,6 +177,7 @@ function App() {
                   <AdminDashboard handleSignOut={handleSignOut} userRole={userRole} />} />
                 <Route path="/admin/create-admin" element={<CreateAdmin />} />
                 <Route path="/admin/admin-manage-inventory" element={<AdminManageInventory />} />
+                <Route path="/message-subscribers" element={<MessageSubscribers />}/>
 
                 <Route path="/account-management" element={<AccountManagement />} />
                 <Route path="/update-email" element={<UpdateEmail />} />
