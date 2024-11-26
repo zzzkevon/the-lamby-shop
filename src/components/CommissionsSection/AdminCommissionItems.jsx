@@ -15,6 +15,8 @@ export default function AdminCommissionItem({
     setItems,
     setFormData,
     reloadData,
+    handleCheckBox,
+    setHandleCheckBox,
   }) {
     // For invoking popup messages
     const showToast = useToast();
@@ -27,7 +29,20 @@ export default function AdminCommissionItem({
   
     // For handling checkbox values
     const [selected, setSelected] = useState(null);
-  
+
+    /* 
+      FIX ADDED: 
+      When handleCheckBox gets turned true from AdminCommissionSection...
+        set selected variable to null, set handleCheckbox flag back to false, and clear items array
+    */
+    useEffect(() => {
+      if(handleCheckBox){
+        setSelected(null);
+        setHandleCheckBox(false);
+        setItems([null]);
+      }
+    }, [handleCheckBox])
+
     /*  
       Get's the id and sets the selected 
       commission status, pushing it into the
@@ -62,7 +77,7 @@ export default function AdminCommissionItem({
       const formattedDate = dateCreated.toLocaleDateString("en-US", options);
       return formattedDate;
     };
-  
+
     const confirmAction = () => {
       showToast(
         <>
@@ -93,6 +108,12 @@ export default function AdminCommissionItem({
         .then(response => {
           showToast(`Deleting commission ID ${id}`, "success");
           console.log(response.data);
+          /* 
+            FIX ADDED: 
+            To prevent other commission items from being opened 
+            when a deletion of another commission occurs
+          */
+          setIsOpen(false);
           // Reload data on successful delete
           reloadData();
         })
