@@ -3,9 +3,11 @@ import { React, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { addItem } from '../inventoryAPI/functionCalls';
 import ManageInventory from '../inventory/ManageInventory';
+import { useNavigate } from 'react-router-dom';
 
-const AdminDashboard = ({ handleSignOut}) => {
+const AdminDashboard = ({ handleSignOut }) => {
     // const items = useGetAll()
+    const navigate = useNavigate();
     const [showInventoryModal, setShowInventoryModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -154,20 +156,21 @@ const AdminDashboard = ({ handleSignOut}) => {
                             </p>
 
                             <div className="flex flex-row justify-center space-x-6">
-
-                                <div className="flex flex-col items-center mt-2 ">
-                                    {/* button should call procedure to manage products
+                                {/* button should call procedure to manage products
                                             should be able to access customer info, order history, account status */}
 
-                                    <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
-                                        View Customers
-                                    </button>
-
-                                </div>
+                                <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
+                                    View Customers
+                                </button>
 
                                 {/* button should call procedure to view and respond to customer questions*/}
                                 <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
                                     Customer Queries
+                                </button>
+
+                                <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap"
+                                    onClick={() => navigate('/message-subscribers')}>
+                                    Message Subscribers
                                 </button>
                             </div>
                         </div>
