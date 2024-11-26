@@ -158,8 +158,9 @@ function App() {
                 <Route path="/" element={<HeroSection />} />
                 <Route path="/about" element={<AboutSection />} />
                 <Route path="/shop" element={<ShopSection />} />
+                {/* Fix added to commission section: added email and username props as they were removed */}
                 <Route path="/commissions" element={
-                  <CommissionsSection userRole={userRole} email={email} userName ={username}/>} />
+                  <CommissionsSection userRole={userRole} email={email} username={username} />} />
                 <Route path="/contact" element={<ContactSection />} />
 
                 <Route path="/accountrecovery" element={<AccountRecovery />} />
