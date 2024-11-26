@@ -159,7 +159,7 @@ function App() {
                 <Route path="/about" element={<AboutSection />} />
                 <Route path="/shop" element={<ShopSection />} />
                 <Route path="/commissions" element={
-                  <CommissionsSection userRole={userRole} />} />
+                  <CommissionsSection userRole={userRole} email={email} userName ={username}/>} />
                 <Route path="/contact" element={<ContactSection />} />
 
                 <Route path="/accountrecovery" element={<AccountRecovery />} />

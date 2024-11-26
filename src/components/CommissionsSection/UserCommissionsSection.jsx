@@ -107,6 +107,7 @@ export default function UserCommisionsSection({userEmail}) {
         console.log("Success:", response.data);
         if (response.status === 200) {
           showToast("Commission Sent!", "success");
+          clearForm();
           grabOwnCommissions();
         } else { 
           showToast("You pressed cancel, commission not sent!", "error"); 
