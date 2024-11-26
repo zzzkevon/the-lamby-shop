@@ -131,6 +131,7 @@ export default function AdminCommissionSection() {
                     loadAdminCommissions();
                     // Invokes handleCheckbox function inside AdminCommissionItems
                     setHandleCheckBox(true);
+                    setItems([{ id: null, commissionStatus: "" }]);
                 })
                 .catch(error => {
                     showToast(`Error updating status for commission ID ${items[i].id}`, "error");

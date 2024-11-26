@@ -39,7 +39,6 @@ export default function AdminCommissionItem({
       if(handleCheckBox){
         setSelected(null);
         setHandleCheckBox(false);
-        setItems([null]);
       }
     }, [handleCheckBox])
 
