@@ -79,7 +79,7 @@ const AdminDashboard = ({ handleSignOut }) => {
 
               <h1
                 data-testid="commissions-header"
-                className={`text-[#780000] font-extrabold mt-3 just-another-hand font-bold transition-all duration-300 ease-in-out ${paragraphSizeClass}`}
+                className={`text-[#780000] font-extrabold mt-3 just-another-hand transition-all duration-300 ease-in-out ${paragraphSizeClass}`}
               >
                 {/* A D M I N   D A S H B O A R D */}W E L C O M E &nbsp;{" "}
                 {role === "admin"

@@ -1,9 +1,8 @@
-import React from 'react';
-import { useRef } from 'react'
-import { useState, useEffect } from 'react';
+import React from "react";
+import { useRef } from "react";
+import { useState, useEffect } from "react";
 // import star from '../../images/story_stars_1.png'
-import star from '../CommissionsSection/story_stars_2.png'
-
+import star from "../CommissionsSection/story_stars_2.png";
 
 /* 
   THIS PAGE IS REDACTED
@@ -278,17 +277,6 @@ const UpdatePayment = () => {
     //   console.log("something went wrong");
     // }
   };
-      window.location.href = '/';
-      
-      
-
-    }
-    // else {
-    //   //this section should never run because of final safety check
-    //   console.log("something went wrong");
-    // }
-
-  }
 
   //this is for the title when resizing
   const [width, setWidth] = useState(window.innerWidth);
@@ -298,17 +286,16 @@ const UpdatePayment = () => {
       setWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const imageHeightClass = width < 600 ? 'h-4' : 'h-27';
+  const imageHeightClass = width < 600 ? "h-4" : "h-27";
 
   return (
     <div className="main-bg just-another-hand 4xl">
       <div className="flex flex-col justify-start items-center">
-
         {/* * Page Title
         <div className="flex flex-center justify-center p-8">
           <img src={star} alt="" class="w-16 h-16 mb-4"></img>
@@ -321,11 +308,21 @@ const UpdatePayment = () => {
         {/* this is for the title */}
         <div className={`mt-12 mb-8 justify-center items-center flex`}>
           <div className={`w-20 bg-cover`}>
-            <img src={star} alt='star' className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`} />
+            <img
+              src={star}
+              alt="star"
+              className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+            />
           </div>
-          <h1 className='header-font header-format text-7xl py-4 mt-8 px-8'>UPDATE &nbsp; PAYMENT</h1>
+          <h1 className="header-font header-format text-7xl py-4 mt-8 px-8">
+            UPDATE &nbsp; PAYMENT
+          </h1>
           <div className={`w-20 bg-cover`}>
-            <img src={star} alt='star' className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`} />
+            <img
+              src={star}
+              alt="star"
+              className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+            />
           </div>
         </div>
         {/** form starts here */}

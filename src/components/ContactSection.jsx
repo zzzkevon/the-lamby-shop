@@ -73,7 +73,7 @@ const ContactSection = () => {
 
           <h1
             data-testid="commissions-header"
-            className={`text-[#780000] font-extrabold mt-3 just-another-hand font-bold transition-all duration-300 ease-in-out ${paragraphSizeClass}`}
+            className={`text-[#780000] font-extrabold mt-3 just-another-hand transition-all duration-300 ease-in-out ${paragraphSizeClass}`}
           >
             C O N T A C T
           </h1>
@@ -166,7 +166,7 @@ const ContactSection = () => {
                   />
                 </div>
                 <button
-                  className="bg-[#780000] hover:bg-[#780000] text-white font-bold font-bold py-2 px-4 rounded-full"
+                  className="bg-[#780000] hover:bg-[#780000] text-white font-bold py-2 px-4 rounded-full"
                   onClick={handleSubmit}
                 >
                   Submit {/*Submit button for ticket*/}
