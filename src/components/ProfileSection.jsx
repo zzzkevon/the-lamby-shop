@@ -14,7 +14,7 @@ import outputs from "../amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import RoleBasedProfile from './profiles/RoleBasedProfile'
+import RoleBasedProfile from "./profiles/RoleBasedProfile";
 
 // Configure Amplify
 Amplify.configure(outputs);
@@ -50,7 +50,6 @@ const customTheme = {
   },
 };
 
-
 const ProfileSection = ({ handleSignOut }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -61,9 +60,9 @@ const ProfileSection = ({ handleSignOut }) => {
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
-    console.log("Logging out...");
+    // console.log("Logging out...");
     await handleSignOut();
-    console.log("Navigating to home...");
+    // console.log("Navigating to home...");
     navigate("/");
   };
 
@@ -73,21 +72,19 @@ const ProfileSection = ({ handleSignOut }) => {
       const user = await getCurrentUser();
       const attributes = await fetchUserAttributes(user);
 
-      const isAdmin = attributes['custom:isAdmin'] === 'true';
+      const isAdmin = attributes["custom:isAdmin"] === "true";
       setIsAdmin(isAdmin);
       const role = isAdmin ? "admin" : "customer";
       setUserRole(role);
       localStorage.setItem("userRole", role);
 
-      const emailValue = attributes['email'] || '';
+      const emailValue = attributes["email"] || "";
       setEmail(emailValue);
       localStorage.setItem("email", emailValue);
 
-
-      const nameValue = attributes['name'] || '';
+      const nameValue = attributes["name"] || "";
       setName(nameValue);
-      localStorage.setItem('name', nameValue);
-
+      localStorage.setItem("name", nameValue);
     } catch (error) {
       console.error("Error refreshing session:", error);
       setIsAdmin(false); // Reset to false on error
@@ -116,11 +113,18 @@ const ProfileSection = ({ handleSignOut }) => {
             handleSignOut(); // Reset state on sign out
           }
         }}
-        onStateChange={state => console.log("State changed:", state)}
+        // onStateChange={state => console.log("State changed:", state)}
       >
         {() => (
           <main>
-            {userRole ? <RoleBasedProfile userRole={userRole} handleSignOut={handleSignOut} /> : <p>Loading profile...</p>}
+            {userRole ? (
+              <RoleBasedProfile
+                userRole={userRole}
+                handleSignOut={handleSignOut}
+              />
+            ) : (
+              <p>Loading profile...</p>
+            )}
             <button onClick={handleLogOut}>Sign out</button>
           </main>
         )}

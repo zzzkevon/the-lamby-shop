@@ -55,7 +55,7 @@ const Inventory = () => {
       .get("https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items")
       .then(response => {
         setItems(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(error => console.error("Error fetching items:", error));
   }, []);

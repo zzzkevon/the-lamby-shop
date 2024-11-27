@@ -66,7 +66,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(`Email is ${email} with role ${userRole} with user ID ${username}`);
+    // console.log(`Email is ${email} with role ${userRole} with user ID ${username}`);
   }, [email, userRole, username])
 
   const handleSignOut = async () => {
