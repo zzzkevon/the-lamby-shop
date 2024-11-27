@@ -7,7 +7,7 @@ import star from './story_stars_2.png'
 import UsersPersonalCommissionItem from './UserPersonalCommissionItem';
 
 
-export default function UserCommisionsSection({userEmail}) {
+export default function UserCommisionsSection({userEmail, username}) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     //const [email, setEmail] = useState("");
@@ -86,14 +86,19 @@ export default function UserCommisionsSection({userEmail}) {
     }, []);
   
     const handleSubmit = async () => {
-      let email = userEmail;
       const commissionData = {
         firstName,
         lastName,
-        email,
+        email: userEmail,
         phoneNumber,
         description,
       };
+
+      // Fix added: prevent commission submission if no description is added
+      if(description === ""){
+        showToast("Description for commission needed! Nothing sent.", "error");
+        return;
+      }
   
       try {
         const response = await axios.post(
@@ -108,6 +113,7 @@ export default function UserCommisionsSection({userEmail}) {
         console.log("Success:", response.data);
         if (response.status === 200) {
           showToast("Commission Sent!", "success");
+          clearForm(); // Fix added: to clear form after every commission submission
           grabOwnCommissions();
         } else { 
           showToast("You pressed cancel, commission not sent!", "error"); 

@@ -5,7 +5,6 @@ import { addItem } from '../inventoryAPI/functionCalls';
 import ManageInventory from '../inventory/ManageInventory';
 import star from '../CommissionsSection/story_stars_2.png'
 const AdminDashboard = ({ handleSignOut}) => {
-    // const items = useGetAll()
     const [showInventoryModal, setShowInventoryModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -18,16 +17,14 @@ const AdminDashboard = ({ handleSignOut}) => {
     const role = location.state?.role || localStorage.getItem('userRole') || 'user';
 
     const useManageInventory = () => {
-        console.log("manage inventory clicked.");
         setShowInventoryModal(true);
     };
 
     const closeModal = () => {
-        setShowInventoryModal(false); // Hide the modal when called
+        setShowInventoryModal(false); 
     };
 
     const createPayload = () => {
-        console.log("add product clicked.");
         const payload = {
             itemName: itemName,
             imageKey: imageKey,
@@ -35,7 +32,6 @@ const AdminDashboard = ({ handleSignOut}) => {
             itemPrice: itemPrice
         };
         addItem(payload);
-        // console.log("Payload: ", JSON.stringify(payload));
         setShowAddModal(false);
     }
 
@@ -94,14 +90,13 @@ const AdminDashboard = ({ handleSignOut}) => {
                             <div className="flex flex-row justify-center w-full mt-4 space-x-10">
 
                                 <div className="flex flex-col items-center">
-                                    {/* button should call procedure to add products*/}
                                     <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap"
                                         onClick={() => setShowAddModal(true)}>
                                         Add Product
                                     </button>
                                 </div>
                                 {showAddModal && (
-                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div className="fixed inset-0 flex items-center justify-center">
                                         <div className="bg-white p-6 rounded-lg w-1/3">
                                             <h2 className="text-xl mb-4">Add New Item</h2>
                                             <div className="mb-4">
@@ -164,7 +159,7 @@ const AdminDashboard = ({ handleSignOut}) => {
                                 </button>
                                 {showInventoryModal && (
                                     <div className="modal-overlay-admin">
-                                        <div className="modal-content flex flex-col justify-center">
+                                        <div className="modal-content">
                                             <button onClick={closeModal}>Close</button>
                                             <ManageInventory />
                                             <div className="flex justify-center mt-4">
@@ -177,30 +172,6 @@ const AdminDashboard = ({ handleSignOut}) => {
                                         </div>
                                     </div>
                                 )}
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col items-center">
-                            <p className="text-2xl header-font font-bold mt-6 mb-4 tracking-wider">
-                                MANAGE CUSTOMERS
-                            </p>
-
-                            <div className="flex flex-row justify-center space-x-6">
-
-                                <div className="flex flex-col items-center mt-2 ">
-                                    {/* button should call procedure to manage products
-                                            should be able to access customer info, order history, account status */}
-
-                                    <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
-                                        View Customers
-                                    </button>
-
-                                </div>
-
-                                {/* button should call procedure to view and respond to customer questions*/}
-                                <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap">
-                                    Customer Queries
-                                </button>
                             </div>
                         </div>
 

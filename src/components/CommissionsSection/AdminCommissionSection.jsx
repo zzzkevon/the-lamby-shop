@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToast } from "../../contexts/ToastContext";
-//import star from '../../images/story_stars_1.png';
 import star from './story_stars_2.png'
+import { useNavigate } from 'react-router-dom';
 import AdminCommissionItem from './AdminCommissionItems';
 
 // Admin view of the Commission Page
@@ -94,7 +94,13 @@ export default function AdminCommissionSection() {
         "error"
       );
     };
-  
+
+    /* 
+      FIX ADDED: 
+      So checkboxes get unselected on completion of the confirm changes function.
+    */
+    const [handleCheckBox, setHandleCheckBox] = useState(false);
+
     // Update commission statuses if confirm chosen from confirmAction()
     const handleConfirm = async () => {
       let updatecommission_url = `https://cbothh6c5c.execute-api.us-west-2.amazonaws.com/Development/updateCommissionStatus`;
@@ -122,6 +128,9 @@ export default function AdminCommissionSection() {
                       successful update request
                     */         
                     loadAdminCommissions();
+                    // Invokes handleCheckbox function inside AdminCommissionItems
+                    setHandleCheckBox(true);
+                    setItems([{ id: null, commissionStatus: "" }]);
                 })
                 .catch(error => {
                     showToast(`Error updating status for commission ID ${items[i].id}`, "error");
@@ -206,6 +215,8 @@ export default function AdminCommissionSection() {
                   setItems={setItems}
                   setFormData={setFormData}
                   reloadData={loadAdminCommissions}
+                  handleCheckBox={handleCheckBox}
+                  setHandleCheckBox={setHandleCheckBox}
                 />
               </>
             ))}

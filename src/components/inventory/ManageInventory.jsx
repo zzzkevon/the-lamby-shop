@@ -248,18 +248,14 @@ const ManageInventory = () => {
                         <h3>Select an Image</h3>
                         <div className="image-list">
                             {imageData.map((image, index) => (
-                                <div key={index} className="image-item" onClick={() => handleImageSelect(image.imageKey)}>
+                                <div
+                                    key={index}
+                                    className="image-item"
+                                    onClick={() => handleImageSelect(image.imageKey)}
+                                >
                                     <img
                                         src={image.signedUrl}
                                         alt={image.imageKey}
-                                        style={{
-                                            width: '100px',
-                                            height: '100px',
-                                            objectFit: 'cover',
-                                            borderRadius: '10px',
-                                            margin: '10px',
-                                            cursor: 'pointer'
-                                        }}
                                     />
                                 </div>
                             ))}
