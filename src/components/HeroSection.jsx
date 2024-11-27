@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect, useRef, useContext } from "react";
 import img1 from "../images/img1.jpeg";
 import img2 from "../images/img2.jpeg";
 import img3 from "../images/img3.jpeg";
-import Subscribe from './subscribe/Subscribe';
-import Carousel2 from './carousel2/Carousel2';
+import Subscribe from "./subscribe/Subscribe";
+import Carousel2 from "./carousel2/Carousel2";
 import ViewAllButton from "./viewAll/viewAllButton";
 import CarouselContext from "../contexts/CarouselContext";
 const HeroSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
-  const {carousel} = useContext(CarouselContext);
-  
+  const { carousel } = useContext(CarouselContext);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setSlideIndex(prevIndex => (prevIndex + 1) % 3); // Adjust 3 to the total number of images
@@ -26,19 +25,18 @@ const HeroSection = () => {
   };
 
   //make a call to the database to get carousel items
-  const slideItem1 = [img1, img1, img1, img2];    //these will be changed with the addition of the database
+  const slideItem1 = [img1, img1, img1, img2]; //these will be changed with the addition of the database
   const slideItem2 = [img2, img2, img2, img3];
   const slideItem3 = [img3, img3, img3, img1];
 
-  useEffect(()=> {
-    console.log(carousel)
-  }, [carousel])
+  useEffect(() => {
+    // console.log(carousel)
+  }, [carousel]);
   return (
-    <div className={`main-bg`} >
+    <div className={`main-bg`}>
       <div
         ref={containerRef}
         className="w-[90vw] mx-auto border-2 rounded-md bg-white p-4 relative slideshow-container"
-        
       >
         <div className="w-[90vw] slideshow-container flex justify-center items-center relative">
           <div
@@ -68,7 +66,7 @@ const HeroSection = () => {
               />
             </div>
             <div className="text-center text-5xl bg-red-800 text-white just-another-hand rounded-md">
-              <a href='/shop'>Shop Here!</a>
+              <a href="/shop">Shop Here!</a>
             </div>
           </div>
 
@@ -99,9 +97,8 @@ const HeroSection = () => {
               />
             </div>
             <div className="text-center text-5xl bg-red-800 text-white just-another-hand rounded-md">
-              <a href='/shop'>Shop Here!
-                </a>
-              </div>
+              <a href="/shop">Shop Here!</a>
+            </div>
           </div>
 
           <div
@@ -131,7 +128,7 @@ const HeroSection = () => {
               />
             </div>
             <div className="text-center text-5xl bg-red-800 text-white just-another-hand rounded-md">
-              <a href='/shop'>Shop Here!</a>
+              <a href="/shop">Shop Here!</a>
             </div>
           </div>
         </div>
@@ -173,7 +170,6 @@ const HeroSection = () => {
       <ViewAllButton />
       <Carousel2 />
       <Subscribe />
-
     </div>
   );
 };
