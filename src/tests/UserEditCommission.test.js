@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import { UserEditCommissionScreen } from '../components/CommissionsSection'; 
+import UserEditCommissionScreen from '../components/CommissionsSection/UserEditCommissionScreen'; 
 import { ToastProvider, useToast } from '../contexts/ToastContext';
 import { act } from 'react'
 jest.mock('axios'); // Mock axios
@@ -149,10 +149,11 @@ describe('UserEditCommissionScreen', () => {
     fireEvent.click(submitButton);
     
     await waitFor(() => {
-        expect(mockShowToast).toHaveBeenCalledWith(`Sorry, the commission can't be changed
-         since it is not in the pending status.`,
-        "error");
+        expect(mockShowToast).toHaveBeenCalledWith(
+          `Sorry, the commission can't be changed
+           since it is not in the pending status.`, "error");
     });
+    
   });
 
   test('Close button closes popup and resets any changes to textbox', async () => {

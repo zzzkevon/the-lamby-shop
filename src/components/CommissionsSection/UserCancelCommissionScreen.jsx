@@ -20,7 +20,7 @@ export default function UserCancelCommissionScreen({
       })
       .then(response => {
         // console.log("Delete successful:", response.data);
-        showToast("Sucessfully cancelled commission!", "success");
+        showToast("Successfully cancelled commission!", "success");
         reloadData(); // Call reloadData after a successful delete
       })
       .catch(error => {

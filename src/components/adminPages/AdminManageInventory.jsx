@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import star from "../accountPages/story_stars.png";
+// import star from '../accountPages/story_stars.png'
 import axios from "axios";
 import CarouselContext from "../../contexts/CarouselContext";
+import star from "../CommissionsSection/story_stars_2.png";
 
 function AdminManageInventory() {
   // const { changeCarouselType, updateFilteredItems, filteredItems, carouselType, setCarousel } = useCarousel(); // Get filtered items and carousel type functions
@@ -31,8 +32,7 @@ function AdminManageInventory() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const imageHeightClass = width < 600 ? "h-40 my-8" : "h-60 my-32";
-  const paragraphSizeClass = width < 600 ? "text-2xl" : "text-4xl";
+  const paragraphSizeClass = width < 600 ? "text-2xl" : "text-5xl";
 
   const CategoryButton = ({ label, type }) => (
     <button
@@ -42,14 +42,25 @@ function AdminManageInventory() {
       {label}
     </button>
   );
+
+  //this is for the title when resizing
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const imageHeightClass = width < 600 ? "h-4" : "h-27";
   return (
     <div
       className={`flex justify-center items-center flex-col main-bg just-another-hand 4xl`}
     >
       {/* Top Section */}
-      <div
-        className={`mt-12 mb-4 flex flex-row items-center justify-center h-14 `}
-      >
+      {/* <div className={`mt-12 mb-4 flex flex-row items-center justify-center h-14 `}>
         <div className={`w-14 bg-cover`}>
           <img
             src={star}
@@ -63,10 +74,29 @@ function AdminManageInventory() {
           M A N A G E &nbsp;&nbsp;&nbsp; I N V E N T O R Y
         </p>
         <div className={`w-14 bg-cover`}>
+          <img src={star} alt='star' className={`object-cover block w-full ${imageHeightClass}`} />
+        </div>
+      </div> */}
+
+      {/* this is for the title */}
+      <div className={`mt-12 mb-8 justify-center items-center flex`}>
+        <div className={`w-20 bg-cover`}>
           <img
             src={star}
             alt="star"
-            className={`object-cover block w-full ${imageHeightClass}`}
+            className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+          />
+        </div>
+        <h1
+          className={`header-font header-format text-7xl py-4 mt-8 px-8 ${paragraphSizeClass}`}
+        >
+          MANAGE INVENTORY
+        </h1>
+        <div className={`w-20 bg-cover`}>
+          <img
+            src={star}
+            alt="star"
+            className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
           />
         </div>
       </div>

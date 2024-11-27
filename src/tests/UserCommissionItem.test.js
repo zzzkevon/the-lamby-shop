@@ -1,16 +1,6 @@
-// UsersPersonalCommissionItem.test.js
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { UsersPersonalCommissionItem } from '../components/CommissionsSection'; // Correctly import
-import { UserCancelCommissionScreen } from '../components/CommissionsSection';
-import { UserEditCommissionScreen } from '../components/CommissionsSection'; 
-import { useState } from "react";
-
-// Mocking child components if necessary
-jest.mock('../components/CommissionsSection', () => ({
-  UserEditCommissionScreen: jest.fn(() => <div>Mocked Edit Commission Screen</div>),
-  UserCancelCommissionScreen: jest.fn(() => <div>Mocked Cancel Commission Screen</div>),
-}));
+import UsersPersonalCommissionItem from '../components/CommissionsSection/UserPersonalCommissionItem'; // Correctly import
 
 describe('UsersPersonalCommissionItem', () => {
   const mockReloadData = jest.fn();

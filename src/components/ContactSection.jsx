@@ -1,8 +1,9 @@
 import React from "react";
-import { useState } from "react";
-import star from "../images/story_stars_1.png";
+import { useState, useEffect } from "react";
+// import star from '../images/story_stars_1.png'
 import lamby from "../images/lamby_shop.png";
 import "../index.css";
+import star from "./CommissionsSection/story_stars_2.png";
 
 /*have email and instagram information in the webpage:
     email: customersupport@thelambyshop.com
@@ -28,11 +29,26 @@ const ContactSection = () => {
     setEmail("");
     setMessage("");
   };
+  //for the title and star
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const imageHeightClass = width < 600 ? "h-8 my-8" : "h-22";
+  const paragraphSizeClass = width < 600 ? "text-2xl" : "text-5xl";
 
   return (
     <div className="main-bg">
       <div className="flex flex-col justify-center items-center min-w-screen min-h-screen -mt-32">
-        <header>
+        {/* <header>
           <div className="container mx-auto px-4">
             <div className="flex flex-center justify-center">
               <img src={star} alt="" class="w-16 h-16 mb-4"></img>
@@ -42,7 +58,34 @@ const ContactSection = () => {
               <img src={star} alt="" class="w-16 h-16 mb-4"></img>
             </div>
           </div>
-        </header>
+        </header> */}
+
+        <div
+          className={`mt-12 mb-20 flex flex-row items-center justify-center h-14 `}
+        >
+          <div className={`w-14 bg-cover mr-6`}>
+            <img
+              src={star}
+              alt="star"
+              className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+            />
+          </div>
+
+          <h1
+            data-testid="commissions-header"
+            className={`text-[#780000] font-extrabold mt-3 just-another-hand font-bold transition-all duration-300 ease-in-out ${paragraphSizeClass}`}
+          >
+            C O N T A C T
+          </h1>
+
+          <div className={`w-14 bg-cover ml-6`}>
+            <img
+              src={star}
+              alt="star"
+              className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+            />
+          </div>
+        </div>
 
         <main>
           <div class="just-another-hand text-4xl">

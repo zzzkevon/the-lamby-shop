@@ -282,18 +282,7 @@ const ManageInventory = () => {
                   className="image-item"
                   onClick={() => handleImageSelect(image.imageKey)}
                 >
-                  <img
-                    src={image.signedUrl}
-                    alt={image.imageKey}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "10px",
-                      margin: "10px",
-                      cursor: "pointer",
-                    }}
-                  />
+                  <img src={image.signedUrl} alt={image.imageKey} />
                 </div>
               ))}
             </div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useToast } from "../../contexts/ToastContext";
-import star from "../../images/story_stars_1.png";
+// import star from '../../images/story_stars_1.png';
+import star from "./story_stars_2.png";
 
 import UsersPersonalCommissionItem from "./UserPersonalCommissionItem";
 
@@ -108,7 +109,7 @@ export default function UserCommisionsSection({ userEmail, username }) {
           },
         }
       );
-      // console.log("Success:", response.data);
+      console.log("Success:", response.data);
       if (response.status === 200) {
         showToast("Commission Sent!", "success");
         clearForm(); // Fix added: to clear form after every commission submission
@@ -122,6 +123,20 @@ export default function UserCommisionsSection({ userEmail, username }) {
     }
   };
 
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const imageHeightClass = width < 600 ? "h-4" : "h-27";
+
   return (
     <div
       className="main-bg just-another-hand text-3xl"
@@ -133,21 +148,41 @@ export default function UserCommisionsSection({ userEmail, username }) {
       }}
     >
       <div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img src={star} alt="" className="w-16 h-16 mb-4" />
-          <h1
-            className="header-font header-format"
-            style={{ fontSize: "2em", padding: "25px" }}
+        {/* <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            Y O U R&nbsp;&nbsp;&nbsp;&nbsp;C O M M I S S I O N S
-          </h1>
-          <img src={star} alt="" className="w-16 h-16 mb-4" />
+            <img src={star} alt="" className="w-16 h-16 mb-4" />
+            <h1
+              className="header-font header-format"
+              style={{ fontSize: "2em", padding: "25px" }}
+            >
+              Y O U R&nbsp;&nbsp;&nbsp;&nbsp;C O M M I S S I O N S
+            </h1>
+            <img src={star} alt="" className="w-16 h-16 mb-4" />
+          </div> */}
+      </div>
+
+      <div className={`mt-12 mb-8 justify-center items-center flex`}>
+        <div className={`w-20 bg-cover`}>
+          <img
+            src={star}
+            alt="star"
+            className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+          />
+        </div>
+        <h1 className="header-font header-format text-7xl py-4 mt-8 px-8">
+          YOUR&nbsp; COMMISSIONS
+        </h1>
+        <div className={`w-20 bg-cover`}>
+          <img
+            src={star}
+            alt="star"
+            className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`}
+          />
         </div>
       </div>
 
