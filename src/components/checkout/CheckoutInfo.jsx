@@ -72,8 +72,6 @@ const CheckoutInfo = () => {
       total: total,
     };
 
-    console.log("Payload being sent:", payload);
-
     try {
       // Make the POST request to your AWS API Gateway endpoint
       const response = await axios.post(
@@ -85,14 +83,6 @@ const CheckoutInfo = () => {
           },
         }
       );
-
-      // Check the response
-      if (response.status === 200) {
-        console.log("Email sent successfully:", response.data);
-        console.log("Email was sent to:", clientEmail);
-      } else {
-        console.error("Failed to send email:", response.data);
-      }
     } catch (error) {
       console.error("Error sending email:", error);
     }

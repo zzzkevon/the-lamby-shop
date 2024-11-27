@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import { UserCancelCommissionScreen } from '../components/CommissionsSection'; // Adjust the path as needed
+import UserCancelCommissionScreen from '../components/CommissionsSection/UserCancelCommissionScreen'; // Adjust the path as needed
 import { ToastProvider, useToast } from '../contexts/ToastContext'; 
 
 jest.mock('axios'); // Mock axios

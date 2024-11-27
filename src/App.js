@@ -66,7 +66,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(`Email is ${email} with role ${userRole} with user ID ${username}`);
+    // console.log(`Email is ${email} with role ${userRole} with user ID ${username}`);
   }, [email, userRole, username])
 
   const handleSignOut = async () => {
@@ -106,16 +106,15 @@ function App() {
 
     // Proceed with your usual data-fetching logic
     const storedCarousel = localStorage.getItem('carousel');
-    const storedCarousel1 = localStorage.getItem('carousel1');
 
     if (!storedCarousel) {
       axios
         .get("https://d65k2g0qm3.execute-api.us-west-2.amazonaws.com/dev/items")
         .then(response => {
           setCarousel(response.data);
-          setCarousel1(response.data);
+          // setCarousel1(response.data);
           localStorage.setItem('carousel', JSON.stringify(response.data));
-          localStorage.setItem('carousel1', JSON.stringify(response.data));
+          // localStorage.setItem('carousel1', JSON.stringify(response.data));
         })
         .catch(error => console.error("Error fetching items:", error));
     } else {
@@ -158,8 +157,9 @@ function App() {
                 <Route path="/" element={<HeroSection />} />
                 <Route path="/about" element={<AboutSection />} />
                 <Route path="/shop" element={<ShopSection />} />
+                {/* Fix added to commission section: added email and username props as they were removed */}
                 <Route path="/commissions" element={
-                  <CommissionsSection userRole={userRole} />} />
+                  <CommissionsSection userRole={userRole} email={email} username={username} />} />
                 <Route path="/contact" element={<ContactSection />} />
 
                 <Route path="/accountrecovery" element={<AccountRecovery />} />
