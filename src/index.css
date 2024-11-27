@@ -150,11 +150,11 @@ body {
 .modal-overlay-admin {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50;
   width: 100%;
   height: 100%;
   /* background-color: rgb(255, 255, 255); Semi-transparent black overlay */
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  /* background-color: rgba(0, 0, 0, 0.5); Semi-transparent black overlay */
   z-index: 50; /* Ensure the overlay is above other content */
   display: flex;
   justify-content: center;
@@ -276,4 +276,42 @@ body, button, input, h1, h2, h3, h4, h5, h6, label {
   --amplify-components-tabs-item-color: var(--amplify-colors-neutral-80);
   --amplify-components-tabs-item-active-color: black;
   --amplify-components-button-link-color: black;
+}
+
+.modal-content-images {
+  width: 80%; /* Adjust based on your layout */
+  max-width: 600px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: auto;
+}
+
+.image-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Grid layout */
+  gap: 10px; /* Space between items */
+  justify-content: center;
+  padding: 10px;
+}
+
+.image-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.image-item:hover {
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.image-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
