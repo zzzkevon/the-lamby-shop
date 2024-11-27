@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToast } from "../../contexts/ToastContext";
-import star from '../../images/story_stars_1.png';
-
+//import star from '../../images/story_stars_1.png';
+import star from './story_stars_2.png'
 import AdminCommissionItem from './AdminCommissionItems';
 
 // Admin view of the Commission Page
@@ -135,10 +135,26 @@ export default function AdminCommissionSection() {
     const handleCancel = () => {
       showToast("Canceled. No changes were made to the commission's statuses");
     };
+    //This is for the star image and title
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setWidth(window.innerWidth);
+      };
   
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
+    const imageHeightClass = width < 600 ? 'h-8 my-8' : 'h-22';
+    const paragraphSizeClass = width < 600 ? 'text-2xl' : 'text-5xl';
+
     return (
       <div>
-        <div
+        {/* <div
           className="just-another-hand text-3xl"
           style={{
             display: "flex",
@@ -155,7 +171,23 @@ export default function AdminCommissionSection() {
             C O M M I S S I O N S
           </h1>
           <img src={star} alt="" class="w-16 h-16 mb-4"></img>
+        </div> */}
+
+        {/* Just changed the commission title -jm */}
+        
+      <div className={`mt-12 mb-20 flex flex-row items-center justify-center h-14 `}>
+        <div className={`w-14 bg-cover mr-6`}>
+          <img src={star} alt='star' className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`} />
         </div>
+        
+        <h1 data-testid="commissions-header" className={`text-[#780000] font-extrabold mt-3 just-another-hand font-bold transition-all duration-300 ease-in-out ${paragraphSizeClass}` }>
+          C O M M I S S I O N S 
+        </h1>
+
+        <div className={`w-14 bg-cover ml-6`}>
+          <img src={star} alt='star' className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`} />
+        </div>
+      </div>
   
         <div className="just-another-hand flex w-full justify-around items-center">
           {/*creates and displays the commission item components from the data in the commission array*/}

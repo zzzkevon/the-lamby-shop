@@ -106,7 +106,6 @@ function App() {
 
     // Proceed with your usual data-fetching logic
     const storedCarousel = localStorage.getItem('carousel');
-    const storedCarousel1 = localStorage.getItem('carousel1');
 
     if (!storedCarousel) {
       axios

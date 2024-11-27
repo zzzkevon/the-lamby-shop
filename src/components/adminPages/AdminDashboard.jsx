@@ -1,9 +1,9 @@
-import star from '../../images/story_stars_1.png';
-import { React, useState } from 'react';
+// import star from '../../images/story_stars_1.png';
+import { React, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { addItem } from '../inventoryAPI/functionCalls';
 import ManageInventory from '../inventory/ManageInventory';
-
+import star from '../CommissionsSection/story_stars_2.png'
 const AdminDashboard = ({ handleSignOut}) => {
     // const items = useGetAll()
     const [showInventoryModal, setShowInventoryModal] = useState(false);
@@ -39,18 +39,50 @@ const AdminDashboard = ({ handleSignOut}) => {
         setShowAddModal(false);
     }
 
+     //this is for the title when resizing
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  const imageHeightClass = width < 600 ? 'h-4' : 'h-27';
+  const paragraphSizeClass = width < 600 ? 'text-2xl' : 'text-5xl';
+
     return (
         <div className="main-bg just-another-hand 4xl">
             <div className="flex flex-col justify-start items-center min-w-screen min-h-screen">
                 <header>
                     <div className="container mx-auto px-4 mt-16">
-                        <div className="flex flex-center justify-center">
+                        {/* <div className="flex flex-center justify-center">
                             <img src={star} alt="" class="w-16 h-16 mx-2 mb-2"></img>
                             <p className="text-4xl header-font font-bold mb-4 tracking-wider whitespace-pre">
-                                {/* A D M I N   D A S H B O A R D */}
+                               //A D M I N   D A S H B O A R D
                                 W e l c o m e  {role === 'admin' ? 'Admin' : 'User, something is wrong then'}
                             </p>
                             <img src={star} alt="" class="w-16 h-16 mx-2 mb-2"></img>
+                        </div> */}
+
+
+                        <div className={`mt-12 mb-8 flex flex-row items-center justify-center h-14 `}>
+                            <div className={`w-14 bg-cover mr-6`}>
+                                <img src={star} alt='star' className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`} />
+                            </div>
+                            
+                            <h1 data-testid="commissions-header" className={`text-[#780000] font-extrabold mt-3 just-another-hand font-bold transition-all duration-300 ease-in-out ${paragraphSizeClass}` }>
+                                {/* A D M I N   D A S H B O A R D */}
+                                W E L C O M E &nbsp;  {role === 'admin' ? 'A D M I N' : 'User, something is wrong then'}
+                            </h1>
+
+                            <div className={`w-14 bg-cover ml-6`}>
+                                <img src={star} alt='star' className={`object-cover block w-full transition-all duration-300 ease-in-out ${imageHeightClass}`} />
+                            </div>
                         </div>
                         <br></br>
 
