@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SnackbarProvider from 'react-simple-snackbar'
-
 //Nav bar left
 import { signOut as amplifySignOut } from '@aws-amplify/auth'; // Correct imports
 
@@ -74,7 +73,7 @@ function App() {
       await amplifySignOut(); // Use Amplify's sign out
       localStorage.clear();
       setUserRole('guest');
-      Navigate('/');
+      window.location = '/'; // Send user to the home page after sign out
     } catch (error) {
       console.error('Sign-out error:', error); // Clear email from storage
     }

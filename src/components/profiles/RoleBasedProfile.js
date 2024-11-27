@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AdminProfile from './AdminProfile';
 import CustomerProfile from './CustomerProfile';
 import GuestProfile from './GuestProfile';

@@ -3,8 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 const AdminProfile = ({ handleSignOut }) => {
     const navigate = useNavigate();
+    // To refresh landing page when logging into admin account
+    window.onload = function() {
+        if(!window.location.hash) {
+            window.location = window.location + '#admin';
+            window.location.reload();
+        }
+    }
     return (
         <div className="flex flex-col text-4xl just-another-hand justify-center items-center min-w-screen min-h-screen -mt-32">
+            {window.onload()}
             <h2>Admin Dashboard</h2>
             <p>Welcome, {localStorage.name}! You have full access to manage the application.</p>
             <ul className="flex flex-col items-center">

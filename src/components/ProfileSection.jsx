@@ -111,7 +111,7 @@ const ProfileSection = ({ handleSignOut }) => {
           // console.log('Auth Event:', payload); // Debugging log
           if (payload.event === "signIn") {
             refreshUserSession(); // Refresh session on sign in
-            //navigate('/');
+            //navigate('/profile');
           } else if (payload.event === "signOut") {
             handleSignOut(); // Reset state on sign out
           }

@@ -3,9 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 const CustomerProfile = ({ handleSignOut }) => {
     const navigate = useNavigate();
-
+    // To refresh landing page when logging into customer account
+    window.onload = function() {
+        if(!window.location.hash) {
+            window.location = window.location + '#customer';
+            window.location.reload();
+        }
+    }
     return (
         <div className="flex flex-col text-4xl just-another-hand justify-center items-center min-w-screen min-h-screen -mt-32">
+            {window.onload()}
             <h2>Customer Dashboard</h2>
             <p>Welcome, {localStorage.name}! You have access to your account and shop features.</p>
             <ul className="flex flex-col items-center">
