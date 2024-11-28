@@ -4,7 +4,10 @@ import { useLocation } from "react-router-dom";
 import { addItem } from "../inventoryAPI/functionCalls";
 import ManageInventory from "../inventory/ManageInventory";
 import star from "../CommissionsSection/story_stars_2.png";
+import { useNavigate } from 'react-router-dom';
+
 const AdminDashboard = ({ handleSignOut }) => {
+  const navigate = useNavigate();
   const [showInventoryModal, setShowInventoryModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -191,6 +194,16 @@ const AdminDashboard = ({ handleSignOut }) => {
                   </div>
                 )}
               </div>
+            </div>
+            <br></br>
+            <div className="flex flex-col items-center">
+                <p className="text-2xl header-font font-bold mt-6 mb-4 tracking-wider">
+                  CONTACT
+                </p>
+                <button className="bg-[#780000] hover:bg-[#8B0000] text-2xl text-white py-2 px-6 rounded-full whitespace-nowrap"
+                    onClick={() => navigate('/message-subscribers')}>
+                    Message Subscribers
+                </button> 
             </div>
           </div>
         </header>
