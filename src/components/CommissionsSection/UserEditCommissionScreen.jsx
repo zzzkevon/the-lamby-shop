@@ -23,7 +23,7 @@ export default function UserEditCommissionScreen({
       })
       .then(response => {
         // console.log("Response:", response.data);
-        showToast("Sucessfully updated commission!", "success");
+        showToast("Successfully updated commission!", "success");
         reloadData();
       })
       .catch(error => {

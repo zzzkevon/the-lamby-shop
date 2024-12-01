@@ -176,38 +176,6 @@ Testing
 
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
-<!-- TIMELINE -->
-## Timeline
-<img alt="Jira roadmap of sprints" title="Lamby Shop Timeline" src="./src/images/jira.png" width="70%" height="70%"/>
-
-### Sprint 5 (08/26/2024 - 9/9/2024)
-1. Get the AWS backend up and running: 
-    * Create the backend database and start connecting things on the frontend to the backend.
-2. Create Admin UI: 
-    * Build the Admin user interface frontend.
-
-### Sprint 6  (09/10/2024 - 09/23/2024)
-1. Payment System implementation: 
-    * Inplement the Stripe API for the billing part.
-2. Get Account Creation up and running.
-3. Implement the functionality to update username/passwords
-
-### Sprint 7 (09/24/2024 - 10/07/2024)
-1. Update frontend features
-   * Create backend connection to existing pages
-
-### Sprint 8 (10/08/2024 - 10/21/2024)
-1. Impletent features for admin adjustablity
-   * Create pages and routing to ensure client is able to adjust frontend features like the carousel to have more up to date items 
-
-### Sprint 9 (10/22/2024 - 11/04/2024)
-1. Ensure security on payments and purchases
-  * Optimize security on components and finalize connections
-2. Deploy Website
-  * Deploy website with domain and ensure all features work
-
-<p align="right">(<a href="#table-of-contents">back to top</a>)</p>
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
