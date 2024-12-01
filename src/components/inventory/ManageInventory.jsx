@@ -111,7 +111,27 @@ const ManageInventory = () => {
   };
 
   const handleUpdateModalClose = () => {
-    // console.log("Create payload now");
+  // console.log("Create payload now");
+    // Validation
+    const errorMessage = document.getElementById("errorMessage");
+
+    // Validate all fields
+    if (!formData.itemName || !formData.imageKey || !formData.itemDescription || !formData.itemPrice) {
+      errorMessage.textContent = "All fields are required.";
+      errorMessage.classList.remove("hidden"); // Show the error
+      return; // Stop execution
+    }
+
+    // Validate itemPrice specifically
+    if (isNaN(formData.itemPrice) || parseFloat(formData.itemPrice) <= 0) {
+      errorMessage.textContent = "Item price must be a valid number greater than 0.";
+      errorMessage.classList.remove("hidden"); // Show the error
+      return; // Stop execution
+    }
+
+    // Hide the error if all validations pass
+    errorMessage.classList.add("hidden");
+
     const payload = {
       itemName: formData.itemName,
       itemDescription: formData.itemDescription,
@@ -238,6 +258,9 @@ const ManageInventory = () => {
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded"
                 />
+                <span id="errorMessage" className="text-red-600 text-sm hidden">
+                  Item price must be a valid number greater than 0.
+                </span>
               </div>
 
               <div

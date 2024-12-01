@@ -29,6 +29,25 @@ const AdminDashboard = ({ handleSignOut }) => {
   };
 
   const createPayload = () => {
+    const errorMessage = document.getElementById("errorMessage");
+
+    // Validate all fields
+    if (!itemName || !imageKey || !itemDescription || !itemPrice) {
+      errorMessage.textContent = "All fields are required.";
+      errorMessage.classList.remove("hidden"); // Show the error
+      return; // Stop execution
+    }
+
+    // Validate itemPrice specifically
+    if (isNaN(itemPrice) || parseFloat(itemPrice) <= 0) {
+      errorMessage.textContent = "Item price must be a valid number greater than 0.";
+      errorMessage.classList.remove("hidden"); // Show the error
+      return; // Stop execution
+    }
+
+    // Hide the error if all validations pass
+    errorMessage.classList.add("hidden");
+
     const payload = {
       itemName: itemName,
       imageKey: imageKey,
@@ -151,8 +170,11 @@ const AdminDashboard = ({ handleSignOut }) => {
                           type="text"
                           className="w-full p-2 border rounded"
                           value={itemPrice}
-                          onChange={e => setItemPrice(e.target.value)}
+                          onChange={(e) => setItemPrice(e.target.value)}
                         />
+                        <span id="errorMessage" className="text-red-600 text-sm hidden">
+                          Item price must be a valid number greater than 0.
+                        </span>
                       </div>
                       <div className="flex justify-end">
                         <button
