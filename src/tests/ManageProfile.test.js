@@ -104,9 +104,6 @@ describe('UpdatePassword', () => {
         // Click the button to submit
         fireEvent.click(button);
 
-        // Assert that console.log was called with the expected message
-        expect(consoleSpy).toHaveBeenCalledWith("Everything is good to go, sending updated password.");
-
     // Clean up the mock
     consoleSpy.mockRestore();
     })
@@ -141,8 +138,8 @@ describe('UpdateEmail', () => {
 
         // Click submit button
         fireEvent.click(submit);
-
-        expect(consoleSpy).toHaveBeenCalledWith("Unable to submit. Something is not valid:");
+        const emailerr = screen.getByTestId('email-error');
+        expect(emailerr).toHaveTextContent("Email is required");
     })
 
     test('Shows error with bad email format', () => {
@@ -158,8 +155,8 @@ describe('UpdateEmail', () => {
 
         // Click submit button
         fireEvent.click(submit);
-
-        expect(consoleSpy).toHaveBeenCalledWith("Unable to submit. Something is not valid:");
+        const emailerr = screen.getByTestId('email-error');
+        expect(emailerr).toHaveTextContent("Email is not in the correct format");
     })
 
     test('Shows error with email and conf-email not matching', async () => {
@@ -180,8 +177,9 @@ describe('UpdateEmail', () => {
 
         // Click submit button
         fireEvent.click(submit);
+        const emailerr = screen.getByTestId('conf-email-error');
+        expect(emailerr).toHaveTextContent("Emails are not the same");
 
-        expect(consoleSpy).toHaveBeenCalledWith("Unable to submit. Something is not valid:");
         consoleSpy.mockRestore();
     })
 

@@ -91,8 +91,8 @@ const ContactSection = () => {
           <div class="just-another-hand text-4xl">
             <span className="block mb-2">
               email:{" "}
-              <a href="mailto:email@example.com">
-                customersupport@thelambyshop.com
+              <a href="thelambyshop@gmail.com">
+                thelambyshop@gmail.com
               </a>
               <br></br>
               instagram:{" "}

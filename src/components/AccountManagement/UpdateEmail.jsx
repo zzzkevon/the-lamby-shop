@@ -187,10 +187,17 @@ const UpdateEmail = ({ username }) => {
 
         {/** error messages. these will only show when a specific error occurs */}
         {emailError && (
-          <span className="text-red-500 text-3xl">{emailError}</span>
+          <span className="text-red-500 text-3xl" data-testid="email-error">
+            {emailError}
+          </span>
         )}
         {emailConfError && (
-          <span className="text-red-500 text-3xl">{emailConfError}</span>
+          <span
+            className="text-red-500 text-3xl"
+            data-testid="conf-email-error"
+          >
+            {emailConfError}
+          </span>
         )}
       </div>
     </div>
