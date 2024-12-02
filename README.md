@@ -133,7 +133,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/StevenH01/the-lamby-shop
+   git clone https://github.com/zzzkevon/the-lamby-shop
    ```
 2. Install NPM packages
    ```sh
@@ -162,9 +162,19 @@ Placeholder
 
 ## Testing
 Placeholder
-1. Placeholder
-2. Placeholder
-3. Placeholder
+1. Account Creation
+2. Account Login
+3. Forgot Password
+4. Account Management - Update Email
+5. Account Management - Update Password
+6. Commissions Section - Admin View
+7. Commissions Section - Users View
+8. Admin Dashboard - Product Management
+9. Admin Dashboard - Message Subscribers
+10. Subscribe
+11. Home Page
+12. Checkout
+
    
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
