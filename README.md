@@ -152,16 +152,12 @@ This is an example of how to list things you need to use the software and how to
 
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
-## Deployment
-Placeholder
-1. Placeholder
-2. Placeholder
-3. Placeholder
-
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
 ## Testing
-Placeholder
+
+[Documentation](https://docs.google.com/document/d/1vDcUm-R5q03u4mMv16brN_fq-k5aCpQnjJb_SCF3oVg/edit?usp=sharing)
+
 1. Account Creation
 2. Account Login
 3. Forgot Password
@@ -177,12 +173,6 @@ Placeholder
 
    
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
-
-## Developer Instructions
-Testing
-1. Placeholder
-2. Placeholder
-3. Placeholder
 
 <p align="right">(<a href="#table-of-contents">back to top</a>)</p>
 
