@@ -15,6 +15,27 @@ export default function GuestCommissionSection() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const [refreshInterval, setRefreshInterval] = useState(2000); //timer of 5 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const hasReloaded = localStorage.getItem('hasReloaded');
+      //console.log(hasReloaded);
+      if (hasReloaded === 'false') {
+        //console.log("yes");
+        localStorage.setItem('hasReloaded', 'true');
+        window.location.reload();
+      }
+      else{
+        //console.log("not");
+      }
+    }, refreshInterval);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [refreshInterval]); 
+
+
   const imageHeightClass = width < 600 ? "h-8 my-8" : "h-22";
   const paragraphSizeClass = width < 600 ? "text-2xl" : "text-5xl";
   return (

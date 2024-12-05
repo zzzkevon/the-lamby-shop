@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const AdminProfile = ({ handleSignOut }) => {
     const navigate = useNavigate();
+    localStorage.setItem('hasReloaded', 'false');
+    localStorage.setItem("userRole", 'admin');
     return (
         <div className="flex flex-col text-4xl just-another-hand justify-center items-center min-w-screen min-h-screen -mt-32">
             <h2>Admin Dashboard</h2>
@@ -10,19 +12,28 @@ const AdminProfile = ({ handleSignOut }) => {
             <ul className="flex flex-col items-center">
                 <li>
                     <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full text-white mt-4"
-                        onClick={() => navigate('/admin/admin-dashboard')}>
+                        onClick={() => {
+                            localStorage.setItem('hasReloaded', 'false');
+                            navigate('/admin/admin-dashboard');
+                            }}>
                         Admin Dashboard
                     </button>
                 </li>
                 <li>
                     <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full text-white mt-4"
-                        onClick={() => navigate('/admin/admin-manage-inventory')}>
+                        onClick={() => {
+                            localStorage.setItem('hasReloaded', 'false');
+                            navigate('/admin/admin-manage-inventory');
+                            }}>
                         Manage Inventory
                     </button>
                 </li>
                 <li>
                     <button className="bg-[#780000] hover:bg-[#780000] py-2 px-4 rounded-full text-white mt-4"
-                        onClick={() => navigate('/commissions')}>
+                        onClick={() => {
+                            localStorage.setItem('hasReloaded', 'false');
+                            navigate('/commissions')
+                            }}>
                         Commissions
                     </button>
                 </li>
